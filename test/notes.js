@@ -37,7 +37,6 @@ exports['get all notes']  = function(test) {
 };
 
 exports['remove note by id'] = function(test) {
-  var result = service.removeNoteById(noteid);
-  console.log(result);
-  test.ok(result);
+  service.removeNoteById(noteid);
+  test.equal(service.getNoteById(noteid), null);
 };
