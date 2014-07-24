@@ -8,6 +8,8 @@ var expressLayouts = require('express-ejs-layouts');
 
 var staticRoutes = require('./routes/index');
 var noteRoutes = require('./routes/notes');
+var personRoutes = require('./routes/person');
+var projectRoutes = require('./routes/project');
 
 var app = express();
 
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', staticRoutes);
 app.use('/notes', noteRoutes);
+app.use('/person', personRoutes);
+app.use('/project', projectRoutes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,17 @@
+<div class="row btn-group">
+<a class="btn btn-primary" href="/project/new">New Project...</a>
+</div>
+<div class="row">
+<table class="table-striped table-bordered">
+    <tr>
+        <th>&nbsp;</th>
+        <th>Name</th>
+    </tr>
+<% items.forEach(function (item) { %>
+    <tr>
+        <td><a href="/project/<%= item._id %>">View...</a></td>
+        <td><%= item.name %></td>
+    </tr>
+<% }); %>
+</table>
+</div>

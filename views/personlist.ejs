@@ -1,0 +1,17 @@
+<div class="row btn-group">
+<a class="btn btn-primary" href="/person/new">New Person...</a>
+</div>
+<div class="row">
+<table class="table-striped table-bordered">
+    <tr>
+        <th>&nbsp;</th>
+        <th>Name</th>
+    </tr>
+<% items.forEach(function (item) { %>
+    <tr>
+        <td><a href="/person/<%= item._id %>">View...</a></td>
+        <td><%= item.name %></td>
+    </tr>
+<% }); %>
+</table>
+</div>
