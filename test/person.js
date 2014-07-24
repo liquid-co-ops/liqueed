@@ -17,3 +17,13 @@ exports['get person by id'] = function (test) {
     test.equal(result.name, 'Alice');
     test.equal(result.id, aliceid);
 };
+
+exports['get persons'] = function (test) {
+    var result = service.getPersons();
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 1);
+    test.equal(result[0].name, 'Alice');
+    test.equal(result[0].id, aliceid);
+};

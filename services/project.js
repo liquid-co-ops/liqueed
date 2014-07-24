@@ -20,9 +20,14 @@ function getProjectTeam(id) {
     return peoplestore.find({ project: id });
 }
 
+function getProjects() {
+    return store.find();
+}
+
 module.exports = {
     addProject: addProject,
     getProjectById: getProjectById,
+    getProjects: getProjects,
     addPersonToProject: addPersonToProject,
     getProjectTeam: getProjectTeam
 }
