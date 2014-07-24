@@ -1,0 +1,11 @@
+{
+    "projects": [
+        { "name": "FaceHub" },
+        { "name": "GitBook" }
+    ],
+    "persons": [
+        { "name": "Alice" },
+        { "name": "Bob" },
+        { "name": "Charlie" }
+    ]
+}

@@ -2,6 +2,19 @@
 var debug = require('debug')('MyCompany4');
 var app = require('../app');
 
+var data = require('../data.json');
+
+var personService = require('../services/person');
+var projectService = require('../services/project');
+
+data.projects.forEach(function (project) {
+    projectService.addProject(project);
+});
+
+data.persons.forEach(function (person) {
+    personService.addPerson(person);
+});
+
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function() {
