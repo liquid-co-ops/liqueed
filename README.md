@@ -1,5 +1,16 @@
 # Liqueed
 
+## Installation
+
+After cloning the repository execute ```npm install``` to download all the 
+dependencies.
+
+To run the application locally execute ```npm start```.    
+The bootstrapping of the application is on ```./bin/www```, so ```npm start```
+actually executes ```node ./bin/www```. 
+
+To run the tests execute ```npm test```.
+
 ## Resources
 
 - [Story Map](https://docs.google.com/spreadsheets/d/1QFt1WQqM65kJCIhMW2SoMhD75cvpBUZf8wTb-XB5i-Y/edit#gid=0-)

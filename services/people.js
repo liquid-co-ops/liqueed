@@ -14,5 +14,4 @@ function getPersonById(id) {
 module.exports = {
     addPerson: addPerson,
     getPersonById: getPersonById
-}
-
+};
