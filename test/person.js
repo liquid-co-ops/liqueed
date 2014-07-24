@@ -1,5 +1,5 @@
 
-var service = require('../services/people');
+var service = require('../services/person');
 
 var aliceid;
 
