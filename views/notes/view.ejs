@@ -1,0 +1,9 @@
+
+<% if (note) { %>
+<p><%= note.text %></p>
+<% } %>
+
+<a href="/notes">&laquo; Back to list</a>
+<a class="btn btn-primary" href="/notes/<%= note.id %>/edit">Edit note</a>
+
+
