@@ -30,6 +30,10 @@ function addPeriod(projid, period) {
     return periodstore.add(period);
 }
 
+function getPeriod(periodid) {
+    return periodstore.get(periodid);
+}
+
 function getPeriods(projid) {
     return periodstore.find({ project: projid });
 }
@@ -45,6 +49,7 @@ module.exports = {
     addPersonToTeam: addPersonToTeam,
     getTeam: getTeam,
     addPeriod: addPeriod,
+    getPeriod: getPeriod,
     getPeriods: getPeriods,
     getAssignments: getAssignments
 }
