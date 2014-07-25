@@ -2,6 +2,7 @@
 var service = require('../services/project');
 
 var liqueedid;
+var periodid;
 
 exports['add project'] = function (test) {
     var result = service.addProject({ name: 'liqueed' });
@@ -19,7 +20,7 @@ exports['get project by id'] = function (test) {
 };
 
 exports['get people in empty project'] = function (test) {
-    var result = service.getProjectTeam(liqueedid);
+    var result = service.getTeam(liqueedid);
     
     test.ok(result);
     test.ok(Array.isArray(result));
@@ -28,7 +29,7 @@ exports['get people in empty project'] = function (test) {
 
 exports['add person and get people in project'] = function (test) {
     service.addPersonToProject(liqueedid, 1);
-    var result = service.getProjectTeam(liqueedid);
+    var result = service.getTeam(liqueedid);
     
     test.ok(result);
     test.ok(Array.isArray(result));
@@ -43,3 +44,23 @@ exports['get projects'] = function (test) {
     test.ok(result.length);
     test.equal(result[0].name, 'liqueed');
 };
+
+exports['get no periods from project'] = function (test) {
+    var result = service.getPeriods(liqueedid);
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 0);
+};
+
+exports['add period to project'] = function (test) {
+    periodid = service.addPeriod(liqueedid, { name: 'First period', date: '2014-01-01' });
+    test.ok(periodid);
+    
+    var result = service.getPeriods(liqueedid);
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 1);
+    test.equal(result[0].name, 'First period');
+    test.equal(result[0].date, '2014-01-01');
+};
+

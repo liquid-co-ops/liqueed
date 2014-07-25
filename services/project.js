@@ -3,6 +3,7 @@ var ostore = require('ostore');
 
 var store = ostore.createStore();
 var peoplestore = ostore.createStore();
+var periodstore = ostore.createStore();
 
 function addProject(data) {
     return store.add(data);
@@ -16,7 +17,7 @@ function addPersonToProject(projid, personid) {
     return peoplestore.add({ project: projid, person: personid });
 }
 
-function getProjectTeam(id) {
+function getTeam(id) {
     return peoplestore.find({ project: id });
 }
 
@@ -24,11 +25,22 @@ function getProjects() {
     return store.find();
 }
 
+function addPeriod(projid, period) {
+    period.project = projid;
+    return periodstore.add(period);
+}
+
+function getPeriods(projid) {
+    return periodstore.find({ project: projid });
+}
+
 module.exports = {
     addProject: addProject,
     getProjectById: getProjectById,
     getProjects: getProjects,
     addPersonToProject: addPersonToProject,
-    getProjectTeam: getProjectTeam
+    getTeam: getTeam,
+    addPeriod: addPeriod,
+    getPeriods: getPeriods
 }
 
