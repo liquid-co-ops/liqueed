@@ -5,8 +5,6 @@ var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var flash = require('connect-flash');
 var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 
@@ -26,8 +24,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('secret'));
-app.use(session({cookie: { maxAge: 60000 }, secret: 'secret', resave: true, saveUninitialized: true}));
-app.use(flash());
 app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
 
