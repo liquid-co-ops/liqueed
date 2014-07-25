@@ -28,7 +28,7 @@ exports['get people in empty project'] = function (test) {
 };
 
 exports['add person and get people in project'] = function (test) {
-    service.addPersonToProject(liqueedid, 1);
+    service.addPersonToTeam(liqueedid, 1);
     var result = service.getTeam(liqueedid);
     
     test.ok(result);

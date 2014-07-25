@@ -13,7 +13,7 @@ function getProjectById(id) {
     return store.get(id);
 }
 
-function addPersonToProject(projid, personid) {
+function addPersonToTeam(projid, personid) {
     return peoplestore.add({ project: projid, person: personid });
 }
 
@@ -38,7 +38,7 @@ module.exports = {
     addProject: addProject,
     getProjectById: getProjectById,
     getProjects: getProjects,
-    addPersonToProject: addPersonToProject,
+    addPersonToTeam: addPersonToTeam,
     getTeam: getTeam,
     addPeriod: addPeriod,
     getPeriods: getPeriods
