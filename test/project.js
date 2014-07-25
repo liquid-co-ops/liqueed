@@ -64,3 +64,10 @@ exports['add period to project'] = function (test) {
     test.equal(result[0].date, '2014-01-01');
 };
 
+exports['get no assignments'] = function (test) {
+    var result = service.getAssignments(periodid);
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 0);
+}

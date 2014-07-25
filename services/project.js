@@ -34,6 +34,10 @@ function getPeriods(projid) {
     return periodstore.find({ project: projid });
 }
 
+function getAssignments(periodid) {
+    return [];
+}
+
 module.exports = {
     addProject: addProject,
     getProjectById: getProjectById,
@@ -41,6 +45,7 @@ module.exports = {
     addPersonToTeam: addPersonToTeam,
     getTeam: getTeam,
     addPeriod: addPeriod,
-    getPeriods: getPeriods
+    getPeriods: getPeriods,
+    getAssignments: getAssignments
 }
 
