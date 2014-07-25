@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 
 var staticRoutes = require('./routes/index');
-var noteRoutes = require('./routes/notes');
+var noteRoutes = require('./routes/note');
 var personRoutes = require('./routes/person');
 var projectRoutes = require('./routes/project');
 
@@ -26,7 +26,7 @@ app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', staticRoutes);
-app.use('/notes', noteRoutes);
+app.use('/note', noteRoutes);
 app.use('/person', personRoutes);
 app.use('/project', projectRoutes);
 

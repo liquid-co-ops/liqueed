@@ -1,5 +1,5 @@
 
-var service = require('../services/notes');
+var service = require('../services/note');
 
 var noteid;
 var expectedText = 'foo';

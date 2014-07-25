@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var controller = require('../controllers/notes');
+var controller = require('../controllers/note');
 
 /* GET all notes. */
 router.get('/', controller.index);
