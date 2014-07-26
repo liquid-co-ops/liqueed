@@ -53,3 +53,28 @@ exports['get first project'] = function (test) {
     
     controller.get(request, response);
 };
+
+exports['get first project team'] = function (test) {
+    var request = {
+        params: {
+            id: projects[0].id.toString()
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+
+            test.ok(Array.isArray(model));
+
+            test.equal(model.length, 3);
+            test.equal(model[0].name, 'Alice');
+            test.equal(model[1].name, 'Bob');
+            test.equal(model[2].name, 'Charlie');
+            
+            test.done();
+        }
+    };
+    
+    controller.getTeam(request, response);
+};

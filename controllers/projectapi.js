@@ -14,8 +14,16 @@ function get(req, res) {
     res.send(item);
 }
 
+function getTeam(req, res) {
+    var id = parseInt(req.params.id);
+    var items = service.getTeam(id);
+    
+    res.send(items);
+}
+
 module.exports = {
     list: list,
-    get: get
+    get: get,
+    getTeam: getTeam
 }
 
