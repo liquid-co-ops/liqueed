@@ -4,6 +4,7 @@ var ostore = require('ostore');
 var store = ostore.createStore();
 var teamstore = ostore.createStore();
 var periodstore = ostore.createStore();
+var assignmentstore = ostore.createStore();
 
 function addProject(data) {
     return store.add(data);
@@ -48,7 +49,23 @@ function getPeriods(projid) {
 }
 
 function getAssignments(periodid) {
-    return [];
+    var sperson = require('./person');    
+    var data = assignmentstore.find({ period: periodid });
+    
+    var list = [];
+    
+    data.forEach(function (item) {
+        var assignment = { id: item.id, amount: item.amount };
+        assignment.from = sperson.getPersonById(item.from);
+        assignment.to = sperson.getPersonById(item.to);
+        list.push(assignment);
+    });
+    
+    return list;
+}
+
+function addAssignment(periodid, fromid, toid, amount) {
+    return assignmentstore.add({ period: periodid, from: fromid, to: toid, amount: amount });
 }
 
 function clear() {
@@ -70,6 +87,7 @@ module.exports = {
     getPeriods: getPeriods,
     
     getAssignments: getAssignments,
+    addAssignment: addAssignment,
     
     clear: clear
 }

@@ -4,6 +4,8 @@ var sperson = require('../services/person');
 
 var liqueedid;
 var periodid;
+var alanid;
+var cymentid;
 
 exports['add project'] = function (test) {
     var result = service.addProject({ name: 'liqueed' });
@@ -29,7 +31,7 @@ exports['get people in empty project'] = function (test) {
 };
 
 exports['add person and get people in project'] = function (test) {
-    var alanid = sperson.addPerson({ name: 'Alan' });
+    alanid = sperson.addPerson({ name: 'Alan' });
     service.addPersonToTeam(liqueedid, alanid);
     var result = service.getTeam(liqueedid);
     
@@ -81,5 +83,25 @@ exports['get no assignments'] = function (test) {
     test.ok(result);
     test.ok(Array.isArray(result));
     test.equal(result.length, 0);
+};
+
+exports['add assignment'] = function (test) {
+    cymentid = sperson.addPerson({ name: 'Cyment' });
+
+    var result = service.addAssignment(periodid, alanid, cymentid, 50);
+    
+    test.ok(result);
+    
+    var list = service.getAssignments(periodid);
+    
+    test.ok(list);
+    test.ok(Array.isArray(list));
+    test.equal(list.length, 1);
+    
+    test.equal(list[0].from.id, alanid);
+    test.equal(list[0].from.name, 'Alan');
+    test.equal(list[0].to.id, cymentid);
+    test.equal(list[0].to.name, 'Cyment');
+    test.equal(list[0].amount, 50);
 };
 
