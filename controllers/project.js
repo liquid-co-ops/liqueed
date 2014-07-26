@@ -11,8 +11,9 @@ function view(req, res) {
     var id = parseInt(req.params.id);
     var item = service.getProjectById(id);
     var team = service.getTeam(id);
+    var periods = service.getPeriods(id);
     
-    res.render('projectview', { title: 'Project', item: item, team: team });
+    res.render('projectview', { title: 'Project', item: item, team: team, periods: periods });
 }
 
 module.exports = {
