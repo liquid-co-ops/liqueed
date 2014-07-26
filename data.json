@@ -32,5 +32,10 @@
         { "name": "Bob" },
         { "name": "Charlie" },
         { "name": "Daniel" }
+    ],
+    "notes": [
+        { "text": "Foo" },
+        { "text": "Bar" },
+        { "text": "Baz" }
     ]
 }

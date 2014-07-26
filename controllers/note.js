@@ -3,18 +3,19 @@
 var service = require('../services/note');
 
 function getNoteOrRedirect(req, res, template, redirectPath) {
-  var note = service.getNoteById(req.param('id'));
-  if (note) {
-    res.render(
-      template,
-      {
-        title: 'Note ' + note.id,
-        note:  note
-      }
-    );
-  } else {
-    res.redirect(redirectPath)
-  }
+    var id = req.param('id');
+    var note = service.getNoteById(id);
+    if (note) {
+        res.render(
+            template,
+            {
+                title: 'Note ' + note.id,
+                note:  note
+            }
+        );
+    } else {
+        res.redirect(redirectPath)
+    }
 }
 
 /*
@@ -22,14 +23,14 @@ function getNoteOrRedirect(req, res, template, redirectPath) {
  */
 
 exports.index = function(req, res) {
-  var notes = service.getAllNotes();
-  res.render(
-    'notes/list',
-    {
-      title: 'Notes',
-      notes: notes
-    }
-  );
+    var notes = service.getAllNotes();
+    res.render(
+        'notes/list',
+        {
+            title: 'Notes',
+            notes: notes
+        }
+    );
 };
 
 /*
@@ -37,7 +38,7 @@ exports.index = function(req, res) {
  */
 
 exports.get = function(req, res) {
-  getNoteOrRedirect(req, res, 'notes/view', '/notes');
+    getNoteOrRedirect(req, res, 'notes/view', '/notes');
 };
 
 
@@ -46,12 +47,12 @@ exports.get = function(req, res) {
  */
 
 exports.create = function(req, res) {
-  var result = service.addNote({text: req.param('note.text')});
-  var path = '/notes';
-  if (typeof result === 'number') {
-    path = '/notes/' + result;
-  }
-  res.redirect(path);
+    var result = service.addNote({text: req.param('note.text')});
+    var path = '/notes';
+    if (typeof result === 'number') {
+        path = '/notes/' + result;
+    }
+    res.redirect(path);
 };
 
 /*
@@ -59,7 +60,7 @@ exports.create = function(req, res) {
  */
 
 exports.edit = function(req, res) {
-  getNoteOrRedirect(req, res, 'notes/edit', '/notes');
+    getNoteOrRedirect(req, res, 'notes/edit', '/notes');
 };
 
 /*
@@ -67,9 +68,9 @@ exports.edit = function(req, res) {
  */
 
 exports.put = function(req, res) {
-  var id = req.param('id');
-  var result = service.updateNoteById(id, {text: req.param('note.text')});
-  res.redirect('/notes/' + id);
+    var id = req.param('id');
+    var result = service.updateNoteById(id, {text: req.param('note.text')});
+    res.redirect('/notes/' + id);
 };
 
 /*
@@ -77,6 +78,6 @@ exports.put = function(req, res) {
  */
 
 exports.remove = function(req, res) {
-  var result = service.removeNoteById(req.param('id'));
-  res.redirect('/notes');
+    var result = service.removeNoteById(req.param('id'));
+    res.redirect('/notes');
 };
