@@ -29,7 +29,7 @@ exports['first project has team'] = function (test) {
     test.ok(team);
     test.ok(Array.isArray(team));
     test.ok(team.length);
-    test.equal(team.length, 2);    
+    test.equal(team.length, 3);    
     var alice = team[0];
     
     test.ok(alice);
@@ -39,7 +39,7 @@ exports['first project has team'] = function (test) {
     
     test.ok(bob);
     test.equal(bob.name, 'Bob');
-}
+        var charlie = team[2];        test.ok(charlie);    test.equal(charlie.name, 'Charlie');}
 
 exports['first project has periods'] = function (test) {
     var periods = projectService.getPeriods(project.id);

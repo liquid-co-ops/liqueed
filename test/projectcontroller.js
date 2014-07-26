@@ -58,20 +58,24 @@ exports['get view first project'] = function (test) {
             
             test.ok(model.team);
             test.ok(Array.isArray(model.team));
-            test.equal(model.team.length, 2);
+            test.equal(model.team.length, 3);
             
             test.ok(model.team[0].id);
             test.equal(model.team[0].name, 'Alice');
             test.ok(model.team[1].id);
             test.equal(model.team[1].name, 'Bob');
+            test.ok(model.team[2].id);
+            test.equal(model.team[2].name, 'Charlie');
             
             test.ok(model.periods);
             test.ok(Array.isArray(model.periods));
             test.equal(model.periods.length, 2);
             test.equal(model.periods[0].name, 'January 2014');
             test.equal(model.periods[0].date, '2014-01-31');
+            test.equal(model.periods[0].amount, 100);
             test.equal(model.periods[1].name, 'February 2014');
             test.equal(model.periods[1].date, '2014-02-28');
+            test.equal(model.periods[1].amount, 100);
             
             test.done();
         }

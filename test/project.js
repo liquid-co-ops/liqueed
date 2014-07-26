@@ -55,7 +55,7 @@ exports['get no periods from project'] = function (test) {
 };
 
 exports['add period to project'] = function (test) {
-    periodid = service.addPeriod(liqueedid, { name: 'First period', date: '2014-01-01' });
+    periodid = service.addPeriod(liqueedid, { name: 'First period', date: '2014-01-01', amount: 100 });
     test.ok(periodid);
     
     var result = service.getPeriods(liqueedid);
@@ -64,6 +64,7 @@ exports['add period to project'] = function (test) {
     test.equal(result.length, 1);
     test.equal(result[0].name, 'First period');
     test.equal(result[0].date, '2014-01-01');
+    test.equal(result[0].amount, 100);
 };
 
 exports['get period'] = function (test) {

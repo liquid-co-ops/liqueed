@@ -36,12 +36,14 @@
         <th></th>
         <th>Name</th>
         <th>Date</th>
+        <th>Amount</th>
     </tr>
 <% periods.forEach(function (period) { %>
     <tr>
         <td><a href="/project/<%= item.id %>/period/<%= period.id %>">View</a></td>
         <td><%= period.name %></td>
         <td><%= period.date %></td>
+        <td><%= period.amount %></td>
     </tr>
 <% }); %>
 </table>
