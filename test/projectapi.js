@@ -139,4 +139,28 @@ exports['get first project first period'] = function (test) {
     controller.getPeriod(request, response);
 };
 
+exports['get first project first period assignments'] = function (test) {
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.ok(Array.isArray(model));
+            test.equal(model.length, 6);
+
+            test.equal(model[0].from.name, 'Alice');
+            test.equal(model[0].to.name, 'Bob');
+            test.equal(model[0].amount, 50);
+            
+            test.done();
+        }
+    };
+    
+    controller.getAssignments(request, response);
+};
 

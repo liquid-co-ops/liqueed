@@ -72,6 +72,7 @@ function clear() {
     store = ostore.createStore();
     teamstore = ostore.createStore();
     periodstore = ostore.createStore();
+    assignmentstore = ostore.createStore();
 }
 
 module.exports = {
