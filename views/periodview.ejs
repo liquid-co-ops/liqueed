@@ -1,0 +1,45 @@
+<div class="row btn-group">
+<a class="btn btn-info" href="/project/<%= project.id %>">Project</a>
+<a class="btn btn-primary" href="/project/<%= project.id %>/period/<%= item.id %>/edit">Edit Period</a>
+<a class="btn btn-danger" href="/project/<%= project.id %>/period/<%= item.id %>/remove">Remove Period</a>
+</div>
+
+<div class='row'>
+    <table class="table-striped table-bordered">
+        <tr>
+            <td>Name</td>
+            <td><%= item.name %></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td><%= item.date %></td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td><%= item.amount %></td>
+        </tr>
+    </table>
+</div>
+
+<div class='row'>
+<h2>Assignments</h2>
+<table class="table-striped table-bordered">
+    <tr>
+        <th></th>
+        <th>From</th>
+        <th>To</th>
+        <th>Amount</th>
+    </tr>
+<% assignments.forEach(function (assignment) { %>
+    <tr>
+        <td><a href="/person/<%= assignment.from.id %>"><%= assignment.from.name %></a></td>
+        <td><a href="/person/<%= assignment.to.id %>"><%= assignment.to.name %></a></td>
+        <td><%= assignment.amount %></td>
+        <td>
+        <a class="btn btn-danger btn-sm" href="/project/<%= project.id %>/period/<%= item.id %>/assignment/<%= assignment.id %>">Remove Assignment</a>
+        </td>
+    </tr>
+<% }); %>
+</table>
+</div>
+
