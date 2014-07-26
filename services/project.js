@@ -42,15 +42,26 @@ function getAssignments(periodid) {
     return [];
 }
 
+function clear() {
+    store = ostore.createStore();
+    peoplestore = ostore.createStore();
+    periodstore = ostore.createStore();
+}
+
 module.exports = {
     addProject: addProject,
     getProjectById: getProjectById,
     getProjects: getProjects,
+    
     addPersonToTeam: addPersonToTeam,
     getTeam: getTeam,
+    
     addPeriod: addPeriod,
     getPeriod: getPeriod,
     getPeriods: getPeriods,
-    getAssignments: getAssignments
+    
+    getAssignments: getAssignments,
+    
+    clear: clear
 }
 

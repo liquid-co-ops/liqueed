@@ -15,9 +15,14 @@ function getPersons() {
     return store.find();
 }
 
+function clear() {
+    store = ostore.createStore();
+}
+
 module.exports = {
     addPerson: addPerson,
     getPersonById: getPersonById,
-    getPersons: getPersons
+    getPersons: getPersons,
+    clear: clear
 };
 

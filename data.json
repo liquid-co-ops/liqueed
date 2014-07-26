@@ -1,7 +1,21 @@
 {
     "projects": [
-        { "name": "FaceHub" },
-        { "name": "GitBook" }
+        {
+            "name": "FaceHub",
+            "periods": [
+                { "name": "January 2014", "date": "2014-01-31" },
+                { "name": "February 2014", "date": "2014-02-28" }
+            ],
+            "team": [ "Alice", "Bob" ]
+        },
+        {
+            "name": "GitBook",
+            "periods": [
+                { "name": "March 2014", "date": "2014-03-31" },
+                { "name": "April 2014", "date": "2014-04-30" }
+            ],
+            "team": [ "Alice", "Charlie" ]
+        }
     ],
     "persons": [
         { "name": "Alice" },

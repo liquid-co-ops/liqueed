@@ -3,6 +3,7 @@ var controller = require('../controllers/project');
 
 exports['get index'] = function (test) {
     var request = {};
+
     var response = {
         render: function (name, model) {
             test.ok(name);
