@@ -21,9 +21,16 @@ function getTeam(req, res) {
     res.send(items);
 }
 
+function getPeriods(req, res) {
+    var id = parseInt(req.params.id);
+    var items = service.getPeriods(id);
+    
+    res.send(items);
+}
 module.exports = {
     list: list,
     get: get,
-    getTeam: getTeam
+    getTeam: getTeam,
+    getPeriods: getPeriods
 }
 

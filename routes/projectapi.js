@@ -4,5 +4,7 @@ var controller = require('../controllers/projectapi');
 
 router.get('/', controller.list);
 router.get('/:id', controller.get);
+router.get('/:id/team', controller.getTeam);
+router.get('/:id/period', controller.getPeriods);
 
 module.exports = router;

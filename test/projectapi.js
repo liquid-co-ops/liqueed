@@ -78,3 +78,29 @@ exports['get first project team'] = function (test) {
     
     controller.getTeam(request, response);
 };
+
+exports['get first project periods'] = function (test) {
+    var request = {
+        params: {
+            id: projects[0].id.toString()
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+
+            test.ok(Array.isArray(model));
+
+            test.equal(model.length, 2);
+            test.equal(model[0].name, 'January 2014');
+            test.equal(model[0].date, '2014-01-31');
+            test.equal(model[1].name, 'February 2014');
+            test.equal(model[1].date, '2014-02-28');
+            
+            test.done();
+        }
+    };
+    
+    controller.getPeriods(request, response);
+};
