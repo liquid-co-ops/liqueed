@@ -27,10 +27,20 @@ function getPeriods(req, res) {
     
     res.send(items);
 }
+
+function getPeriod(req, res) {
+    var id = parseInt(req.params.id);
+    var idp = parseInt(req.params.idp);
+    var item = service.getPeriodById(idp);
+    
+    res.send(item);
+}
+
 module.exports = {
     list: list,
     get: get,
     getTeam: getTeam,
-    getPeriods: getPeriods
+    getPeriods: getPeriods,
+    getPeriod: getPeriod
 }
 

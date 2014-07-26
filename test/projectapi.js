@@ -3,6 +3,9 @@ var controller = require('../controllers/projectapi');
 var loaddata = require('../utils/loaddata');
 
 var projects;
+var project;
+var periods;
+var period;
 
 exports['clear and load data'] = function (test) {
     var personService = require('../services/person');
@@ -15,6 +18,15 @@ exports['clear and load data'] = function (test) {
     
     test.ok(projects);
     test.ok(projects.length);
+    
+    project = projects[0];
+    
+    periods = projectService.getPeriods(project.id);
+    
+    test.ok(periods);
+    test.ok(periods.length);
+    
+    period = periods[0];
 };
 
 exports['get list'] = function (test) {
@@ -37,7 +49,7 @@ exports['get list'] = function (test) {
 exports['get first project'] = function (test) {
     var request = {
         params: {
-            id: projects[0].id.toString()
+            id: project.id.toString()
         }
     };
 
@@ -57,7 +69,7 @@ exports['get first project'] = function (test) {
 exports['get first project team'] = function (test) {
     var request = {
         params: {
-            id: projects[0].id.toString()
+            id: project.id.toString()
         }
     };
 
@@ -82,7 +94,7 @@ exports['get first project team'] = function (test) {
 exports['get first project periods'] = function (test) {
     var request = {
         params: {
-            id: projects[0].id.toString()
+            id: project.id.toString()
         }
     };
 
@@ -104,3 +116,27 @@ exports['get first project periods'] = function (test) {
     
     controller.getPeriods(request, response);
 };
+
+exports['get first project first period'] = function (test) {
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+
+            test.equal(model.name, 'January 2014');
+            test.equal(model.date, '2014-01-31');
+            
+            test.done();
+        }
+    };
+    
+    controller.getPeriod(request, response);
+};
+
+
