@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -7,7 +9,7 @@ var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 
 var staticRoutes = require('./routes/index');
-var noteRoutes = require('./routes/notes');
+var noteRoutes = require('./routes/note');
 var personRoutes = require('./routes/person');
 var projectRoutes = require('./routes/project');
 
@@ -21,7 +23,7 @@ app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+app.use(cookieParser('secret'));
 app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
 

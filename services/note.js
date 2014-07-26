@@ -1,3 +1,5 @@
+'use strict';
+
 var store = require('ostore').createStore();
 
 function addNote(data) {
@@ -12,6 +14,10 @@ function getAllNotes() {
   return store.find({});
 }
 
+function updateNoteById(id, data) {
+  return store.update(id, data);
+}
+
 function removeNoteById(id) {
   return store.remove(id);
 }
@@ -20,5 +26,6 @@ module.exports = {
   addNote:        addNote,
   getNoteById:    getNoteById,
   getAllNotes:    getAllNotes,
+  updateNoteById: updateNoteById,
   removeNoteById: removeNoteById
 };
