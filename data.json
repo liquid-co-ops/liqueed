@@ -7,5 +7,10 @@
         { "name": "Alice" },
         { "name": "Bob" },
         { "name": "Charlie" }
+    ],
+    "notes": [
+        { "text": "Foo" },
+        { "text": "Bar" },
+        { "text": "Baz" }
     ]
 }

@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+
+'use strict';
+
 var debug = require('debug')('MyCompany4');
 var app = require('../app');
 
@@ -6,6 +9,7 @@ var data = require('../data.json');
 
 var personService = require('../services/person');
 var projectService = require('../services/project');
+var noteService = require('../services/note');
 
 data.projects.forEach(function (project) {
     projectService.addProject(project);
@@ -13,6 +17,10 @@ data.projects.forEach(function (project) {
 
 data.persons.forEach(function (person) {
     personService.addPerson(person);
+});
+
+data.notes.forEach(function(note) {
+    noteService.addNote(note);
 });
 
 app.set('port', process.env.PORT || 3000);
