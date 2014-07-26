@@ -25,6 +25,9 @@ data.notes.forEach(function(note) {
 
 app.set('port', process.env.PORT || 3000);
 
+var loaddata = require('../utils/loaddata');
+loaddata();
+
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
 });

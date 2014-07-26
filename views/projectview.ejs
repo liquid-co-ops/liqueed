@@ -1,0 +1,64 @@
+<div class="row btn-group">
+<a class="btn btn-info" href="/project">Projects</a>
+<a class="btn btn-primary" href="/project/<%= item.id %>/edit">Edit Project</a>
+<a class="btn btn-danger" href="/project/<%= item.id %>/remove">Remove Project</a>
+</div>
+
+<div class='row'>
+    <table class="table-striped table-bordered">
+        <tr>
+            <td>Name</td>
+            <td><%= item.name %></td>
+        </tr>
+    </table>
+</div>
+
+<div class='row'>
+<h2>Team</h2>
+
+<div class="btn-group">
+<a class="btn btn-primary" href="/project/<%= item.id %>/person/new">Add Team Member</a>
+</div>
+
+<table class="table-striped table-bordered">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </tr>
+<% team.forEach(function (person) { %>
+    <tr>
+        <td><a href="/person/<%= person.id %>">View</a></td>
+        <td><%= person.name %></td>
+        <td>
+        <a class="btn-danger btn-sm" href="/project/<%= item.id %>/person/<%= person.id %>/remove">Remove</a>
+        </td>
+    </tr>
+<% }); %>
+</table>
+</div>
+
+<div class='row'>
+<h2>Periods</h2>
+
+<div class="btn-group">
+<a class="btn btn-primary" href="/project/<%= item.id %>/period/new">New Period</a>
+</div>
+
+<table class="table-striped table-bordered">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Amount</th>
+    </tr>
+<% periods.forEach(function (period) { %>
+    <tr>
+        <td><a href="/project/<%= item.id %>/period/<%= period.id %>">View</a></td>
+        <td><%= period.name %></td>
+        <td><%= period.date %></td>
+        <td><%= period.amount %></td>
+    </tr>
+<% }); %>
+</table>
+</div>

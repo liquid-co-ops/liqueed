@@ -13,6 +13,8 @@ var noteRoutes = require('./routes/note');
 var personRoutes = require('./routes/person');
 var projectRoutes = require('./routes/project');
 
+var personApiRoutes = require('./routes/personapi');
+
 var app = express();
 
 // view engine setup
@@ -31,6 +33,8 @@ app.use('/', staticRoutes);
 app.use('/notes', noteRoutes);
 app.use('/person', personRoutes);
 app.use('/project', projectRoutes);
+
+app.use('/api/person', personApiRoutes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
