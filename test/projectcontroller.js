@@ -41,7 +41,7 @@ exports['get index'] = function (test) {
 exports['get view first project'] = function (test) {
     var request = {
         params: {
-            id: projects[0].id
+            id: projects[0].id.toString()
         }
     };
 

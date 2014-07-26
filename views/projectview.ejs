@@ -16,6 +16,7 @@
 <div class='row'>
 <h2>Team</h2>
 <table class="table-striped table-bordered">
+<% console.dir(team); %>
 <% team.forEach(function (person) { %>
     <tr>
         <td><a href="/person/<%= person.id %>">View</a></td>

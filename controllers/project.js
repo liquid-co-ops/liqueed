@@ -8,8 +8,9 @@ function index(req, res) {
 }
 
 function view(req, res) {
-    var item = service.getProjectById(req.params.id);
-    var teamdata = service.getTeam(req.params.id);
+    var id = parseInt(req.params.id);
+    var item = service.getProjectById(id);
+    var teamdata = service.getTeam(id);
     
     var team = [];
     
