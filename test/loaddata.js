@@ -29,14 +29,13 @@ exports['first project has team'] = function (test) {
     test.ok(team);
     test.ok(Array.isArray(team));
     test.ok(team.length);
-    test.equal(team.length, 2);
-    
-    var alice = personService.getPersonById(team[0].person);
+    test.equal(team.length, 2);    
+    var alice = team[0];
     
     test.ok(alice);
     test.equal(alice.name, 'Alice');
     
-    var bob = personService.getPersonById(team[1].person);
+    var bob = team[1];
     
     test.ok(bob);
     test.equal(bob.name, 'Bob');

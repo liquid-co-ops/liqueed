@@ -2,7 +2,7 @@
 var ostore = require('ostore');
 
 var store = ostore.createStore();
-var peoplestore = ostore.createStore();
+var teamstore = ostore.createStore();
 var periodstore = ostore.createStore();
 
 function addProject(data) {
@@ -14,11 +14,20 @@ function getProjectById(id) {
 }
 
 function addPersonToTeam(projid, personid) {
-    return peoplestore.add({ project: projid, person: personid });
+    return teamstore.add({ project: projid, person: personid });
 }
 
 function getTeam(id) {
-    return peoplestore.find({ project: id });
+    var teamdata = teamstore.find({ project: id });
+    var team = [];
+    var sperson = require('./person');
+    
+    teamdata.forEach(function (data) {
+        var person = sperson.getPersonById(data.person);
+        team.push(person);
+    });
+    
+    return team;
 }
 
 function getProjects() {
@@ -44,7 +53,7 @@ function getAssignments(periodid) {
 
 function clear() {
     store = ostore.createStore();
-    peoplestore = ostore.createStore();
+    teamstore = ostore.createStore();
     periodstore = ostore.createStore();
 }
 

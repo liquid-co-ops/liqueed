@@ -10,14 +10,7 @@ function index(req, res) {
 function view(req, res) {
     var id = parseInt(req.params.id);
     var item = service.getProjectById(id);
-    var teamdata = service.getTeam(id);
-    
-    var team = [];
-    
-    teamdata.forEach(function (teammember) {
-        var person = sperson.getPersonById(teammember.person);
-        team.push(person);
-    });
+    var team = service.getTeam(id);
     
     res.render('projectview', { title: 'Project', item: item, team: team });
 }

@@ -1,5 +1,6 @@
 
 var service = require('../services/project');
+var sperson = require('../services/person');
 
 var liqueedid;
 var periodid;
@@ -28,13 +29,15 @@ exports['get people in empty project'] = function (test) {
 };
 
 exports['add person and get people in project'] = function (test) {
-    service.addPersonToTeam(liqueedid, 1);
+    var alanid = sperson.addPerson({ name: 'Alan' });
+    service.addPersonToTeam(liqueedid, alanid);
     var result = service.getTeam(liqueedid);
     
     test.ok(result);
     test.ok(Array.isArray(result));
     test.equal(result.length, 1);
-    test.equal(result[0].person, 1);
+    test.equal(result[0].id, alanid);
+    test.equal(result[0].name, 'Alan');
 };
 
 exports['get projects'] = function (test) {
