@@ -51,9 +51,20 @@ exports['get view first project'] = function (test) {
             test.equal(name, 'projectview');
             test.ok(model);
             test.equal(model.title, 'Project');
+            
             test.ok(model.item);
             test.equal(model.item.id, projects[0].id);
             test.equal(model.item.name, projects[0].name);
+            
+            test.ok(model.team);
+            test.ok(Array.isArray(model.team));
+            test.equal(model.team.length, 2);
+            
+            test.ok(model.team[0].id);
+            test.equal(model.team[0].name, 'Alice');
+            test.ok(model.team[1].id);
+            test.equal(model.team[1].name, 'Bob');
+            
             test.done();
         }
     };

@@ -3,6 +3,7 @@
 <a class="btn btn-primary" href="/project/<%= item.id %>/edit">Edit Project</a>
 <a class="btn btn-danger" href="/project/<%= item.id %>/remove">Remove Project</a>
 </div>
+
 <div class='row'>
     <table class="table-striped table-bordered">
         <tr>
@@ -10,5 +11,16 @@
             <td><%= item.name %></td>
         </tr>
     </table>
-</form>
+</div>
+
+<div class='row'>
+<h2>Team</h2>
+<table class="table-striped table-bordered">
+<% team.forEach(function (person) { %>
+    <tr>
+        <td><a href="/person/<%= person.id %>">View</a></td>
+        <td><%= person.name %></td>
+    </tr>
+<% }); %>
+</table>
 </div>

@@ -9,7 +9,7 @@
     </tr>
 <% items.forEach(function (item) { %>
     <tr>
-        <td><a href="/person/<%= item._id %>">View</a></td>
+        <td><a href="/person/<%= item.id %>">View</a></td>
         <td><%= item.name %></td>
     </tr>
 <% }); %>
