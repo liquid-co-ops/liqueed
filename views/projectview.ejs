@@ -15,15 +15,24 @@
 
 <div class='row'>
 <h2>Team</h2>
+
+<div class="btn-group">
+<a class="btn btn-primary" href="/project/<%= item.id %>/person/new">Add Team Member</a>
+</div>
+
 <table class="table-striped table-bordered">
     <tr>
         <th></th>
         <th>Name</th>
+        <th></th>
     </tr>
 <% team.forEach(function (person) { %>
     <tr>
         <td><a href="/person/<%= person.id %>">View</a></td>
         <td><%= person.name %></td>
+        <td>
+        <a class="btn-danger btn-sm" href="/project/<%= item.id %>/person/<%= person.id %>/remove">Remove</a>
+        </td>
     </tr>
 <% }); %>
 </table>
@@ -31,6 +40,11 @@
 
 <div class='row'>
 <h2>Periods</h2>
+
+<div class="btn-group">
+<a class="btn btn-primary" href="/project/<%= item.id %>/period/new">New Period</a>
+</div>
+
 <table class="table-striped table-bordered">
     <tr>
         <th></th>

@@ -23,12 +23,17 @@
 
 <div class='row'>
 <h2>Assignments</h2>
+
+<div class="btn-group">
+<a class="btn btn-primary" href="/project/<%= project.id %>/period/<%= item.id %>/assignment/new">New Assignment</a>
+</div>
+
 <table class="table-striped table-bordered">
     <tr>
-        <th></th>
         <th>From</th>
         <th>To</th>
         <th>Amount</th>
+        <th></th>
     </tr>
 <% assignments.forEach(function (assignment) { %>
     <tr>
@@ -36,7 +41,7 @@
         <td><a href="/person/<%= assignment.to.id %>"><%= assignment.to.name %></a></td>
         <td><%= assignment.amount %></td>
         <td>
-        <a class="btn btn-danger btn-sm" href="/project/<%= project.id %>/period/<%= item.id %>/assignment/<%= assignment.id %>">Remove Assignment</a>
+        <a class="btn-danger btn-sm" href="/project/<%= project.id %>/period/<%= item.id %>/assignment/<%= assignment.id %>/remove">Remove</a>
         </td>
     </tr>
 <% }); %>
