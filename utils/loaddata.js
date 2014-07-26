@@ -12,13 +12,10 @@ function load(filename) {
         var id = personService.addPerson(person);        persons[person.name] = id;
     });
 
-    data.projects.forEach(function (project) {
-        var team = project.team;
-        var periods = project.periods;
+    data.projects.forEach(function (projectdata) {
+        var team = projectdata.team;
+        var periods = projectdata.periods;        var project = { name: projectdata.name };
         
-        delete project.team;
-        delete project.periods;
-        
-        var projid = projectService.addProject(project);                team.forEach(function (name) {            var personid = persons[name];                        if (personid)                projectService.addPersonToTeam(projid, personid);        });
+        var projid = projectService.addProject(project);                team.forEach(function (name) {            var personid = persons[name];                        if (personid)                projectService.addPersonToTeam(projid, personid);        });                periods.forEach(function (period) {            projectService.addPeriod(projid, period);        });
     });
 }module.exports = load;

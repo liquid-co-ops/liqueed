@@ -1,6 +1,21 @@
 
 var controller = require('../controllers/person');
 
+var loaddata = require('../utils/loaddata');
+
+exports['clear and load data'] = function (test) {
+    var personService = require('../services/person');
+    var projectService = require('../services/project');
+    personService.clear();
+    projectService.clear();
+    loaddata();
+    
+    persons = personService.getPersons();
+    
+    test.ok(persons);
+    test.ok(persons.length);
+};
+
 exports['get index'] = function (test) {
     var request = {};
     var response = {

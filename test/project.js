@@ -42,7 +42,6 @@ exports['get projects'] = function (test) {
     test.ok(result);
     test.ok(Array.isArray(result));
     test.ok(result.length);
-    test.equal(result[0].name, 'liqueed');
 };
 
 exports['get no periods from project'] = function (test) {
