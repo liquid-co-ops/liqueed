@@ -6,10 +6,10 @@ function load(filename) {
     if (!filename)
         filename = '../data.json';
         
-    var data = require(filename);
+    var data = require(filename);        var persons = { };
     
     data.persons.forEach(function (person) {
-        personService.addPerson(person);
+        var id = personService.addPerson(person);        persons[person.name] = id;
     });
 
     data.projects.forEach(function (project) {
@@ -19,6 +19,6 @@ function load(filename) {
         delete project.team;
         delete project.periods;
         
-        projectService.addProject(project);
+        var projid = projectService.addProject(project);                team.forEach(function (name) {            var personid = persons[name];                        if (personid)                projectService.addPersonToTeam(projid, personid);        });
     });
 }module.exports = load;
