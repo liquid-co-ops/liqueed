@@ -3,9 +3,9 @@
 var service = require('../services/note');
 
 var noteid;
-var expectedText = 'foo';
+var expectedText = 'Foo';
 var note1 = {text: expectedText};
-var note2 = {text: 'bar'};
+var note2 = {text: 'Bar'};
 
 exports['add note'] = function(test) {
   var result = service.addNote(note1);
@@ -28,7 +28,7 @@ exports['get all notes']  = function(test) {
 
   test.ok(result);
 
-  test.equal(result.length, 2);
+  test.equal(result.length, 5);
 
   delete result[0].id;
   delete result[1].id;

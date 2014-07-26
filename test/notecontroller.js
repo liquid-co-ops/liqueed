@@ -35,11 +35,11 @@ exports['get a note'] = function(test) {
             test.ok(name);
             test.equal(name, 'notes/view');
             test.ok(model);
-            test.equal(model.note, 'Note ' + id);
+            test.equal(model.title, 'Note ' + id);
             test.ok(model.note);
-            test.ok(Object.isObject(model.note));
+            test.ok(Object.prototype.toString.call(model.note) === '[object Object]');
             test.ok(model.note.text);
-            test.fail(path);
+            test.equal(path, undefined);
             test.done();
         },
         redirect: function(p) {
@@ -68,7 +68,7 @@ exports['get a note fails'] = function(test) {
 };
 
 exports['create a note'] = function(test) {
-    var expectedPath = '/notes/3';
+    var expectedPath = '/notes/6';
     var request = {
         param: function(p) {
             return 'foo';
