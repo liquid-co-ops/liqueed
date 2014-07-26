@@ -68,7 +68,7 @@ exports['add period to project'] = function (test) {
 };
 
 exports['get period'] = function (test) {
-    var result = service.getPeriod(periodid);
+    var result = service.getPeriodById(periodid);
     
     test.ok(result);
     test.equal(result.name, 'First period');

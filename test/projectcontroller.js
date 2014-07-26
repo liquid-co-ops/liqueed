@@ -83,3 +83,41 @@ exports['get view first project'] = function (test) {
     
     controller.view(request, response);
 };
+exports['get view first project first period'] = function (test) {
+    var project = projects[0];
+    var periods = require('../services/project').getPeriods(project.id);
+    var period = periods[0];
+    
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'periodview');
+            test.ok(model);
+            test.equal(model.title, 'Period');
+            
+            test.ok(model.project);
+            test.equal(model.project.id, project.id);
+            test.equal(model.project.name, project.name);
+            
+            test.ok(model.item);
+            test.equal(model.item.id, period.id);
+            test.equal(model.item.name, period.name);
+            test.equal(model.item.date, period.date);
+            test.equal(model.item.amount, period.amount);
+            
+            test.ok(model.assignments);
+            test.ok(Array.isArray(model.assignments));
+            
+            test.done();
+        }
+    };
+    
+    controller.viewPeriod(request, response);
+};
