@@ -16,11 +16,32 @@
 <div class='row'>
 <h2>Team</h2>
 <table class="table-striped table-bordered">
-<% console.dir(team); %>
+    <tr>
+        <th></th>
+        <th>Name</th>
+    </tr>
 <% team.forEach(function (person) { %>
     <tr>
         <td><a href="/person/<%= person.id %>">View</a></td>
         <td><%= person.name %></td>
+    </tr>
+<% }); %>
+</table>
+</div>
+
+<div class='row'>
+<h2>Periods</h2>
+<table class="table-striped table-bordered">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Date</th>
+    </tr>
+<% periods.forEach(function (period) { %>
+    <tr>
+        <td><a href="/project/<%= item.id %>/period/<%= period.id %>">View</a></td>
+        <td><%= period.name %></td>
+        <td><%= period.date %></td>
     </tr>
 <% }); %>
 </table>
