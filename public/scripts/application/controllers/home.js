@@ -1,4 +1,3 @@
-
 liqueedApp.controller('HomeCtrl', ['$scope', '$routeParams',
   function($scope, $routeParams) {
 

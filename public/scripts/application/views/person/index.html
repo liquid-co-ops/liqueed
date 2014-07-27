@@ -1,0 +1,17 @@
+<div class="row btn-group">
+  <a class="btn btn-primary" href="/person/new">New Person</a>
+</div>
+<div class="row">
+  <table class="table-striped table-bordered">
+    <tr>
+      <th>&nbsp;</th>
+      <th>Name</th>
+    </tr>
+
+    <tr ng-repeat="person in persons">
+      <td><a href="/person/{{ person.id }}">View</a></td>
+      <td>{{ person.name }}</td>
+    </tr>
+
+  </table>
+</div>
