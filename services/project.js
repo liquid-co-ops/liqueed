@@ -7,10 +7,6 @@ var teamstore = db.store('teams');
 var periodstore = db.store('periods');
 var assignmentstore = db.store('assignments');
 
-function clear() {
-    db.clear();
-}
-
 function addProject(data) {
     return store.add(data);
 }
@@ -86,8 +82,6 @@ module.exports = {
     getPeriods: getPeriods,
     
     getAssignments: getAssignments,
-    addAssignment: addAssignment,
-    
-    clear: clear
+    addAssignment: addAssignment
 }
 

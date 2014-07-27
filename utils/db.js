@@ -12,19 +12,13 @@ function getCreateStore(name) {
     return store;
 }
 
-function createStore(name) {
-    var store = ostore.createStore();
+function createStore(name) {    var store = ostore.createStore();
     stores[name] = store;
     return store;
 }
 
 function clear() {
-    for (var n in stores) {        var store = stores[n];
-        var ids = store.find(null, { id: true });
-        
-        ids.forEach(function (id) {
-            store.remove(id);
-        });
+    for (var n in stores) {        var store = stores[n];        store.clear();
     }
 }
 

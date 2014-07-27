@@ -3,14 +3,14 @@
 var controller = require('../controllers/person');
 
 var loaddata = require('../utils/loaddata');
+var db = require('../utils/db');
 
 var persons;
 
 exports['clear and load data'] = function (test) {
     var personService = require('../services/person');
-    var projectService = require('../services/project');
-    personService.clear();
-    projectService.clear();
+    
+    db.clear();
     loaddata();
     
     persons = personService.getPersons();

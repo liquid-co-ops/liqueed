@@ -2,6 +2,14 @@
 
 var controller = require('../controllers/note');
 
+var loaddata = require('../utils/loaddata');
+var db = require('../utils/db');
+
+exports['clear and load data'] = function (test) {
+    db.clear();
+    loaddata();
+};
+
 exports['get index'] = function(test) {
     var request = {};
     var response = {
@@ -68,7 +76,7 @@ exports['get a note fails'] = function(test) {
 };
 
 exports['create a note'] = function(test) {
-    var expectedPath = '/notes/6';
+    var expectedPath = '/notes/4';
     var request = {
         param: function(p) {
             return 'foo';

@@ -1,6 +1,7 @@
 
 var controller = require('../controllers/projectapi');
 var loaddata = require('../utils/loaddata');
+var db = require('../utils/db');
 var personService = require('../services/person');
 var projectService = require('../services/project');
 
@@ -11,8 +12,7 @@ var periods;
 var period;
 
 exports['clear and load data'] = function (test) {
-    personService.clear();
-    projectService.clear();
+    db.clear();
     loaddata();
     
     projects = projectService.getProjects();

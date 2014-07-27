@@ -1,14 +1,14 @@
 
 var controller = require('../controllers/project');
 var loaddata = require('../utils/loaddata');
+var db = require('../utils/db');
 
 var projects;
 
 exports['clear and load data'] = function (test) {
-    var personService = require('../services/person');
     var projectService = require('../services/project');
-    personService.clear();
-    projectService.clear();
+
+    db.clear();
     loaddata();
     
     projects = projectService.getProjects();

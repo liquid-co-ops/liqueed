@@ -11,7 +11,7 @@ function getNoteById(id) {
 }
 
 function getAllNotes() {
-  return store.find({});
+  return store.find();
 }
 
 function updateNoteById(id, data) {

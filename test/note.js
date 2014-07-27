@@ -1,11 +1,19 @@
 'use strict';
 
 var service = require('../services/note');
+var db = require('../utils/db');
 
 var noteid;
 var expectedText = 'Foo';
 var note1 = {text: expectedText};
 var note2 = {text: 'Bar'};
+
+exports['clear data'] = function(test) {
+  db.clear();
+  var result = service.getAllNotes();
+  test.ok(result);
+  test.equal(result.length, 0);
+};
 
 exports['add note'] = function(test) {
   var result = service.addNote(note1);
@@ -28,7 +36,7 @@ exports['get all notes']  = function(test) {
 
   test.ok(result);
 
-  test.equal(result.length, 5);
+  test.equal(result.length, 2);
 
   delete result[0].id;
   delete result[1].id;
