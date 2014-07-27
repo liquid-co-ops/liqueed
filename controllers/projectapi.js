@@ -44,12 +44,23 @@ function getAssignments(req, res) {
     res.send(items);
 }
 
+function putAssignment(req, res) {
+    var id = parseInt(req.params.id);
+    var idp = parseInt(req.params.idp);
+    var data = req.body;
+    
+    var id = service.addAssignment(idp, data.from, data.to, data.amount);
+    
+    res.send({ id: id });
+}
+
 module.exports = {
     list: list,
     get: get,
     getTeam: getTeam,
     getPeriods: getPeriods,
     getPeriod: getPeriod,
-    getAssignments: getAssignments
+    getAssignments: getAssignments,
+    putAssignment: putAssignment
 }
 

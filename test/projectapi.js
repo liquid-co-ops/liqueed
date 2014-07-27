@@ -1,15 +1,16 @@
 
 var controller = require('../controllers/projectapi');
 var loaddata = require('../utils/loaddata');
+var personService = require('../services/person');
+var projectService = require('../services/project');
 
 var projects;
 var project;
+var team
 var periods;
 var period;
 
 exports['clear and load data'] = function (test) {
-    var personService = require('../services/person');
-    var projectService = require('../services/project');
     personService.clear();
     projectService.clear();
     loaddata();
@@ -27,6 +28,11 @@ exports['clear and load data'] = function (test) {
     test.ok(periods.length);
     
     period = periods[0];
+    
+    team = projectService.getTeam(project.id);
+    
+    test.ok(team);
+    test.ok(team.length);
 };
 
 exports['get list'] = function (test) {
@@ -162,5 +168,41 @@ exports['get first project first period assignments'] = function (test) {
     };
     
     controller.getAssignments(request, response);
+};
+
+exports['get first project first period put assignment'] = function (test) {
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        },
+        body: {
+            from: team[0].id,
+            to: team[1].id,
+            amount: 1
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.ok(model.id);
+            
+            var assignments = projectService.getAssignments(period.id);
+            var assignment;
+            
+            for (var k in assignments)
+                if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[1].id && assignments[k].amount == 1) {
+                    assignment = assignments[k];
+                    break;
+                }
+            
+            test.ok(assignment);
+            
+            test.done();
+        }
+    };
+    
+    controller.putAssignment(request, response);
 };
 
