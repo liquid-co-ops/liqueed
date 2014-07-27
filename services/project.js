@@ -8,10 +8,7 @@ var periodstore = db.store('periods');
 var assignmentstore = db.store('assignments');
 
 function clear() {
-    store = db.createStore('projects');
-    teamstore = db.createStore('teams');
-    periodstore = db.createStore('periods');
-    assignmentstore = db.createStore('assignments');
+    db.clear();
 }
 
 function addProject(data) {

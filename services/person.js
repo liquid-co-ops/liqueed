@@ -5,7 +5,7 @@ var db = require('../utils/db');
 var store = db.store('persons');
 
 function clear() {
-    store = db.createStore('persons');
+    db.clear();
 }
 
 function addPerson(data) {

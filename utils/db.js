@@ -18,8 +18,24 @@ function createStore(name) {
     return store;
 }
 
-module.exports = {
-    store: getCreateStore,
-    createStore: createStore
+function clear() {
+    for (var n in stores) {        var store = stores[n];
+        var ids = store.find(null, { id: true });
+        
+        ids.forEach(function (id) {
+            store.remove(id);
+        });
+    }
 }
+
+module.exports = {
+
+    store: getCreateStore,
+
+    createStore: createStore,
+    clear: clear
+
+}
+
+
 
