@@ -1,0 +1,17 @@
+<div class="row btn-group">
+<a class="btn btn-primary" href="/project/new">New Project</a>
+</div>
+<div class="row">
+<table class="table-striped table-bordered">
+  <tr>
+      <th></th>
+      <th>Name</th>
+  </tr>
+
+  <tr ng-repeat="project in projects">
+    <td><a href="/project/{{ project.id }}">View</a></td>
+    <td>{{ project.name }}</td>
+  </tr>
+
+</table>
+</div>

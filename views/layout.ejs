@@ -50,7 +50,7 @@
 
   <div class="container">
 
-    <%- body %>
+    <div ng-view></div>
 
   </div>
   <!-- /container -->
@@ -65,7 +65,13 @@
 
   <script src="/scripts/application/app.js"></script>
 
-  <script src="/scripts/application/controllers/home_ctrl.js"></script>
+  <script src="/scripts/application/services/person.js"></script>
+  <script src="/scripts/application/services/project.js"></script>
+
+  <script src="/scripts/application/controllers/home.js"></script>
+  <script src="/scripts/application/controllers/person.js"></script>
+  <script src="/scripts/application/controllers/project.js"></script>
+  <script src="/scripts/application/controllers/period.js"></script>
 
   <script type="text/javascript" src="/scripts/ui.js"></script>
 </body>
