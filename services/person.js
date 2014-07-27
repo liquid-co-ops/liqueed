@@ -1,7 +1,7 @@
 
-var ostore = require('ostore');
+var db = require('../utils/db');
 
-var store = ostore.createStore();
+var store = db.store('persons');
 
 function addPerson(data) {
     return store.add(data);
@@ -16,7 +16,7 @@ function getPersons() {
 }
 
 function clear() {
-    store = ostore.createStore();
+    store = db.createStore('persons');
 }
 
 module.exports = {
