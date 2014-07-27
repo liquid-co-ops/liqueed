@@ -12,3 +12,21 @@
         </tr>
     </table>
 </div>
+
+<div class='row'>
+<h2>Projects</h2>
+
+<table class="table-striped table-bordered">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </tr>
+<% projects.forEach(function (project) { %>
+    <tr>
+        <td><a href="/project/<%= project.id %>">View</a></td>
+        <td><%= project.name %></td>
+    </tr>
+<% }); %>
+</table>
+</div>

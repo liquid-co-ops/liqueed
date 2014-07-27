@@ -38,7 +38,7 @@ exports['get persons'] = function (test) {
 exports['get first person'] = function (test) {
     var request = {
         params: {
-            id: persons[0].id
+            id: persons[0].id.toString()
         }
     };
 
@@ -52,4 +52,27 @@ exports['get first person'] = function (test) {
     };
     
     controller.get(request, response);
+};
+
+exports['get first person projects'] = function (test) {
+    var request = {
+        params: {
+            id: persons[0].id.toString()
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.ok(Array.isArray(model));
+            test.ok(model.length);
+            
+            test.ok(model[0].id);
+            test.ok(model[0].name);
+            
+            test.done();
+        }
+    };
+    
+    controller.getProjects(request, response);
 };
