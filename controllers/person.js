@@ -8,8 +8,10 @@ function index(req, res) {
 };
 
 function view(req, res) {
-    var item = service.getPersonById(req.params.id);
-    res.render('personview', { title: 'Person', item: item });
+    var id = parseInt(req.params.id);
+    var item = service.getPersonById(id);
+    var projects = service.getProjects(id);
+    res.render('personview', { title: 'Person', item: item, projects: projects });
 };
 
 module.exports = {

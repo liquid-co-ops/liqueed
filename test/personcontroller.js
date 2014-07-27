@@ -55,6 +55,9 @@ exports['get view first person'] = function (test) {
             test.ok(model.item);
             test.equal(model.item.id, persons[0].id);
             test.equal(model.item.name, persons[0].name);
+            test.ok(model.projects);
+            test.ok(Array.isArray(model.projects));
+            test.ok(model.projects.length);
             test.done();
         }
     };
