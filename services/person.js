@@ -1,7 +1,12 @@
+'use strict';
 
 var db = require('../utils/db');
 
 var store = db.store('persons');
+
+function clear() {
+    store = db.createStore('persons');
+}
 
 function addPerson(data) {
     return store.add(data);
@@ -13,10 +18,6 @@ function getPersonById(id) {
 
 function getPersons() {
     return store.find();
-}
-
-function clear() {
-    store = db.createStore('persons');
 }
 
 module.exports = {

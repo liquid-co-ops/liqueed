@@ -1,6 +1,6 @@
 'use strict';
 
-var store = require('ostore').createStore();
+var store = require('../utils/db').store('notes');
 
 function addNote(data) {
   return store.add(data);

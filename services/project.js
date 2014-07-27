@@ -1,10 +1,18 @@
+'use strict';
 
-var ostore = require('ostore');
+var db = require('../utils/db');
 
-var store = ostore.createStore();
-var teamstore = ostore.createStore();
-var periodstore = ostore.createStore();
-var assignmentstore = ostore.createStore();
+var store = db.store('projects');
+var teamstore = db.store('teams');
+var periodstore = db.store('periods');
+var assignmentstore = db.store('assignments');
+
+function clear() {
+    store = db.createStore('projects');
+    teamstore = db.createStore('teams');
+    periodstore = db.createStore('periods');
+    assignmentstore = db.createStore('assignments');
+}
 
 function addProject(data) {
     return store.add(data);
@@ -66,13 +74,6 @@ function getAssignments(periodid) {
 
 function addAssignment(projectid, periodid, fromid, toid, amount) {
     return assignmentstore.add({ projectid: projectid, period: periodid, from: fromid, to: toid, amount: amount });
-}
-
-function clear() {
-    store = ostore.createStore();
-    teamstore = ostore.createStore();
-    periodstore = ostore.createStore();
-    assignmentstore = ostore.createStore();
 }
 
 module.exports = {

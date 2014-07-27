@@ -1,4 +1,4 @@
-
+'use strict';
 var ostore = require('ostore');
 
 var stores = { }
