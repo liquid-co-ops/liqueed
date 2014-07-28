@@ -1,7 +1,7 @@
 <div class="row btn-group">
-<a class="btn btn-info" href="/project/<%= project.id %>">Project</a>
-<a class="btn btn-primary" href="/project/<%= project.id %>/period/<%= item.id %>/edit">Edit Period</a>
-<a class="btn btn-danger" href="/project/<%= project.id %>/period/<%= item.id %>/remove">Remove Period</a>
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= project.id %>">Project</a>
+<a class="btn btn-primary" href="<%= adminprefix %>/project/<%= project.id %>/period/<%= item.id %>/edit">Edit Period</a>
+<a class="btn btn-danger" href="<%= adminprefix %>/project/<%= project.id %>/period/<%= item.id %>/remove">Remove Period</a>
 </div>
 
 <div class='row'>
@@ -37,11 +37,11 @@
     </tr>
 <% assignments.forEach(function (assignment) { %>
     <tr>
-        <td><a href="/person/<%= assignment.from.id %>"><%= assignment.from.name %></a></td>
-        <td><a href="/person/<%= assignment.to.id %>"><%= assignment.to.name %></a></td>
+        <td><a href="<%= adminprefix %>/person/<%= assignment.from.id %>"><%= assignment.from.name %></a></td>
+        <td><a href="<%= adminprefix %>/person/<%= assignment.to.id %>"><%= assignment.to.name %></a></td>
         <td><%= assignment.amount %></td>
         <td>
-        <a class="btn-danger btn-sm" href="/project/<%= project.id %>/period/<%= item.id %>/assignment/<%= assignment.id %>/remove">Remove</a>
+        <a class="btn-danger btn-sm" href="<%= adminprefix %>/project/<%= project.id %>/period/<%= item.id %>/assignment/<%= assignment.id %>/remove">Remove</a>
         </td>
     </tr>
 <% }); %>

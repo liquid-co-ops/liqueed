@@ -2,12 +2,12 @@
     <ul>
         <% for(var i = 0; i < notes.length; i++) { %>
             <li>
-                <a href="/notes/<%= notes[i].id %>"><%= notes[i].text %></a>
+                <a href="<%= adminprefix %>/notes/<%= notes[i].id %>"><%= notes[i].text %></a>
 
-                <form action="/notes/<%= notes[i].id %>/delete" method="POST">
+                <form action="<%= adminprefix %>/notes/<%= notes[i].id %>/delete" method="POST">
                     <a class="btn btn-mini btn-danger confirm_remove"
                         href="#<%= notes[i].id %>">delete note</a>
-                    <a class="btn btn-mini btn-primary" href="/notes/<%= notes[i].id %>/edit">edit
+                    <a class="btn btn-mini btn-primary" href="<%= adminprefix %>/notes/<%= notes[i].id %>/edit">edit
                         note</a>
                 </form>
 
@@ -19,7 +19,7 @@
 <% } %>
 
 <h3>Add a new note</h3>
-<form role="form" class="form-inline" action="/notes" method="POST">
+<form role="form" class="form-inline" action="<%= adminprefix %>/notes" method="POST">
     <label class="form-group">
         <span class="input-group">
             <span class="input-group-addon">Note Text: </span>

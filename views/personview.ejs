@@ -1,7 +1,7 @@
 <div class="row btn-group">
-<a class="btn btn-info" href="/person">People</a>
-<a class="btn btn-primary" href="/person/<%= item.id %>/edit">Edit Person</a>
-<a class="btn btn-danger" href="/person/<%= item.id %>/remove">Remove Person</a>
+<a class="btn btn-info" href="<%= adminprefix %>/person">People</a>
+<a class="btn btn-primary" href="<%= adminprefix %>/person/<%= item.id %>/edit">Edit Person</a>
+<a class="btn btn-danger" href="<%= adminprefix %>/person/<%= item.id %>/remove">Remove Person</a>
 </div>
 
 <div class='row'>
@@ -24,7 +24,7 @@
     </tr>
 <% projects.forEach(function (project) { %>
     <tr>
-        <td><a href="/project/<%= project.id %>">View</a></td>
+        <td><a href="<%= adminprefix %>/project/<%= project.id %>">View</a></td>
         <td><%= project.name %></td>
     </tr>
 <% }); %>

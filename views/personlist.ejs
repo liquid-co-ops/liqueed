@@ -1,5 +1,5 @@
 <div class="row btn-group">
-<a class="btn btn-primary" href="/person/new">New Person</a>
+<a class="btn btn-primary" href="<%= adminprefix %>/person/new">New Person</a>
 </div>
 <div class="row">
 <table class="table-striped table-bordered">
@@ -9,7 +9,7 @@
     </tr>
 <% items.forEach(function (item) { %>
     <tr>
-        <td><a href="/person/<%= item.id %>">View</a></td>
+        <td><a href="<%= adminprefix %>/person/<%= item.id %>">View</a></td>
         <td><%= item.name %></td>
     </tr>
 <% }); %>

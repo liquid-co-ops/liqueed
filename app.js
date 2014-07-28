@@ -30,10 +30,17 @@ app.use(cookieParser('secret'));
 app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', staticRoutes);
-app.use('/notes', noteRoutes);
-app.use('/person', personRoutes);
-app.use('/project', projectRoutes);
+var adminprefix = '/admin';
+
+app.use(function (req, res, next) {
+    res.locals.adminprefix = adminprefix;
+    next();
+});
+
+app.use(adminprefix + '/', staticRoutes);
+app.use(adminprefix + '/notes', noteRoutes);
+app.use(adminprefix + '/person', personRoutes);
+app.use(adminprefix + '/project', projectRoutes);
 
 app.use('/api/person', personApiRoutes);
 app.use('/api/project', projectApiRoutes);
