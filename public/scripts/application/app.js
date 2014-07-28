@@ -1,4 +1,10 @@
+'use strict';
+
 var liqueedApp = angular.module('LiqueedApp', ['ngCookies', 'ngResource', 'ngRoute']);
+
+function rootApplication(path) {
+    return '/scripts/application/' + path
+}
 
 liqueedApp.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.html5Mode(true);
@@ -28,12 +34,17 @@ liqueedApp.config(['$locationProvider', '$routeProvider', function($locationProv
       templateUrl: rootApplication('views/period/view.html'),
       controller: 'PeriodDetailCtrl'
     })
+    .when('/notes', {
+      templateUrl: rootApplication('views/note/index.html'),
+      controller: 'NoteCtrl'
+    })
+    .when('/notes/:id', {
+      templateUrl: rootApplication('views/note/index.html'),
+      controller: 'NoteDetailCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     });
 
 }]);
 
-function rootApplication(path){
-  return '/scripts/application/' + path
-}
