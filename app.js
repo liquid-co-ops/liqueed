@@ -15,6 +15,7 @@ var projectRoutes = require('./routes/project');
 
 var personApiRoutes = require('./routes/personapi');
 var projectApiRoutes = require('./routes/projectapi');
+var noteApiRoutes = require('./routes/noteapi');
 
 var app = express();
 
@@ -44,6 +45,7 @@ app.use(adminprefix + '/project', projectRoutes);
 
 app.use('/api/person', personApiRoutes);
 app.use('/api/project', projectApiRoutes);
+app.use('/api/notes', noteApiRoutes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
