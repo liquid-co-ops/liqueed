@@ -1,0 +1,41 @@
+{
+    "projects": [
+        {
+            "name": "FaceHub",
+            "periods": [
+                { 
+                    "name": "January 2014", "date": "2014-01-31", "amount": 100,
+                    "assignments": [
+                        { "from": "Alice", "to": "Bob", "amount": 50 },
+                        { "from": "Alice", "to": "Charlie", "amount": 50 },
+                        { "from": "Bob", "to": "Alice", "amount": 60 },
+                        { "from": "Bob", "to": "Charlie", "amount": 40 },
+                        { "from": "Charlie", "to": "Alice", "amount": 35 },
+                        { "from": "Charlie", "to": "Bob", "amount": 65 }
+                    ]
+                },
+                { "name": "February 2014", "date": "2014-02-28", "amount": 100 }
+            ],
+            "team": [ "Alice", "Bob", "Charlie" ]
+        },
+        {
+            "name": "GitBook",
+            "periods": [
+                { "name": "March 2014", "date": "2014-03-31", "amount": 400 },
+                { "name": "April 2014", "date": "2014-04-30", "amount": 400 }
+            ],
+            "team": [ "Alice", "Charlie", "Daniel" ]
+        }
+    ],
+    "persons": [
+        { "name": "Alice" },
+        { "name": "Bob" },
+        { "name": "Charlie" },
+        { "name": "Daniel" }
+    ],
+    "notes": [
+        { "text": "Foo" },
+        { "text": "Bar" },
+        { "text": "Baz" }
+    ]
+}
