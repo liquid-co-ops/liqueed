@@ -1,32 +1,38 @@
 {
-  "node":      true,
-  "browser":   true,
-  "esnext":    false,
-  "bitwise":   true,
-  "camelcase": false,
-  "curly":     false,
-  "eqeqeq":    false,
-  "-W014":     false, // Bad line breaking
-  "-W041":     false, // !== for null and true/false
-  "-W065":     false, // Missing radix parameter to parseInt
-  "immed":     true,
-  "indent":    false,
-  "latedef":   true,
-  "newcap":    true,
-  "noarg":     true,
-  "quotmark":  false,
-  "asi":       true,
-  "regexp":    true,
-  "undef":     true,
-  "unused":    false,
-  "strict":    true,
-  "trailing":  true,
-  "smarttabs": true,
-  "globals":   {
-    "angular": true,
-    "moment":  true,
-    "_":       true,
-    "$":       true,
-    "jQuery":  true
-  }
+    "node":      true,
+    "browser":   true,
+    "esnext":    false,
+    "bitwise":   true,
+    "camelcase": false,
+    "curly":     false,
+    "eqeqeq":    false,
+    "-W014":     false, // Bad line breaking
+    "-W041":     false, // !== for null and true/false
+    "-W065":     false, // Missing radix parameter to parseInt
+    "immed":     true,
+    "indent":    false,
+    "latedef":   true,
+    "newcap":    true,
+    "noarg":     true,
+    "quotmark":  false,
+    "asi":       true,
+    "regexp":    true,
+    "undef":     true,
+    "unused":    false,
+    "strict":    true,
+    "trailing":  true,
+    "smarttabs": true,
+    "globals":   {
+        "angular":    true,
+        "moment":     true,
+        "_":          true,
+        "$":          true,
+        "jQuery":     true,
+        "describe":   true,
+        "beforeEach": true,
+        "afterEach":  true,
+        "it":         true,
+        "inject":     true,
+        "expect":     true
+    }
 }

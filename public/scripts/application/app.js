@@ -39,7 +39,7 @@ liqueedApp.config(['$locationProvider', '$routeProvider', function($locationProv
       controller: 'NoteCtrl'
     })
     .when('/notes/:id', {
-      templateUrl: rootApplication('views/note/index.html'),
+      templateUrl: rootApplication('views/note/view.html'),
       controller: 'NoteDetailCtrl'
     })
     .otherwise({
