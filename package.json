@@ -18,6 +18,11 @@
     "ostore": "0.0.4"
   },
   "devDependencies": {
-    "simpleunit": "0.0.4"
+    "simpleunit": "0.0.4",
+    "karma": "^0.12.19",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-ng-scenario": "^0.1.0",
+    "angular-mocks": "^1.2.19"
   }
 }
