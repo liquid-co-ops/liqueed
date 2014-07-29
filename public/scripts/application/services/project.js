@@ -1,22 +1,22 @@
-liqueedApp.factory('ProjectService', ['$resource',
+liqueedApp.service('ProjectService', ['$resource',
   function($resource){
     return $resource('/api/project/:id', {id: '@id'});
   }
 ]);
 
-liqueedApp.factory('ProjectTeamService', ['$resource',
+liqueedApp.service('ProjectTeamService', ['$resource',
   function($resource){
     return $resource('/api/project/:id/team', {id: '@id'});
   }
 ]);
 
-liqueedApp.factory('ProjectPeriodService', ['$resource',
+liqueedApp.service('ProjectPeriodService', ['$resource',
   function($resource){
     return $resource('/api/project/:id/period/:periodId', {id: '@id', periodId: '@periodId'});
   }
 ]);
 
-liqueedApp.factory('ProjectPeriodAssignmentService', ['$resource',
+liqueedApp.service('ProjectPeriodAssignmentService', ['$resource',
   function($resource){
     return $resource('/api/project/:id/period/:periodId/assignment', {id: '@id', periodId: '@periodId'});
   }

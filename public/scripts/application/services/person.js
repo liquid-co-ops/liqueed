@@ -1,10 +1,10 @@
-liqueedApp.factory('PersonService', ['$resource',
+liqueedApp.service('PersonService', ['$resource',
   function($resource){
     return $resource('/api/person/:id', {id: '@id'});
   }
 ]);
 
-liqueedApp.factory('PersonProjectService', ['$resource',
+liqueedApp.service('PersonProjectService', ['$resource',
   function($resource){
     return $resource('/api/person/:id/project', {id: '@id'});
   }
