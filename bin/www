@@ -2,7 +2,7 @@
 
 'use strict';
 
-var debug = require('debug')('MyCompany4');
+var debug = require('debug')('Liqueed');
 var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
