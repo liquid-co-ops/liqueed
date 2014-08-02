@@ -6,6 +6,7 @@ var liqueedid;
 var periodid;
 var alanid;
 var cymentid;
+var cebadorid;
 
 exports['add project'] = function (test) {
     var result = service.addProject({ name: 'liqueed' });
@@ -123,11 +124,20 @@ exports['put same assignment different amount'] = function (test) {
     test.equal(list[0].amount, 40);
 };
 
-exports['get assignment by period/person'] = function (test) {
+exports['get total assignments by period/person after one assignment only'] = function (test) {
     var result = service.getTotalAssignments(liqueedid, periodid, alanid);
     
     test.ok(result);
     test.equal(result, 40);
+};
+
+exports['put and get total assignments by period/person'] = function (test) {
+    cebadorid = sperson.addPerson({ name: 'Cebador' });
+    service.putAssignment(liqueedid, periodid, alanid, cebadorid, 60);
+    var result = service.getTotalAssignments(liqueedid, periodid, alanid);
+    
+    test.ok(result);
+    test.equal(result, 100);
 };
 
 
