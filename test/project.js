@@ -123,4 +123,11 @@ exports['put same assignment different amount'] = function (test) {
     test.equal(list[0].amount, 40);
 };
 
+exports['get assignment by period/person'] = function (test) {
+    var result = service.getTotalAssignments(liqueedid, periodid, alanid);
+    
+    test.ok(result);
+    test.equal(result, 40);
+};
+
 
