@@ -49,7 +49,7 @@ function putAssignment(req, res) {
     var idp = parseInt(req.params.idp);
     var data = req.body;
     
-    var id = service.addAssignment(id, idp, data.from, data.to, data.amount);
+    var id = service.putAssignment(id, idp, data.from, data.to, data.amount);
     
     res.send({ id: id });
 }

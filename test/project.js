@@ -88,7 +88,7 @@ exports['get no assignments'] = function (test) {
 exports['add assignment'] = function (test) {
     cymentid = sperson.addPerson({ name: 'Cyment' });
 
-    var result = service.addAssignment(liqueedid, periodid, alanid, cymentid, 50);
+    var result = service.putAssignment(liqueedid, periodid, alanid, cymentid, 50);
     
     test.ok(result);
     

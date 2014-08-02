@@ -65,7 +65,7 @@ function getAssignments(periodid) {
     return list;
 }
 
-function addAssignment(projectid, periodid, fromid, toid, amount) {
+function putAssignment(projectid, periodid, fromid, toid, amount) {
     return assignmentstore.add({ projectid: projectid, period: periodid, from: fromid, to: toid, amount: amount });
 }
 
@@ -82,6 +82,6 @@ module.exports = {
     getPeriods: getPeriods,
     
     getAssignments: getAssignments,
-    addAssignment: addAssignment
+    putAssignment: putAssignment
 }
 
