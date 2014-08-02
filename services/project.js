@@ -71,13 +71,18 @@ function putAssignment(projectid, periodid, fromid, toid, amount) {
     
     var items = assignmentstore.find({ projectid: projectid, period: periodid, from: fromid, to: toid });
     
+    var oldamount = 0;
+    
+    if (items && items.length)
+        oldamount = items[0].amount;
+        
+    var newtotal = total - oldamount + amount;
+    
+    if (newtotal > period.amount)
+        return { error: 'You assigned too many shares' };
+
     if (items && items.length) {
         var item = items[0];
-        
-        var newtotal = total - item.amount + amount;
-        
-        if (newtotal > period.amount)
-            return { error: 'You assigned too many shares' };
         
         item.amount = amount;
         assignmentstore.put(item.id, item);

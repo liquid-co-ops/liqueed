@@ -7,6 +7,7 @@ var periodid;
 var alanid;
 var cymentid;
 var cebadorid;
+var lavadoid;
 
 exports['add project'] = function (test) {
     var result = service.addProject({ name: 'liqueed' });
@@ -153,4 +154,17 @@ exports['error on assignment too many shares'] = function (test) {
     test.equal(total, 100);
 };
 
+exports['error on assignment too many shares using new person'] = function (test) {
+    lavadoid = sperson.addPerson({ name: 'Lavado' });
+    var result = service.putAssignment(liqueedid, periodid, alanid, lavadoid, 1);
+    
+    test.ok(result);
+    test.ok(result.error);
+    test.equal(result.error, 'You assigned too many shares');
+    
+    var total = service.getTotalAssignments(liqueedid, periodid, alanid);
+    
+    test.ok(total);
+    test.equal(total, 100);
+};
 
