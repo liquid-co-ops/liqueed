@@ -140,4 +140,17 @@ exports['put and get total assignments by period/person'] = function (test) {
     test.equal(result, 100);
 };
 
+exports['error on assignment too many shares'] = function (test) {
+    var result = service.putAssignment(liqueedid, periodid, alanid, cebadorid, 70);
+    
+    test.ok(result);
+    test.ok(result.error);
+    test.equal(result.error, 'You assigned too many shares');
+    
+    var total = service.getTotalAssignments(liqueedid, periodid, alanid);
+    
+    test.ok(total);
+    test.equal(total, 100);
+};
+
 
