@@ -66,7 +66,16 @@ function getAssignments(periodid) {
 }
 
 function putAssignment(projectid, periodid, fromid, toid, amount) {
-    return assignmentstore.add({ projectid: projectid, period: periodid, from: fromid, to: toid, amount: amount });
+    var items = assignmentstore.find({ projectid: projectid, period: periodid, from: fromid, to: toid });
+    
+    if (items && items.length) {
+        var item = items[0];
+        item.amount = amount;
+        assignmentstore.put(item.id, item);
+        return item.id;
+    }
+    else
+        return assignmentstore.add({ projectid: projectid, period: periodid, from: fromid, to: toid, amount: amount });
 }
 
 module.exports = {
