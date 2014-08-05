@@ -1,7 +1,8 @@
-'use strict';
+'use strict';
+
 var ostore = require('ostore');
 
-var stores = { }
+var stores = { };
 
 function getCreateStore(name) {
     if (stores[name])
@@ -12,13 +13,16 @@ function getCreateStore(name) {
     return store;
 }
 
-function createStore(name) {    var store = ostore.createStore();
+function createStore(name) {
+    var store = ostore.createStore();
     stores[name] = store;
     return store;
 }
 
 function clear() {
-    for (var n in stores) {        var store = stores[n];        store.clear();
+    for (var n in stores) {
+        var store = stores[n];
+        store.clear();
     }
 }
 
@@ -29,7 +33,7 @@ module.exports = {
     createStore: createStore,
     clear: clear
 
-}
+};
 
 
 
