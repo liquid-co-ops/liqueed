@@ -111,7 +111,15 @@ var pages = (function () {
                 });
             });
             
-            alert(JSON.stringify(values));
+            var result = logic.acceptShares(period.amount, values);
+            
+            if (result === true) {
+                alert('Thanks for your input');
+                showProject(project, client.getPeriods(project.id));
+                return;
+            }
+                
+            alert(result);
         }
         
         if (active)
