@@ -31,8 +31,12 @@ var pages = (function () {
         
         projects.forEach(function (project) {
             var element = $("<div>").html(makeProjectButton(project.name, function () {
-                var periods = client.getPeriods(project.id);
-                showProject(project, periods);
+                client.getPeriods(project.id, function (err, periods) {
+                    if (err)
+                        alert(err);
+                    else
+                        showProject(project, periods);
+                });
             }));
             
             projs.append(element);
@@ -57,8 +61,12 @@ var pages = (function () {
         
         periods.forEach(function (period) {
             var element = $("<div>").html(makePeriodButton(period.name, function () {
-                var shareholders = client.getShareholders(project.id);
-                showPeriod(project, period, shareholders);
+                client.getShareholders(project.id, function (err, shareholders) {
+                    if (err)
+                        alert(err);
+                    else
+                        showPeriod(project, period, shareholders);
+                });
             }));
             
             pers.append(element);
