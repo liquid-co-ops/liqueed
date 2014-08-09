@@ -16,4 +16,10 @@ exports['get first project'] = function (test) {
     test.equal(result.id, 1);
 }
 
+exports['get periods from first project'] = function (test) {
+    var result = client.getPeriods(1);
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.ok(result.length);
+}
 
