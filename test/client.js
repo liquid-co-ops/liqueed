@@ -23,3 +23,18 @@ exports['get periods from first project'] = function (test) {
     test.ok(result.length);
 }
 
+exports['get periods from second project'] = function (test) {
+    var result = client.getPeriods(2);
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 0);
+}
+
+exports['get shareholders from first project'] = function (test) {
+    var result = client.getShareholders(1);
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.ok(result.length);
+}
+
+
