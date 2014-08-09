@@ -7,9 +7,6 @@ function get(url, fn) {
     var fnfail;
     
     api.doRequest('GET', prefix + url, function (err, data) {
-        console.log('api err', err);
-        console.log('api data', data);
-        
         if (err)
             fnfail(err);
         else

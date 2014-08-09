@@ -24,7 +24,6 @@ exports['get projects'] = function (test) {
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
-        console.dir(result);
         projects = result;
         test.done();
     });
@@ -42,7 +41,6 @@ exports['get first project'] = function (test) {
         test.equal(result.id, projects[0].id);
         test.equal(result.name, projects[0].name);
         
-        console.dir(result);
         test.done();
     });
 }

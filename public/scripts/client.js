@@ -19,32 +19,39 @@ var projects = [
 ];
 
 var client = (function() {
-    function getMyProjects() {
-            return projects;
+    function getMyProjects(cb) {
+        cb(null, projects);
     }
     
-    function getProject(idproj) {
+    function getProject(idproj, cb) {
         for (var k = 0; k < projects.length; k++)
-            if (projects[k].id == idproj)
-                return projects[k];
+            if (projects[k].id == idproj) {
+                cb(null, projects[k]);
+                return;
+            }
+            
+        cb(null, null);
     }
     
-    function getPeriods(idproj) {
-        var periods = getProject(idproj).periods;
-        
-        if (!periods)
-            return [];
-            
-        return periods;
+    function getPeriods(idproj, cb) {
+        getProject(idproj, function (err, project) {
+            var periods = project.periods;
+            if (!periods)
+                cb(null, []);
+            else
+                cb(null, periods);
+        });        
     }
     
-    function getShareholders(idproj) {
-        var shareholders = getProject(idproj).shareholders;
+    function getShareholders(idproj, cb) {
+        getProject(idproj, function (err, project) {
+            var shareholders = project.shareholders;
         
-        if (!shareholders)
-            return [];
-            
-        return shareholders;
+            if (!shareholders)
+                cb(null, []);
+            else
+                cb(null, shareholders);
+        });
     }
 
     return {
