@@ -22,3 +22,9 @@ exports['reject if too many shares were distributed'] = function (test) {
     test.strictEqual(result, 'You have distributed 110 shares. You can only distribute 100 shares');
 };
 
+exports['reject no shares were distributed'] = function (test) {
+    var result = logic.acceptShares(100,
+        [ { amount: '' }, { amount: '' } ]);
+        
+    test.strictEqual(result, 'You have only distributed 0 shares. You have to distribute 100 shares');
+};
