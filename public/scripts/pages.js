@@ -9,7 +9,7 @@ var pages = (function () {
             .attr("type", "button")
             .addClass('btn')
             .addClass('btn-primary')
-            .width(200)
+            .addClass('project')
             .click(fnclick);
     }
 
@@ -19,7 +19,7 @@ var pages = (function () {
             .attr("type", "button")
             .addClass('btn')
             .addClass('btn-success')
-            .width(200)
+            .addClass('period')
             .click(fnclick);
     }
 
@@ -123,7 +123,12 @@ var pages = (function () {
             
             if (result === true) {
                 alert('Thanks for your input');
-                showProject(project, client.getPeriods(project.id));
+                client.getPeriods(project.id, function (err, periods) {
+                    if (err)
+                        alert(err);
+                    else
+                        showProject(project, periods);
+                });
                 return;
             }
                 

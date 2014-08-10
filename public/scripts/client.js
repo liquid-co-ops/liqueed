@@ -18,7 +18,7 @@ var projects = [
     }
 ];
 
-var client = (function() {
+var clientlocal = (function() {
     function getMyProjects(cb) {
         cb(null, projects);
     }
@@ -63,4 +63,4 @@ var client = (function() {
 })();
 
 if (typeof window == 'undefined')
-    module.exports = client;
+    module.exports = clientlocal;

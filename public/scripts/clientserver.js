@@ -1,5 +1,5 @@
 
-var client = (function() {
+var clientserver = (function() {
     if (typeof $ == 'undefined')
         $ = require('../../testserver/utils/ajax');
 
@@ -44,4 +44,4 @@ var client = (function() {
 })();
 
 if (typeof window == 'undefined')
-    module.exports = client;
+    module.exports = clientserver;

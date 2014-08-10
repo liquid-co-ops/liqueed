@@ -1,0 +1,19 @@
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+.btn.project {
+    width: 95%;
+    max-width: 400;
+}
+
+.btn.period {
+    width: 95%;
+    max-width: 400;
+}
+
+#projects {
+    margin-left: auto;
+    margin-right: auto;
+}
