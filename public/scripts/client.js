@@ -33,25 +33,22 @@ var clientlocal = (function() {
         cb(null, null);
     }
     
-    function getPeriods(idproj, cb) {
-        getProject(idproj, function (err, project) {
-            var periods = project.periods;
-            if (!periods)
+    function getViaCallback(objectName, cb){
+        return function (err, project) {
+            var object = project[objectName];
+            if (!object)
                 cb(null, []);
             else
-                cb(null, periods);
-        });        
+                cb(null, object);
+        }
+    }
+
+    function getPeriods(idproj, cb) {
+        getProject(idproj, getViaCallback("periods", cb));
     }
     
     function getShareholders(idproj, cb) {
-        getProject(idproj, function (err, project) {
-            var shareholders = project.shareholders;
-        
-            if (!shareholders)
-                cb(null, []);
-            else
-                cb(null, shareholders);
-        });
+        getProject(idproj, getViaCallback("shareholders", cb));
     }
 
     return {

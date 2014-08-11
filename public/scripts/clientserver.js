@@ -18,21 +18,21 @@ var clientserver = (function() {
             cb(err, null);
         });
     }
-    
-    function getPeriods(idproj, cb) {
-        $.get('/api/project/' + idproj + '/period', function (data) {
+
+    function getEntity(idproj, cb, entityName) {
+        $.get('/api/project/' + idproj + entityName, function (data) {
             cb(null, data);
         }).fail(function (err) {
             cb(err, null);
         });
     }
+
+    function getPeriods(idproj, cb) {
+        getEntity(idproj, cb, "/period");
+    }
     
     function getShareholders(idproj, cb) {
-        $.get('/api/project/' + idproj + '/team', function (data) {
-            cb(null, data);
-        }).fail(function (err) {
-            cb(err, null);
-        });
+        getEntity(idproj, cb, "/team");
     }
 
     return {
