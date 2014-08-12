@@ -32,7 +32,7 @@ var clientserver = (function() {
     }
     
     function getShareholders(idproj, cb) {
-        getEntity(idproj, cb, "/team");
+        getEntity(idproj, cb, "/shareholder");
     }
 
     return {
