@@ -97,6 +97,31 @@ exports['get first project team'] = function (test) {
     controller.getTeam(request, response);
 };
 
+exports['get first project shareholders'] = function (test) {
+    var request = {
+        params: {
+            id: project.id.toString()
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+
+            test.ok(Array.isArray(model));
+
+            test.equal(model.length, 3);
+            test.equal(model[0].name, 'Alice');
+            test.equal(model[1].name, 'Bob');
+            test.equal(model[2].name, 'Charlie');
+            
+            test.done();
+        }
+    };
+    
+    controller.getShareholders(request, response);
+};
+
 exports['get first project periods'] = function (test) {
     var request = {
         params: {

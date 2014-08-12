@@ -21,6 +21,13 @@ function getTeam(req, res) {
     res.send(items);
 }
 
+function getShareholders(req, res) {
+    var id = parseInt(req.params.id);
+    var items = service.getShareholders(id);
+    
+    res.send(items);
+}
+
 function getPeriods(req, res) {
     var id = parseInt(req.params.id);
     var items = service.getPeriods(id);
@@ -58,6 +65,7 @@ module.exports = {
     list: list,
     get: get,
     getTeam: getTeam,
+    getShareholders: getShareholders,
     getPeriods: getPeriods,
     getPeriod: getPeriod,
     getAssignments: getAssignments,
