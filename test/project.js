@@ -125,6 +125,20 @@ exports['put assignment'] = function (test) {
     test.equal(list[0].amount, 50);
 };
 
+exports['get shareholders from team and assignments'] = function (test) {
+    var list = service.getShareholders(liqueedid);
+    
+    test.ok(list);
+    test.ok(Array.isArray(list));
+    
+    test.equal(list.length, 2);
+    
+    test.equal(list[0].id, alanid);
+    test.equal(list[0].name, 'Alan');
+    test.equal(list[1].id, cymentid);
+    test.equal(list[1].name, 'Cyment');
+};
+
 exports['put same assignment different amount'] = function (test) {
     var result = service.putAssignment(liqueedid, periodid, alanid, cymentid, 40);
     

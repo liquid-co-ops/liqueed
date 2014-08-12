@@ -6,6 +6,9 @@ var store = db.store('projects');
 var teamstore = db.store('teams');
 var periodstore = db.store('periods');
 var assignmentstore = db.store('assignments');
+var personstore = db.store('persons');
+
+var sl = require('simplelists');
 
 function addProject(data) {
     return store.add(data);
@@ -33,7 +36,29 @@ function getTeam(id) {
 }
 
 function getShareholders(id) {
-    return getTeam(id);
+    var teamdata = teamstore.find({ project: id });
+    var sharedata = assignmentstore.find({ project: id });
+    var ids = [];
+    
+    teamdata.forEach(function (item) {
+        ids.push({ id: item.person });
+    });
+    
+    sharedata.forEach(function (item) {
+        ids.push({ id: item.to });
+        ids.push({ id: item.from });
+    });
+    
+    ids = sl.unique(ids, 'id');
+    
+    var shareholders = [];
+
+    ids.forEach(function (data) {
+        var person = personstore.get(data.id);
+        shareholders.push(person);
+    });
+    
+    return shareholders;
 }
 
 function getProjects() {
@@ -73,7 +98,7 @@ function putAssignment(projectid, periodid, fromid, toid, amount) {
     var period = getPeriodById(periodid);
     var total = getTotalAssignments(projectid, periodid, fromid);
     
-    var items = assignmentstore.find({ projectid: projectid, period: periodid, from: fromid, to: toid });
+    var items = assignmentstore.find({ project: projectid, period: periodid, from: fromid, to: toid });
     
     var olditem = (items && items.length) ? items[0] : null;
     var oldamount = olditem ? olditem.amount : 0;
@@ -89,11 +114,11 @@ function putAssignment(projectid, periodid, fromid, toid, amount) {
         return olditem.id;
     }
     else
-        return assignmentstore.add({ projectid: projectid, period: periodid, from: fromid, to: toid, amount: amount });
+        return assignmentstore.add({ project: projectid, period: periodid, from: fromid, to: toid, amount: amount });
 }
 
 function getTotalAssignments(projectid, periodid, fromid) {
-    var items = assignmentstore.find({ projectid: projectid, period: periodid, from: fromid });
+    var items = assignmentstore.find({ project: projectid, period: periodid, from: fromid });
     
     var total = 0;
     
