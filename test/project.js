@@ -32,6 +32,14 @@ exports['get people in empty project'] = function (test) {
     test.equal(result.length, 0);
 };
 
+exports['get shareholders in empty project'] = function (test) {
+    var result = service.getShareholders(liqueedid);
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 0);
+};
+
 exports['add person and get people in project'] = function (test) {
     alanid = sperson.addPerson({ name: 'Alan' });
     service.addPersonToTeam(liqueedid, alanid);

@@ -32,6 +32,10 @@ function getTeam(id) {
     return team;
 }
 
+function getShareholders(id) {
+    return [];
+}
+
 function getProjects() {
     return store.find();
 }
@@ -107,6 +111,8 @@ module.exports = {
     
     addPersonToTeam: addPersonToTeam,
     getTeam: getTeam,
+    
+    getShareholders: getShareholders,
     
     addPeriod: addPeriod,
     getPeriodById: getPeriodById,
