@@ -6,7 +6,7 @@ var logic = (function () {
         data.forEach(function (item) {
             var totalAmount = parseInt(item.amount);
             
-            if (isNaN(totalAmount))
+            if (isNaN(totalAmount)  || totalAmount < 0)
                 totalAmount = 0;
                 
             total += totalAmount;

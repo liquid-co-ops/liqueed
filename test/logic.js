@@ -1,3 +1,4 @@
+'use strict';
 
 var logic = require('../public/scripts/logic');
 
@@ -27,4 +28,11 @@ exports['reject no shares were distributed'] = function (test) {
         [ { amount: '' }, { amount: '' } ]);
         
     test.strictEqual(result, 'You have only distributed 0 shares. You have to distribute 100 shares');
+};
+
+exports['reject if shares are negative'] = function(test) {
+  var result = logic.acceptShares(100,
+    [ { amount: '101' }, { amount: '-1' } ]);
+
+  test.strictEqual(result, 'You have distributed 101 shares. You can only distribute 100 shares');
 };
