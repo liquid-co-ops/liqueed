@@ -4,12 +4,12 @@ var logic = (function () {
         var total = 0;
         
         data.forEach(function (item) {
-            var amount = parseInt(item.amount);
+            var totalAmount = parseInt(item.amount);
             
-            if (isNaN(amount) || amount < 0)
-                amount = 0;
+            if (isNaN(totalAmount)  || totalAmount < 0)
+                totalAmount = 0;
                 
-            total += amount;
+            total += totalAmount;
         });
         
         if (total < amount)
