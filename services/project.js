@@ -33,7 +33,7 @@ function getTeam(id) {
 }
 
 function getShareholders(id) {
-    return [];
+    return getTeam(id);
 }
 
 function getProjects() {

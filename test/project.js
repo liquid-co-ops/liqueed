@@ -52,6 +52,16 @@ exports['add person and get people in project'] = function (test) {
     test.equal(result[0].name, 'Alan');
 };
 
+exports['get one shareholder'] = function (test) {
+    var result = service.getShareholders(liqueedid);
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 1);
+    test.equal(result[0].id, alanid);
+    test.equal(result[0].name, 'Alan');
+};
+
 exports['get projects'] = function (test) {
     var result = service.getProjects();
     test.ok(result);
