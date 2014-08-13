@@ -14,6 +14,17 @@ h1, h2, h3 {
 }
 
 #projects {
-    margin-left: auto;
-    margin-right: auto;
+    text-align: center;
+}
+
+#projectactions {
+    text-align: center;
+}
+
+#periods {
+    text-align: center;
+}
+
+#periodshares {
+    text-align: center;
 }
