@@ -1,6 +1,7 @@
 
 var service = require('../services/project');
 var sperson = require('../services/person');
+var sl = require('simplelists');
 
 var liqueedid;
 var periodid;
@@ -198,5 +199,16 @@ exports['error on assignment too many shares using new person'] = function (test
     
     test.ok(total);
     test.equal(total, 100);
+};
+
+exports['get total shares by project'] = function (test) {
+    var result = service.getShares(liqueedid);
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 2);
+
+    test.ok(sl.exist(result, { id: cymentid, name: 'Cyment', shares: 40 }));
+    test.ok(sl.exist(result, { id: cebadorid, name: 'Cebador', shares: 60 }));
 };
 

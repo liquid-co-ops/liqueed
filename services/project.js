@@ -53,6 +53,23 @@ function getShareholders(id) {
     return shareholders;
 }
 
+function getShares(id) {
+    var teamdata = teamstore.find({ project: id });
+    var sharedata = assignmentstore.find({ project: id });    
+    var total = sl.aggr(sharedata, 'to', 'amount');
+    total = sl.project(total, { to: 'id', amount: 'shares' });
+    
+    var shares = [];
+
+    total.forEach(function (data) {
+        var person = personstore.get(data.id);
+        data.name = person.name;
+        shares.push(data);
+    });
+    
+    return shares;
+}
+
 function getProjects() {
     return store.find();
 }
@@ -130,6 +147,7 @@ module.exports = {
     getTeam: getTeam,
     
     getShareholders: getShareholders,
+    getShares: getShares,
     
     addPeriod: addPeriod,
     getPeriodById: getPeriodById,
