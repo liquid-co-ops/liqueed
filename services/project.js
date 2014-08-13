@@ -38,18 +38,10 @@ function getTeam(id) {
 function getShareholders(id) {
     var teamdata = teamstore.find({ project: id });
     var sharedata = assignmentstore.find({ project: id });
-    var ids = [];
-    
-    teamdata.forEach(function (item) {
-        ids.push({ id: item.person });
-    });
-    
-    sharedata.forEach(function (item) {
-        ids.push({ id: item.to });
-        ids.push({ id: item.from });
-    });
-    
-    ids = sl.unique(ids, 'id');
+
+    var ids = sl.project(teamdata, { person: 'id' });
+    ids = sl.union(ids, sl.project(sharedata, { to: 'id' }), 'id');
+    ids = sl.union(ids, sl.project(sharedata, { from: 'id' }), 'id');
     
     var shareholders = [];
 

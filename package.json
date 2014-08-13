@@ -16,7 +16,7 @@
     "ejs": "~0.8.5",
     "express-ejs-layouts": "^1.1.0",
     "ostore": "0.0.4",
-    "simplelists": "0.0.3"
+    "simplelists": "0.0.4"
   },
   "devDependencies": {
     "simpleunit": "0.0.4",
