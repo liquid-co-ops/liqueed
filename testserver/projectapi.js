@@ -45,6 +45,21 @@ exports['get first project'] = function (test) {
     });
 }
 
+exports['get shares of first project'] = function (test) {
+    test.async();
+    
+    api.doRequest('GET', 'http://localhost:3000/api/project/' + projects[0].id + '/share', function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        var result = JSON.parse(data);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        
+        test.done();
+    });
+}
+
 exports['stop server'] = function (test) {
     server.close();
 }
