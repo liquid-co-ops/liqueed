@@ -134,6 +134,20 @@ function putAssignment(projectid, periodid, fromid, toid, amount) {
         return assignmentstore.add({ project: projectid, period: periodid, from: fromid, to: toid, amount: amount });
 }
 
+function putAssignments(projectid, periodid, fromid, assignments) {
+    removeAssignments(projectid, periodid, fromid);
+
+    for (var n in assignments) {
+        var assignment = assignments[n];
+        var result = putAssignment(projectid, periodid, fromid, assignment.to, assignment.amount);
+        
+        if (typeof result == 'object')
+            return result;
+    }
+    
+    return true;
+}
+
 function getTotalAssignments(projectid, periodid, fromid) {
     var items = assignmentstore.find({ project: projectid, period: periodid, from: fromid });
     
@@ -163,6 +177,7 @@ module.exports = {
     
     getAssignments: getAssignments,
     putAssignment: putAssignment,
+    putAssignments: putAssignments,
     getTotalAssignments: getTotalAssignments,
     removeAssignments: removeAssignments
 }
