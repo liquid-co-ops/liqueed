@@ -9,7 +9,7 @@ router.get('/:id/shareholder', controller.getShareholders);
 router.get('/:id/share', controller.getShares);
 router.get('/:id/period', controller.getPeriods);
 router.get('/:id/period/:idp', controller.getPeriod);
-router.get('/:id/period/:idp/assignment', controller.getAssignments);
-router.put('/:id/period/:idp/assignment', controller.putAssignment);
+router.get('/:id/period/:idp/assign', controller.getAssignments);
+router.put('/:id/period/:idp/assign', controller.putAssignment);
 
 module.exports = router;
