@@ -212,3 +212,11 @@ exports['get total shares by project'] = function (test) {
     test.ok(sl.exist(result, { id: cebadorid, name: 'Cebador', shares: 60 }));
 };
 
+exports['remove person period assignment'] = function (test) {
+    service.removeAssignments(liqueedid, periodid, alanid);
+    
+    var total = service.getTotalAssignments(liqueedid, periodid, alanid);
+    
+    test.equal(total, 0);
+};
+
