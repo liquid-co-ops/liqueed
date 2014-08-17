@@ -138,8 +138,23 @@ var pages = (function () {
             var result = logic.acceptShares(period.amount, values);
             
             if (result === true) {
-                if (client.putAssigments)
-                    client.putAssigments(project.id, period.id, me, values, done);
+                if (client.putAssigments) {
+                    var assignments = [];
+                    
+                    values.forEach(function (value) {
+                        var amount = value.amount;
+                        
+                        if (typeof amount == 'string')
+                            amount = parseInt(amount);
+                            
+                        if (isNaN(amount) || amount < 0)
+                            amount = 0;
+                            
+                        assignments.push({ to: value.id, amount: amount });
+                    });
+                    
+                    client.putAssigments(project.id, period.id, me, assignments, done);
+                }
                 else
                     done(null, true);
                 

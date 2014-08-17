@@ -90,7 +90,7 @@ function getPeriods(projid) {
 function getAssignments(periodid) {
     var sperson = require('./person');    
     var data = assignmentstore.find({ period: periodid });
-    
+
     var list = [];
     
     data.forEach(function (item) {

@@ -50,7 +50,7 @@ var clientserver = (function() {
     function putAssignments(projectid, periodid, fromid, assignments, cb) {
         var data = {
             from: fromid,
-            assigments: assignments
+            assignments: assignments
         }
         
         $.ajax({
