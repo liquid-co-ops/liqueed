@@ -6,6 +6,9 @@ ajax.setPrefix('http://localhost:3000');
 
 var client = require('../public/scripts/clientserver');
 
+var projects;
+var periods;
+
 exports['load test data'] = function (test) {
     var loaddata = require('../utils/loaddata');
     loaddata();
@@ -23,6 +26,9 @@ exports['get my projects'] = function (test) {
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
+        
+        projects = result;
+        
         test.done();
     });
 }
@@ -30,12 +36,12 @@ exports['get my projects'] = function (test) {
 exports['get first project'] = function (test) {
     test.async();
     
-    client.getProject(1, function (err, result) {
+    client.getProject(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(result.id);
         test.ok(result.name);
-        test.equal(result.id, 1);
+        test.equal(result.id, projects[0].id);
         test.done();
     });
 }
@@ -48,6 +54,9 @@ exports['get periods from first project'] = function (test) {
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
+        
+        periods = result;
+        
         test.done();
     });
 }
@@ -55,11 +64,11 @@ exports['get periods from first project'] = function (test) {
 exports['get periods from second project'] = function (test) {
     test.async();
     
-    client.getPeriods(2, function (err, result) {
+    client.getPeriods(projects[1].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
-        test.equal(result.length, 2);
+        test.equal(result.length, projects[1].id);
         test.done();
     });
 }
@@ -67,7 +76,7 @@ exports['get periods from second project'] = function (test) {
 exports['get shareholders from first project'] = function (test) {
     test.async();
     
-    client.getShareholders(1, function (err, result) {
+    client.getShareholders(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
@@ -77,6 +86,26 @@ exports['get shareholders from first project'] = function (test) {
             var item = result[n];
             test.ok(item.id);
             test.ok(item.name);
+        }
+        
+        test.done();
+    });
+}
+
+exports['get assignments from first project first period'] = function (test) {
+    test.async();
+    
+    client.getAssignments(projects[0].id, periods[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        
+        for (var n in result) {
+            var item = result[n];
+            test.ok(item.from);
+            test.ok(item.to);
+            test.ok(item.amount != null);
         }
         
         test.done();

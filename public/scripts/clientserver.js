@@ -39,6 +39,10 @@ var clientserver = (function() {
         getEntity(idproj, cb, "/share");
     }
     
+    function getAssignments(projectid, periodid, cb) {
+        getEntity(projectid, cb, "/period/" + periodid + "/assign");
+    }
+    
     function putAssignments(projectid, periodid, fromid, assignments, cb) {
         var data = {
             from: fromid,
@@ -65,7 +69,8 @@ var clientserver = (function() {
         getProject: getProject,
         getPeriods: getPeriods,
         getShareholders: getShareholders,
-        getShares: getShares
+        getShares: getShares,
+        getAssignments: getAssignments
     };
 })();
 
