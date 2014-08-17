@@ -72,6 +72,33 @@ exports['get shareholders from first project'] = function (test) {
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
+        
+        for (var n in result) {
+            var item = result[n];
+            test.ok(item.id);
+            test.ok(item.name);
+        }
+        
+        test.done();
+    });
+}
+
+exports['get shares from first project'] = function (test) {
+    test.async();
+    
+    client.getShares(1, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        
+        for (var n in result) {
+            var item = result[n];
+            test.ok(item.id);
+            test.ok(item.name);
+            test.ok(item.shares != null);
+        }
+        
         test.done();
     });
 }

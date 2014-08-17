@@ -34,12 +34,17 @@ var clientserver = (function() {
     function getShareholders(idproj, cb) {
         getEntity(idproj, cb, "/shareholder");
     }
+    
+    function getShares(idproj, cb) {
+        getEntity(idproj, cb, "/share");
+    }
 
     return {
         getMyProjects: getMyProjects,
         getProject: getProject,
         getPeriods: getPeriods,
-        getShareholders: getShareholders
+        getShareholders: getShareholders,
+        getShares: getShares
     };
 })();
 
