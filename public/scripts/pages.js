@@ -22,6 +22,15 @@ var pages = (function () {
             .addClass('period')
             .click(fnclick);
     }
+    
+    function gotoProjects() {
+        client.getMyProjects(function (err, projects) {
+            if (err)
+                alert(err);
+            else
+                pages.showProjects(projects);
+        });
+    }
 
     function showProjects(projects) {
         var page = $("#projectspage");
@@ -31,12 +40,7 @@ var pages = (function () {
         
         projects.forEach(function (project) {
             var element = $("<div>").html(makeProjectButton(project.name, function () {
-                client.getPeriods(project.id, function (err, periods) {
-                    if (err)
-                        alert(err);
-                    else
-                        showProject(project, periods);
-                });
+                gotoProject(project);
             }));
             
             projs.append(element);
@@ -47,6 +51,15 @@ var pages = (function () {
             
         active = page;
         page.show();
+    }
+    
+    function gotoProject(project) {
+        client.getPeriods(project.id, function (err, periods) {
+            if (err)
+                alert(err);
+            else
+                showProject(project, periods);
+        });
     }
     
     function showProject(project, periods) {
@@ -143,6 +156,7 @@ var pages = (function () {
     }
     
     var retval = {
+        gotoProjects: gotoProjects,
         showProjects: showProjects
     }
     
