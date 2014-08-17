@@ -2,6 +2,7 @@
 var pages = (function () {
     var active;
     var me = 1;
+    var currentproject = null;
     
     function makeProjectButton(text, fnclick) {
         return $("<button>")
@@ -24,6 +25,7 @@ var pages = (function () {
     }
     
     function gotoProjects() {
+        currentproject = null;
         client.getMyProjects(function (err, projects) {
             if (err)
                 alert(err);
@@ -54,6 +56,7 @@ var pages = (function () {
     }
     
     function gotoProject(project) {
+        currentproject = project;
         client.getPeriods(project.id, function (err, periods) {
             if (err)
                 alert(err);
@@ -78,7 +81,7 @@ var pages = (function () {
                     if (err)
                         alert(err);
                     else
-                        showPeriod(project, period, shareholders);
+                        showPeriod(project, period, shareholders, periods);
                 });
             }));
             
@@ -92,7 +95,7 @@ var pages = (function () {
         page.show();
     }
 
-    function showPeriod(project, period, shareholders) {
+    function showPeriod(project, period, shareholders, periods) {
         var page = $("#periodpage");
         
         var projname = $("#periodprojectname");        
@@ -135,13 +138,17 @@ var pages = (function () {
             var result = logic.acceptShares(period.amount, values);
             
             if (result === true) {
-                alert('Thanks for your input');
-                client.getPeriods(project.id, function (err, periods) {
-                    if (err)
-                        alert(err);
-                    else
-                        showProject(project, periods);
-                });
+                if (client.putAssigments)
+                    client.putAssigments(project.id, period.id, me, values, done);
+                else
+                    done(null, true);
+                
+                function done(err, result) {
+                    alert('Thanks for your input');
+                    showProject(project, periods);
+                    return;
+                }
+                
                 return;
             }
                 
@@ -157,6 +164,7 @@ var pages = (function () {
     
     var retval = {
         gotoProjects: gotoProjects,
+        gotoProject: function () { gotoProject(currentproject); },
         showProjects: showProjects
     }
     
