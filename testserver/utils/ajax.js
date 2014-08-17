@@ -32,5 +32,6 @@ function ajax(data) {
 
 module.exports = {
     get: get,
+    ajax: ajax,
     setPrefix: function (pref) { prefix = pref; }
 }

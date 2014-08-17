@@ -137,7 +137,7 @@ exports['get assignments from first project first period'] = function (test) {
 exports['get shares from first project'] = function (test) {
     test.async();
     
-    client.getShares(1, function (err, result) {
+    client.getShares(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
@@ -152,6 +152,22 @@ exports['get shares from first project'] = function (test) {
         
         test.done();
     });
+}
+
+exports['put assignments to first project first period from first person'] = function (test) {
+    test.async();
+    
+    client.putAssigments(projects[0].id, periods[0].id, team[0].id, [
+            { to: team[1].id, amount: 10 },
+            { to: team[2].id, amount: 90 }
+        ], 
+        function (err, result) {
+            test.ok(!err);
+            test.ok(result);
+            test.strictEqual(result, true);
+        
+            test.done();
+        });
 }
 
 exports['stop server'] = function (test) {

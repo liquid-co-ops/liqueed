@@ -75,7 +75,8 @@ var clientserver = (function() {
         getTeam: getTeam,
         getShareholders: getShareholders,
         getShares: getShares,
-        getAssignments: getAssignments
+        getAssignments: getAssignments,
+        putAssigments: putAssignments
     };
 })();
 

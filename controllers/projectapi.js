@@ -75,7 +75,7 @@ function putAssignments(req, res) {
     
     var result = service.putAssignments(id, idp, data.from, data.assignments);
     
-    res.send({ result: result });
+    res.send(result);
 }
 
 module.exports = {
