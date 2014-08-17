@@ -68,6 +68,16 @@ function putAssignment(req, res) {
     res.send({ id: id });
 }
 
+function putAssignments(req, res) {
+    var id = parseInt(req.params.id);
+    var idp = parseInt(req.params.idp);
+    var data = req.body;
+    
+    var result = service.putAssignments(id, idp, data.from, data.assignments);
+    
+    res.send({ result: result });
+}
+
 module.exports = {
     list: list,
     get: get,
@@ -77,6 +87,7 @@ module.exports = {
     getPeriods: getPeriods,
     getPeriod: getPeriod,
     getAssignments: getAssignments,
-    putAssignment: putAssignment
+    putAssignment: putAssignment,
+    putAssignments: putAssignments
 }
 

@@ -2,8 +2,13 @@
 var http = require('http');
 var url = require('url');
 
-function doRequest(method, pageurl, cb) {
+function doRequest(method, pageurl, data, cb) {
     var urldata = url.parse(pageurl);
+    
+    if (!cb) {
+        cb = data;
+        data = null;
+    }
     
     var options = {
         host: urldata.hostname,
@@ -33,6 +38,9 @@ function doRequest(method, pageurl, cb) {
             cb(null, buffer);
         });
     });
+    
+    if (data)
+        req.write(data);
 
     req.end();    
 }

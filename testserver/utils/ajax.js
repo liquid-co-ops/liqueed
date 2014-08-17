@@ -21,6 +21,15 @@ function get(url, fn) {
     }
 }
 
+function ajax(data) {
+    api.doRequest(data.type, prefix + data.url, data.data, function (err, response) {
+        if (err)
+            data.error(err);
+        else
+            data.success(JSON.parse(response));
+    });
+}
+
 module.exports = {
     get: get,
     setPrefix: function (pref) { prefix = pref; }

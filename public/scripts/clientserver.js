@@ -38,6 +38,27 @@ var clientserver = (function() {
     function getShares(idproj, cb) {
         getEntity(idproj, cb, "/share");
     }
+    
+    function putAssignments(projectid, periodid, fromid, assignments, cb) {
+        var data = {
+            from: fromid,
+            assigments: assignments
+        }
+        
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json; charset=utf-8",
+            url: '/api/project/' + projectid + '/period/' + periodid + '/assigns',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (msg) {
+                cb(null, msg);
+            },
+            error: function (err){
+                cb(err, null);
+            }            
+        });
+    }
 
     return {
         getMyProjects: getMyProjects,

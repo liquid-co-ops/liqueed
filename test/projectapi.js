@@ -4,10 +4,11 @@ var loaddata = require('../utils/loaddata');
 var db = require('../utils/db');
 var personService = require('../services/person');
 var projectService = require('../services/project');
+var sl = require('simplelists');
 
 var projects;
 var project;
-var team
+var team;
 var periods;
 var period;
 
@@ -229,5 +230,43 @@ exports['get first project first period put assignment'] = function (test) {
     };
     
     controller.putAssignment(request, response);
+};
+
+exports['get first project first period put assignments'] = function (test) {
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        },
+        body: {
+            from: team[0].id,
+            assignments: [
+                { to: team[1].id, amount: 10 },
+                { to: team[2].id, amount: 90 }
+            ]
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            
+            var assignments = projectService.getAssignments(period.id);
+            var assignment;
+            var found = 0;
+
+            for (var k in assignments)
+                if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[1].id && assignments[k].amount == 10)
+                    found++;
+                else if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[2].id && assignments[k].amount == 90)
+                    found++;
+            
+            test.equal(found, 2);
+            
+            test.done();
+        }
+    };
+    
+    controller.putAssignments(request, response);
 };
 

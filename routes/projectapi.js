@@ -11,5 +11,6 @@ router.get('/:id/period', controller.getPeriods);
 router.get('/:id/period/:idp', controller.getPeriod);
 router.get('/:id/period/:idp/assign', controller.getAssignments);
 router.put('/:id/period/:idp/assign', controller.putAssignment);
+router.put('/:id/period/:idp/assigns', controller.putAssignments);
 
 module.exports = router;
