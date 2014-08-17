@@ -7,6 +7,7 @@ ajax.setPrefix('http://localhost:3000');
 var client = require('../public/scripts/clientserver');
 
 var projects;
+var team;
 var periods;
 
 exports['load test data'] = function (test) {
@@ -87,6 +88,27 @@ exports['get shareholders from first project'] = function (test) {
             test.ok(item.id);
             test.ok(item.name);
         }
+        
+        test.done();
+    });
+}
+
+exports['get team from first project'] = function (test) {
+    test.async();
+    
+    client.getTeam(projects[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        
+        for (var n in result) {
+            var item = result[n];
+            test.ok(item.id);
+            test.ok(item.name);
+        }
+        
+        team = result;
         
         test.done();
     });

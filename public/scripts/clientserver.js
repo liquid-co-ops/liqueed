@@ -35,6 +35,10 @@ var clientserver = (function() {
         getEntity(idproj, cb, "/shareholder");
     }
     
+    function getTeam(idproj, cb) {
+        getEntity(idproj, cb, "/team");
+    }
+    
     function getShares(idproj, cb) {
         getEntity(idproj, cb, "/share");
     }
@@ -68,6 +72,7 @@ var clientserver = (function() {
         getMyProjects: getMyProjects,
         getProject: getProject,
         getPeriods: getPeriods,
+        getTeam: getTeam,
         getShareholders: getShareholders,
         getShares: getShares,
         getAssignments: getAssignments
