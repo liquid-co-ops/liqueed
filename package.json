@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "simpleunit ./test"
+    "test": "simpleunit ./test & simpleunit ./testserver"
   },
   "dependencies": {
     "express": "~4.2.0",
