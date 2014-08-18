@@ -58,17 +58,30 @@ var pages = (function () {
     function gotoProject(project) {
         currentproject = project;
         client.getPeriods(project.id, function (err, periods) {
-            if (err)
+            if (err) {
                 alert(err);
+                return;
+            }
+            
+            if (client.getShares)
+                client.getShares(project.id, function (err, shares) {
+                    if (err)
+                        alert(err);
+                    else
+                        showProject(project, periods, shares);
+                });
             else
-                showProject(project, periods);
+                showProject(project, periods);            
         });
     }
     
-    function showProject(project, periods) {
+    function showProject(project, periods, shares) {
         var page = $("#projectpage");
         
         var projname = $("#projectname");
+        var chartcontainer = $('#projectshares');
+        
+        chartcontainer.hide();
         
         projname.html(project.name);
 
@@ -81,12 +94,17 @@ var pages = (function () {
                     if (err)
                         alert(err);
                     else
-                        showPeriod(project, period, shareholders, periods);
+                        showPeriod(project, period, shareholders);
                 });
             }));
             
             pers.append(element);
         });
+        
+        if (shares && shares.length) {       
+            showSharesChart(chartcontainer, shares);
+            chartcontainer.show();
+        }
         
         if (active)
             active.hide();
@@ -94,8 +112,48 @@ var pages = (function () {
         active = page;
         page.show();
     }
+    
+    function showSharesChart(container, shares) {
+        var data = [];
+        
+        shares.forEach(function (share) {
+            data.push([share.name, share.shares]);
+        });
+    
+        $(container).highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Project Shares'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Project Share',
+                data: data
+            }]
+        });
+    }
 
-    function showPeriod(project, period, shareholders, periods) {
+    function showPeriod(project, period, shareholders) {
         var page = $("#periodpage");
         
         var projname = $("#periodprojectname");        
@@ -160,7 +218,7 @@ var pages = (function () {
                 
                 function done(err, result) {
                     alert('Thanks for your input');
-                    showProject(project, periods);
+                    gotoProject(project);
                     return;
                 }
                 
