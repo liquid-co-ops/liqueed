@@ -25,6 +25,11 @@ h1, h2, h3 {
     text-align: center;
 }
 
+#projectshares {
+    width: 95%;
+    height: 50%;
+}
+
 #periodshares {
     text-align: center;
 }
