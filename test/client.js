@@ -69,4 +69,23 @@ exports['get shareholders from first project'] = function (test) {
     });
 }
 
+exports['get persons'] = function (test) {
+    test.async();
+    
+    client.getPersons(function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        
+        result.forEach(function (item) {
+            test.ok(item.id);
+            test.ok(item.name);
+        });
+        
+        test.done();
+    });
+}
+
+
 

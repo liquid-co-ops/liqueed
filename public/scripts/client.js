@@ -19,6 +19,16 @@ var projects = [
 ];
 
 var clientlocal = (function() {
+    function getPersons(cb) {
+        var result = [];
+        
+        projects[0].shareholders.forEach(function (item) {
+            result.push(item);
+        });
+        
+        cb(null, result);
+    }
+    
     function getMyProjects(cb) {
         cb(null, projects);
     }
@@ -55,7 +65,8 @@ var clientlocal = (function() {
         getMyProjects: getMyProjects,
         getProject: getProject,
         getPeriods: getPeriods,
-        getShareholders: getShareholders
+        getShareholders: getShareholders,
+        getPersons: getPersons
     };
 })();
 
