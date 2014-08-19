@@ -3,6 +3,14 @@ var clientserver = (function() {
     if (typeof $ == 'undefined')
         $ = require('../../testserver/utils/ajax');
 
+    function getPersons(cb) {
+        $.get('/api/person', function (data) {
+            cb(null, data);
+        }).fail(function (err) {
+            cb(err, null);
+        });
+    }    
+
     function getMyProjects(cb) {
         $.get('/api/project', function (data) {
             cb(null, data);
@@ -76,7 +84,8 @@ var clientserver = (function() {
         getShareholders: getShareholders,
         getShares: getShares,
         getAssignments: getAssignments,
-        putAssigments: putAssignments
+        putAssigments: putAssignments,
+        getPersons: getPersons
     };
 })();
 

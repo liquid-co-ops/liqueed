@@ -170,6 +170,24 @@ exports['put assignments to first project first period from first person'] = fun
         });
 }
 
+exports['get persons'] = function (test) {
+    test.async();
+    
+    client.getPersons(function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        
+        result.forEach(function (item) {
+            test.ok(item.id);
+            test.ok(item.name);
+        });
+        
+        test.done();
+    });
+}
+
 exports['stop server'] = function (test) {
     server.close();
 }
