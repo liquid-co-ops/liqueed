@@ -17,6 +17,10 @@ h1, h2, h3 {
     text-align: center;
 }
 
+#projectsactions {
+    text-align: center;
+}
+
 #projectactions {
     text-align: center;
 }
@@ -38,3 +42,4 @@ h1, h2, h3 {
     margin-left: auto;
     margin-right: auto;
 }
+

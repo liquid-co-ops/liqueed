@@ -9,7 +9,7 @@ var pages = (function () {
             .html(text)
             .attr("type", "button")
             .addClass('btn')
-            .addClass('btn-primary')
+            .addClass('btn-success')
             .addClass('project')
             .click(fnclick);
     }
@@ -22,6 +22,21 @@ var pages = (function () {
             .addClass('btn-success')
             .addClass('period')
             .click(fnclick);
+    }
+    
+    function doSignOut() {
+        me = 0;
+        gotoSignIn();
+    }
+    
+    function gotoSignIn() {
+        var page = $("#signinpage");
+        
+        if (active)
+            active.hide();
+            
+        active = page;
+        page.show();
     }
     
     function gotoProjects() {
@@ -238,7 +253,9 @@ var pages = (function () {
     var retval = {
         gotoProjects: gotoProjects,
         gotoProject: function () { gotoProject(currentproject); },
-        showProjects: showProjects
+        showProjects: showProjects,
+        doSignOut: doSignOut,
+        gotoSignIn: gotoSignIn
     }
     
     return retval;
