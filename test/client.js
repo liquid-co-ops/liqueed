@@ -1,6 +1,9 @@
 
 var client = require('../public/scripts/client.js');
 
+var projects;
+var project;
+
 exports['get my projects'] = function (test) {
     test.async();
     
@@ -9,6 +12,10 @@ exports['get my projects'] = function (test) {
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
+        
+        projects = result;
+        project = projects[0];
+        
         test.done();
     });
 }
@@ -16,7 +23,7 @@ exports['get my projects'] = function (test) {
 exports['get first project'] = function (test) {
     test.async();
     
-    client.getProject(1, function (err, result) {
+    client.getProject(project.id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(result.id);
@@ -29,7 +36,7 @@ exports['get first project'] = function (test) {
 exports['get periods from first project'] = function (test) {
     test.async();
     
-    client.getPeriods(1, function (err, result) {
+    client.getPeriods(project.id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
@@ -41,7 +48,7 @@ exports['get periods from first project'] = function (test) {
 exports['get periods from second project'] = function (test) {
     test.async();
     
-    client.getPeriods(2, function (err, result) {
+    client.getPeriods(projects[1].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
@@ -53,7 +60,7 @@ exports['get periods from second project'] = function (test) {
 exports['get shareholders from first project'] = function (test) {
     test.async();
     
-    client.getShareholders(1, function (err, result) {
+    client.getShareholders(project.id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
