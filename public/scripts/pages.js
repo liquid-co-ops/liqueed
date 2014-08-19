@@ -24,13 +24,39 @@ var pages = (function () {
             .click(fnclick);
     }
     
+    function doSignIn() {
+        var select = $("#personlist");
+        
+        me = parseInt(select.val());
+        
+        gotoProjects();
+    }
+    
     function doSignOut() {
         me = 0;
         gotoSignIn();
     }
     
     function gotoSignIn() {
+        client.getPersons(function (err, persons) {
+            if (err)
+                alert(err);
+            else
+                showSignIn(persons);
+        });
+    }
+    
+    function showSignIn(persons) {
         var page = $("#signinpage");
+        
+        var select = $("#personlist");
+        
+        select.empty();
+        
+        persons.forEach(function (item) {
+            var option = $("<option>").attr("value", item.id).html(item.name);
+            select.append(option);
+        });
         
         if (active)
             active.hide();
@@ -255,6 +281,7 @@ var pages = (function () {
         gotoProject: function () { gotoProject(currentproject); },
         showProjects: showProjects,
         doSignOut: doSignOut,
+        doSignIn: doSignIn,
         gotoSignIn: gotoSignIn
     }
     
