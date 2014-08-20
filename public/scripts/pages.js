@@ -203,7 +203,6 @@ var pages = (function () {
         pername.html(period.name);
         var amount = $("#periodamount");
         amount.html(period.amount);
-
         var shares = $("#shares");
         shares.empty();
         
@@ -212,15 +211,27 @@ var pages = (function () {
         shareholders.forEach(function (shareholder) {
             if (shareholder.id == me)
                 return;
-            
-            var row = $("<tr>");
-            row.append($("<td>").html(shareholder.name));
-            var input = $("<input>").addClass('form-control').width(50);
-            input.shareholder = shareholder;
-            inputs.push(input);
-            row.append($("<td>").html(input));
-            
+            var template = $("#shareTemplate").html();
+            template = template.replace("shareholder.name", shareholder.name)
+                               .replace("period.amount", period.amount)
+            var row = $(template);
             shares.append(row);
+            var input = row.find("input");
+            var slider = row.find('[role="slider"]').slider({
+                min: 0,
+                max:period.amount,
+                slide: function (event, ui) {
+                    input.val(ui.value);
+                }
+            });
+            input.shareholder = shareholder;
+            input.change(function () {
+                var value = parseInt($(this).val());
+                if (!(isNaN(value) || value < 0)) {
+                    slider.slider("value", value);
+                };
+            });
+            inputs.push(input);
         });
         
         retval.sharesDone = function () {
