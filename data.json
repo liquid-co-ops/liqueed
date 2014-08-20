@@ -25,13 +25,26 @@
                 { "name": "April 2014", "date": "2014-04-30", "amount": 400 }
             ],
             "team": [ "Alice", "Charlie", "Daniel" ]
+        },
+        {
+            "name": "Liqueed",
+            "periods": [
+                { "name": "First Month", "date": "2014-08-31", "amount": 400 }
+            ],
+            "team": [ "Alan", "Fabricio", "Maximo", "Nicolas", "Sebastian", "Angel" ]
         }
     ],
     "persons": [
         { "name": "Alice" },
         { "name": "Bob" },
         { "name": "Charlie" },
-        { "name": "Daniel" }
+        { "name": "Daniel" },
+        { "name": "Alan" },
+        { "name": "Fabricio" },
+        { "name": "Maximo" },
+        { "name": "Nicolas" },
+        { "name": "Sebastian" },
+        { "name": "Angel" }
     ],
     "notes": [
         { "text": "Foo" },
