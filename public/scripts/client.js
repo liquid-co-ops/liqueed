@@ -1,4 +1,9 @@
 
+var sl;
+
+if (typeof sl == 'undefined')
+    sl = require('simplelists');
+
 var projects = [
     { id: 1, name: 'My project 1',
         periods: [
@@ -26,11 +31,11 @@ var clientlocal = (function() {
             result.push(item);
         });
         
-        cb(null, result);
+        cb(null, sl.sort(result, 'name'));
     }
     
     function getMyProjects(cb) {
-        cb(null, projects);
+        cb(null, sl.sort(projects, 'name'));
     }
     
     function getProject(idproj, cb) {

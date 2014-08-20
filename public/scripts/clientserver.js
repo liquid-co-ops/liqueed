@@ -1,11 +1,16 @@
 
+var sl;
+
+if (typeof sl == 'undefined')
+    sl = require('simplelists');
+
 var clientserver = (function() {
     if (typeof $ == 'undefined')
         $ = require('../../testserver/utils/ajax');
 
     function getPersons(cb) {
         $.get('/api/person', function (data) {
-            cb(null, data);
+            cb(null, sl.sort(data, 'name'));
         }).fail(function (err) {
             cb(err, null);
         });
@@ -13,7 +18,7 @@ var clientserver = (function() {
 
     function getMyProjects(cb) {
         $.get('/api/project', function (data) {
-            cb(null, data);
+            cb(null, sl.sort(data, 'name'));
         }).fail(function (err) {
             cb(err, null);
         });
