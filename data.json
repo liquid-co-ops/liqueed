@@ -29,7 +29,7 @@
         {
             "name": "Liqueed",
             "periods": [
-                { "name": "First Month", "date": "2014-08-31", "amount": 400 }
+                { "name": "First Month", "date": "2014-08-31", "amount": 100 }
             ],
             "team": [ "Alan", "Fabricio", "Maximo", "Nicolas", "Sebastian", "Angel" ]
         }
