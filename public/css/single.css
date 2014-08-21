@@ -5,12 +5,12 @@ h1, h2, h3 {
 
 .btn.project {
     width: 95%;
-    max-width: 400;
+    max-width: 400px;
 }
 
 .btn.period {
     width: 95%;
-    max-width: 400;
+    max-width: 400px;
 }
 
 #signin {
@@ -39,7 +39,7 @@ h1, h2, h3 {
 }
 
 #periodshares {
-    text-align: left;
+    text-align: center;
 }
 
 #shares {
