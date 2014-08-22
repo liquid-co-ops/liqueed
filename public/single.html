@@ -11,62 +11,65 @@
 </head>
 
 <body>
-    <div class="container-fluid well">
-        <div id="shareTemplate" style="display:none">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">shareholder.name</label>
-                <div class="col-sm-1 input-group pull-left">
+    <div class="container-fluid well center-block" style="margin-top:1em;margin-bottom:1em;">
+        <div id="shareTemplate" style="display: none">
+            <div class="row">
+                <div class=" col-sm-offset-3 col-sm-2 col-xs-4">
+                    <label class="control-label" style="width:100%;">shareholder.name</label>
+                </div>
+                <div class="col-sm-2 col-xs-4">
                     <input type="number" min="0" max="period.amount" class="form-control" />
                 </div>
-                <div class="col-xs-4 col-sm-2 input-group" style="padding-left: 2em; padding-top: 0.5em">
+                <div class="col-sm-3 col-xs-4" style="padding-left: 2em; padding-top: 0.5em;">
                     <div role="slider"></div>
                 </div>
             </div>
         </div>
-        <div id="signinpage" style='display: none'>
-            <h1>Sign In</h1>
-            <div id="signin">
-                <select id="personlist">
-                </select>
-                <button type="button" class="btn btn-success" onclick='pages.doSignIn()'>Sign In</button>
-            </div>
+    </div>
+    <div id="signinpage" style='display: none'>
+        <h1>Sign In</h1>
+        <div id="signin">
+            <select id="personlist">
+            </select>
+            <button type="button" class="btn btn-success" onclick='pages.doSignIn()'>Sign In</button>
         </div>
+    </div>
 
-        <div id="projectspage">
-            <h1>My Projects</h1>
-            <div id="projectsactions">
-                <button type="button" class="btn btn-primary" onclick='pages.doSignOut()'>Sign Out</button>
-            </div>
-            <div id="projects">
-            </div>
+    <div id="projectspage">
+        <h1>My Projects</h1>
+        <div id="projectsactions">
+            <button type="button" class="btn btn-primary" onclick='pages.doSignOut()'>Sign Out</button>
         </div>
-
-        <div id="projectpage" style='display: none'>
-            <h1 id="projectname"></h1>
-            <div id="projectactions">
-                <button type="button" class="btn btn-primary" onclick='pages.gotoProjects()'>Projects</button>
-            </div>
-            <div id="periods">
-            </div>
-            <div id="projectshares" style="width: 95%;">
-            </div>
+        <div id="projects">
         </div>
+    </div>
 
-        <div id="periodpage" style='display: none'>
-            <h1 id="periodprojectname"></h1>
-            <h2 id="periodname"></h2>
-            <h3>Shares <span id='periodamount' /></h3>
-            
-            <div id="projectactions">
+    <div id="projectpage" style='display: none'>
+        <h1 id="projectname"></h1>
+        <div id="projectactions">
+            <button type="button" class="btn btn-primary" onclick='pages.gotoProjects()'>Projects</button>
+        </div>
+        <div id="periods">
+        </div>
+        <div id="projectshares" style="width: 95%;">
+        </div>
+    </div>
+
+    <div id="periodpage" style='display: none'>
+        <h1 id="periodprojectname"></h1>
+        <h2 id="periodname"></h2>
+        <h3>Shares <span id='periodamount' /></h3>
+
+        <div id="projectactions">
             <button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Project</button>
-            </div>
-            
-            <div id="periodshares">
+        </div>
+
+        <div id="periodshares">
             <form id="shares" class="form-horizontal" role="form">
             </form>
             <button type="button" class="btn btn-success" id='sharesdone' onclick='pages.sharesDone()'>I'm done sharing</button>
-            </div>
         </div>
+    </div>
     </div>
     <script src='scripts/jquery-2.1.1.min.js' type='text/javascript'></script>
     <script src="scripts/jquery-ui-1.11.1/jquery-ui.js" type='text/javascript'></script>
