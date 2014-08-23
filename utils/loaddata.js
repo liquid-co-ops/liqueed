@@ -19,7 +19,7 @@ function load(filename, cb) {
     
     doPersonStep();
     
-    function doPersonStep() {
+    function doPersonStep() {        console.log('doPersonStep');
         if (k >= l) {
             doProjects();
             return;
@@ -38,13 +38,13 @@ function load(filename, cb) {
         });
     }
     
-    function doProjects() {
+    function doProjects() {        console.log('doProjects');
         var l = data.projects.length;
         var k = 0;
         
         doProjectStep();
         
-        function doProjectStep() {
+        function doProjectStep() {            console.log('doProjectStep');
             if (k >= l) {
                 doNotes();
                 return;
@@ -66,7 +66,7 @@ function load(filename, cb) {
                 
                 doTeamStep();
                 
-                function doTeamStep() {
+                function doTeamStep() {                    console.log('doTeamStep');
                     if (kt >= lt) {
                         doPeriods();
                         return;
@@ -84,7 +84,7 @@ function load(filename, cb) {
                         });
                 }
                 
-                function doPeriods() {
+                function doPeriods() {                    console.log('doPeriods');
                     var lp = periods.length;
                     var kp = 0;
                     
@@ -98,7 +98,7 @@ function load(filename, cb) {
                         
                         var perioddata = periods[kp++];    
                         var period = { name: perioddata.name, date: perioddata.date, amount: perioddata.amount };
-                        projectService.addPeriod(projid, period, function (err, periodid) {
+                        projectService.addPeriod(projid, period, function (err, periodid) {                            console.log('periodid', periodid);
                             if (err) {
                                 cb(err, null);
                                 return;
@@ -109,20 +109,20 @@ function load(filename, cb) {
                                 return;
                             }
                             
-                            var la = perioddata.assignments.lenght;
+                            var la = perioddata.assignments.length;
                             var ka = 0;
                             
                             doAssignmentStep();
                             
-                            function doAssignmentStep() {
+                            function doAssignmentStep() {                                console.log('doAssignmentStep');
                                 if (ka >= la) {
                                     setImmediate(doPeriodStep);
                                     return;
                                 }
                                 
-                                var assignment = perioddata.assignments[ka++];
-                                var fromid = persons[assignment.from];
-                                var toid = persons[assignment.to];
+                                var assignment = perioddata.assignments[ka++];                                console.dir(assignment);
+                                var fromid = persons[assignment.from];                                console.log('fromid', fromid);
+                                var toid = persons[assignment.to];                                console.log('toid', toid);
                                 projectService.putAssignment(projid, periodid, fromid, toid, assignment.amount, function (err, id) {
                                     if (err)
                                         cb(err, null);
@@ -137,7 +137,7 @@ function load(filename, cb) {
         }
     }
 
-    function doNotes() {
+    function doNotes() {        console.log('doNotes');
         var l = data.notes.length;
         var k = 0;
         
@@ -151,7 +151,7 @@ function load(filename, cb) {
             
             var note = data.notes[k++];
             
-            noteService.addNote(node, function (err, id) {
+            noteService.addNote(note, function (err, id) {
                 if (err)
                     cb(err, null);
                 else

@@ -23,7 +23,7 @@ exports['load initial data simple test'] = function (test) {
     
     loaddata(function (err, data) {
         test.ok(!err);
-        
+
         personService.getPersons(function (err, persons) {
             test.ok(!err);
             test.ok(persons);

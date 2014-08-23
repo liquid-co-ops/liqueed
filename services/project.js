@@ -127,12 +127,12 @@ function addPeriod(projid, period, cb) {
     periodstore.add(period, cb);
 }
 
-function getPeriodById(periodid) {
-    return periodstore.get(periodid);
+function getPeriodById(periodid, cb) {
+    periodstore.get(periodid, cb);
 }
 
-function getPeriods(projid) {
-    return periodstore.find({ project: projid });
+function getPeriods(projid, cb) {
+    periodstore.find({ project: projid }, cb);
 }
 
 function getAssignments(periodid) {
@@ -161,6 +161,7 @@ function removeAssignments(projectid, periodid, fromid) {
 
 function putAssignment(projectid, periodid, fromid, toid, amount, cb) {
     getPeriodById(periodid, function (err, period) {
+        console.log('getPeriodById');
         if (err) {
             cb(err, null);
             return;
