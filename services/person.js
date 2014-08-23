@@ -5,9 +5,19 @@ var db = require('../utils/db');
 var store;
 
 db.store('persons', function (err, data) {
-    if (err)
-        throw err;
     store = data;
+});
+
+var tstore;
+
+db.store('teams', function (err, data) {
+    tstore = data;
+});
+
+var pstore;
+
+db.store('projects', function (err, data) {
+    pstore = data;
 });
 
 function addPerson(data, cb) {
@@ -23,29 +33,46 @@ function getPersons(cb) {
 }
 
 function getProjects(id, cb) {
-    var tstore = db.store('teams');
-    var pstore = db.store('projects');
-    console.log('getProjects');
-    var result = tstore.find({ person: id });
-    
-    var projects = [];
-    var ids = { };
-    
-    result.forEach(function (team) {
-        var id = team.project;
-        
-        if (ids[id])
+    tstore.find({ person: id }, function (err, result) {
+        if (err) {
+            cb(err, null);
             return;
-            
-        ids[id] = true;
-            
-        var project = pstore.get(id);
+        }
         
-        if (project)
-            projects.push(project);
+        var projects = [];
+        var ids = { };
+        
+        var l = result.length;
+        var k = 0;
+        
+        doTeamStep();
+        
+        function doTeamStep() {
+            if (k >= l) {
+                cb(null, projects);
+                return;
+            } 
+             
+            var team = result[k++];
+            var id = team.project;
+            
+            if (ids[id]) {
+                setImmediate(doTeamStep);
+                return;
+            }
+                
+            ids[id] = true;
+            pstore.get(id, function (err, project) {
+                if (err)
+                    cb(err, null);
+                else {
+                    if (project)
+                        projects.push(project);
+                    setImmediate(doTeamStep);
+                }
+            });
+        }
     });
-    
-    return projects;
 }
 
 module.exports = {

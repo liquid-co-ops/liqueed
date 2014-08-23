@@ -12,8 +12,6 @@ function Store(impl) {
     };
     
     this.find = function (query, projection, cb) {
-        console.log('find', arguments.length);
-        
         if (!cb) {
             if (projection) {
                 cb = projection;

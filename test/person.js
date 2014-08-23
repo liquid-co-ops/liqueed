@@ -5,47 +5,74 @@ var pservice = require('../services/project');
 var aliceid;
 
 exports['add person'] = function (test) {
-    var result = service.addPerson({ name: 'Alice' });
+    test.async();
     
-    test.ok(result);
-    aliceid = result;
+    service.addPerson({ name: 'Alice' }, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        aliceid = result;
+        test.done();
+    });    
 };
 
 exports['get person by id'] = function (test) {
-    var result = service.getPersonById(aliceid);
+    test.async();
     
-    test.ok(result);
-    test.equal(result.name, 'Alice');
-    test.equal(result.id, aliceid);
+    service.getPersonById(aliceid, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.name, 'Alice');
+        test.equal(result.id, aliceid);
+        test.done();
+    });    
 };
 
 exports['get persons'] = function (test) {
-    var result = service.getPersons();
+    test.async();
     
-    test.ok(result);
-    test.ok(Array.isArray(result));
-    test.ok(result.length);
+    service.getPersons(function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        test.done();
+    });
 };
 
 exports['no projects yet'] = function (test) {
-    var result = service.getProjects(aliceid);
+    test.async();
     
-    test.ok(result);
-    test.ok(Array.isArray(result));
-    test.equal(result.length, 0);
+    service.getProjects(aliceid, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.equal(result.length, 0);
+        test.done();
+    });    
 };
 
 exports['add and get projects'] = function (test) {
-    var projid = pservice.addProject({ name: 'Wonderland' });
-    pservice.addPersonToTeam(projid, aliceid);
+    test.async();
     
-    var result = service.getProjects(aliceid);
-
-    test.ok(result);
-    test.ok(Array.isArray(result));
-    test.equal(result.length, 1);
-    
-    test.equal(result[0].id, projid);
-    test.equal(result[0].name, 'Wonderland');
+    pservice.addProject({ name: 'Wonderland' }, function (err, projid) {
+        test.ok(!err);
+        test.ok(projid);
+        
+        pservice.addPersonToTeam(projid, aliceid, function (err, pid) {
+            test.ok(!err);
+            test.ok(pid);
+            
+            service.getProjects(aliceid, function (err, result) {
+                test.ok(!err);
+                test.ok(result);
+                test.ok(Array.isArray(result));
+                test.equal(result.length, 1);
+                
+                test.equal(result[0].id, projid);
+                test.equal(result[0].name, 'Wonderland');
+                test.done();
+            });
+        });        
+    });
 }
 
