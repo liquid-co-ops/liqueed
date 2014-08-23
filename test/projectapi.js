@@ -5,6 +5,7 @@ var db = require('../utils/db');
 var personService = require('../services/person');
 var projectService = require('../services/project');
 var sl = require('simplelists');
+var async = require('simpleasync');
 
 var projects;
 var project;
@@ -13,30 +14,40 @@ var periods;
 var period;
 
 exports['clear and load data'] = function (test) {
-    db.clear();
-    loaddata();
+    test.async();
     
-    projects = projectService.getProjects();
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) { loaddata(next); })
+    .then(function (data, next) { projectService.getProjects(next); })
+    .then(function (data, next) {
+        projects = data;
+        test.ok(projects);
+        test.ok(projects.length);
     
-    test.ok(projects);
-    test.ok(projects.length);
+        project = projects[0];
+        projectService.getPeriods(project.id, next);
+    })
+    .then(function (data, next) {
+        periods = data;
+        test.ok(periods);
+        test.ok(periods.length);
     
-    project = projects[0];
-    
-    periods = projectService.getPeriods(project.id);
-    
-    test.ok(periods);
-    test.ok(periods.length);
-    
-    period = periods[0];
-    
-    team = projectService.getTeam(project.id);
-    
-    test.ok(team);
-    test.ok(team.length);
+        period = periods[0];
+        projectService.getTeam(project.id, next);
+    })
+    .then(function (data, next) {
+        team = data;
+        test.ok(team);
+        test.ok(team.length);
+        test.done();
+    })
+    .run();
 };
 
 exports['get list'] = function (test) {
+    test.async();
+    
     var request = {};
 
     var response = {
@@ -54,6 +65,8 @@ exports['get list'] = function (test) {
 };
 
 exports['get first project'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: project.id.toString()
@@ -74,6 +87,8 @@ exports['get first project'] = function (test) {
 };
 
 exports['get first project team'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: project.id.toString()
@@ -99,6 +114,8 @@ exports['get first project team'] = function (test) {
 };
 
 exports['get first project shareholders'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: project.id.toString()
@@ -124,6 +141,8 @@ exports['get first project shareholders'] = function (test) {
 };
 
 exports['get first project periods'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: project.id.toString()
@@ -150,6 +169,8 @@ exports['get first project periods'] = function (test) {
 };
 
 exports['get first project first period'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: project.id.toString(),
@@ -172,6 +193,8 @@ exports['get first project first period'] = function (test) {
 };
 
 exports['get first project first period assignments'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: project.id.toString(),
@@ -197,6 +220,8 @@ exports['get first project first period assignments'] = function (test) {
 };
 
 exports['get first project first period put assignment'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: project.id.toString(),
@@ -233,6 +258,8 @@ exports['get first project first period put assignment'] = function (test) {
 };
 
 exports['get first project first period put assignments'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: project.id.toString(),

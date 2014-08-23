@@ -2,34 +2,60 @@
 var service = require('../services/project');
 var sperson = require('../services/person');
 
+var async = require('simpleasync');
+
 function index(req, res) {
-    var items = service.getProjects();
-    res.render('projectlist', { title: 'Projects', items: items });
+    service.getProjects(function (err, items) {
+        res.render('projectlist', { title: 'Projects', items: items });
+    });
 }
 
 function view(req, res) {
     var id = parseInt(req.params.id);
-    var item = service.getProjectById(id);
-    var team = service.getTeam(id);
-    var periods = service.getPeriods(id);
     
-    res.render('projectview', { title: 'Project', item: item, team: team, periods: periods });
+    var model = {
+        title: 'Project'
+    };
+    
+    async()
+    .then(function (data, next) { service.getProjectById(id, next); })
+    .then(function (data, next) {
+        model.item = data;
+        service.getTeam(id, next);
+    })
+    .then(function (data, next) {
+        model.team = data;
+        service.getPeriods(id, next);
+    })
+    .then(function (data, next) {
+        model.periods = data;
+        res.render('projectview', model);
+    })
 }
 
 function viewPeriod(req, res) {
     var projectId = parseInt(req.params.id);
     var periodId = parseInt(req.params.idp);
     
-    var project = service.getProjectById(projectId);
-    var item = service.getPeriodById(periodId);
-    var assignments = service.getAssignments(periodId);
-    
-    res.render('periodview', { 
-        title: 'Period', 
-        project: project,
-        item: item, 
-        assignments: assignments 
-    });
+    var model = {
+        title: 'Period'
+    }
+
+    async()
+    .then(function (data, next) { service.getProjectById(projectId, next); })
+    .then(function (data, next) {
+        model.project = data;
+        service.getPeriodById(periodId, next);
+    })
+    .then(function (data, next) {
+        model.item = data;
+        service.getAssignments(periodId, next);
+    })
+    .then(function (data, next) {
+        model.assignments = assignments;
+        res.render('periodview', model);
+    })
+    .run();
 }
 
 module.exports = {
