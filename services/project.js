@@ -1,6 +1,7 @@
 'use strict';
 
 var db = require('../utils/db');
+var async = require('simpleasync');
 
 var store;
 
@@ -83,39 +84,72 @@ function getTeam(id, cb) {
     });
 }
 
-function getShareholders(id) {
-    var teamdata = teamstore.find({ project: id });
-    var sharedata = assignmentstore.find({ project: id });
-
-    var ids = sl.project(teamdata, { person: 'id' });
-    ids = sl.union(ids, sl.project(sharedata, { to: 'id' }), 'id');
-    ids = sl.union(ids, sl.project(sharedata, { from: 'id' }), 'id');
+function getShareholders(id, cb) {
+    var teamdata;
+    var sharedata;
     
-    var shareholders = [];
-
-    ids.forEach(function (data) {
-        var person = personstore.get(data.id);
-        shareholders.push(person);
-    });
-    
-    return shareholders;
+    async()
+    .then(function (data, next) {
+        teamstore.find({ project: id }, next);
+    })
+    .then(function (data, next) {
+        teamdata = data;
+        assignmentstore.find({ project: id }, next);
+    })
+    .then(function (data, next) {
+        sharedata = data;
+        
+        var ids = sl.project(teamdata, { person: 'id' });
+        ids = sl.union(ids, sl.project(sharedata, { to: 'id' }), 'id');
+        ids = sl.union(ids, sl.project(sharedata, { from: 'id' }), 'id');
+        
+        next(null, ids);
+    })
+    .map(function (item, next) {
+        personstore.get(item.id, next);
+    })
+    .then(function (shareholders) {
+        cb(null, shareholders);
+    })
+    .fail(function (err) { cb(err, null); })
+    .run();
 }
 
-function getShares(id) {
-    var teamdata = teamstore.find({ project: id });
-    var sharedata = assignmentstore.find({ project: id });    
-    var total = sl.aggr(sharedata, 'to', 'amount');
-    total = sl.project(total, { to: 'id', amount: 'shares' });
+function getShares(id, cb) {
+    var teamdata;
+    var sharedata;
     
-    var shares = [];
-
-    total.forEach(function (data) {
-        var person = personstore.get(data.id);
-        data.name = person.name;
-        shares.push(data);
-    });
-    
-    return shares;
+    async()
+    .then(function (data, next) {
+        teamstore.find({ project: id }, next);
+    })
+    .then(function (data, next) {
+        teamdata = data;
+        assignmentstore.find({ project: id }, next);  
+    })
+    .then(function (data, next) {
+        sharedata = data;
+        var total = sl.aggr(sharedata, 'to', 'amount');
+        total = sl.project(total, { to: 'id', amount: 'shares' });
+        next(null, total);
+    })
+    .map(function (data, next) {
+        personstore.get(data.id, function (err, person) {
+            if (err)
+                next(err, null);
+            else {
+                data.name = person.name;
+                next(null, data);
+            }
+        });
+    })
+    .then(function (shares, next) {
+        cb(null, shares);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
 }
 
 function getProjects(cb) {
@@ -184,17 +218,25 @@ function getAssignments(periodid, cb) {
     });
 }
 
-function removeAssignments(projectid, periodid, fromid) {
-    var items = assignmentstore.find({ project: projectid, period: periodid, from: fromid });
-    
-    items.forEach(function (item) {
-        assignmentstore.remove(item.id);
-    });
+function removeAssignments(projectid, periodid, fromid, cb) {
+    async()
+    .then(function (data, next) {
+        assignmentstore.find({ project: projectid, period: periodid, from: fromid }, next);
+    })
+    .map(function (item, next) {
+        assignmentstore.remove(item.id, next);
+    })
+    .then(function (data, next) {
+        cb(null, null);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
 }
 
 function putAssignment(projectid, periodid, fromid, toid, amount, cb) {
     getPeriodById(periodid, function (err, period) {
-        console.log('getPeriodById');
         if (err) {
             cb(err, null);
             return;
@@ -251,10 +293,10 @@ function putAssignments(projectid, periodid, fromid, assignments, cb) {
             return;
         }
         
-        var l = assigments.length;
+        var l = assignments.length;
         var k = 0;
         
-        doAssigmentStep();
+        doAssignmentStep();
         
         function doAssignmentStep() {
             if (k >= l) {
@@ -262,7 +304,7 @@ function putAssignments(projectid, periodid, fromid, assignments, cb) {
                 return;
             }
             
-            var assignment = assignments[n];
+            var assignment = assignments[k++];
             putAssignment(projectid, periodid, fromid, assignment.to, assignment.amount, function (err, result) {
                 if (err) {
                     cb(err, null);

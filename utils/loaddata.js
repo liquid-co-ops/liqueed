@@ -19,8 +19,7 @@ function load(filename, cb) {
     
     doPersonStep();
     
-    function doPersonStep() {        console.log('doPersonStep');
-        if (k >= l) {
+    function doPersonStep() {        if (k >= l) {
             doProjects();
             return;
         }
@@ -38,14 +37,12 @@ function load(filename, cb) {
         });
     }
     
-    function doProjects() {        console.log('doProjects');
-        var l = data.projects.length;
+    function doProjects() {        var l = data.projects.length;
         var k = 0;
         
         doProjectStep();
         
-        function doProjectStep() {            console.log('doProjectStep');
-            if (k >= l) {
+        function doProjectStep() {            if (k >= l) {
                 doNotes();
                 return;
             }
@@ -66,8 +63,7 @@ function load(filename, cb) {
                 
                 doTeamStep();
                 
-                function doTeamStep() {                    console.log('doTeamStep');
-                    if (kt >= lt) {
+                function doTeamStep() {                    if (kt >= lt) {
                         doPeriods();
                         return;
                     }
@@ -84,8 +80,7 @@ function load(filename, cb) {
                         });
                 }
                 
-                function doPeriods() {                    console.log('doPeriods');
-                    var lp = periods.length;
+                function doPeriods() {                    var lp = periods.length;
                     var kp = 0;
                     
                     doPeriodStep();
@@ -98,8 +93,7 @@ function load(filename, cb) {
                         
                         var perioddata = periods[kp++];    
                         var period = { name: perioddata.name, date: perioddata.date, amount: perioddata.amount };
-                        projectService.addPeriod(projid, period, function (err, periodid) {                            console.log('periodid', periodid);
-                            if (err) {
+                        projectService.addPeriod(projid, period, function (err, periodid) {                            if (err) {
                                 cb(err, null);
                                 return;
                             }
@@ -114,8 +108,7 @@ function load(filename, cb) {
                             
                             doAssignmentStep();
                             
-                            function doAssignmentStep() {                                console.log('doAssignmentStep');
-                                if (ka >= la) {
+                            function doAssignmentStep() {                                if (ka >= la) {
                                     setImmediate(doPeriodStep);
                                     return;
                                 }
@@ -137,8 +130,7 @@ function load(filename, cb) {
         }
     }
 
-    function doNotes() {        console.log('doNotes');
-        var l = data.notes.length;
+    function doNotes() {        var l = data.notes.length;
         var k = 0;
         
         doNoteStep();

@@ -17,6 +17,7 @@
     "express-ejs-layouts": "^1.1.0",
     "ostore": "0.0.4",
     "simplelists": "0.0.4",
+    "simpleasync": "0.0.5",
     "mongodb": "~1.4.8"
   },
   "devDependencies": {
