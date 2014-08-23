@@ -4,22 +4,31 @@ var controller = require('../controllers/personapi');
 
 var loaddata = require('../utils/loaddata');
 var db = require('../utils/db');
+var async = require('simpleasync');
 
 var persons;
 
 exports['clear and load data'] = function (test) {
     var personService = require('../services/person');
 
-    db.clear();
-    loaddata();
+    test.async();
     
-    persons = personService.getPersons();
-    
-    test.ok(persons);
-    test.ok(persons.length);
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) { loaddata(next); })
+    .then(function (data, next) { personService.getPersons(next); })
+    .then(function (data, next) {
+        persons = data;
+        test.ok(persons);
+        test.ok(persons.length);
+        test.done();
+    })
+    .run();
 };
 
 exports['get persons'] = function (test) {
+    test.async();
+    
     var request = {};
     var response = {
         send: function (model) {
@@ -36,6 +45,8 @@ exports['get persons'] = function (test) {
 };
 
 exports['get first person'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: persons[0].id.toString()
@@ -55,6 +66,8 @@ exports['get first person'] = function (test) {
 };
 
 exports['get first person projects'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: persons[0].id.toString()

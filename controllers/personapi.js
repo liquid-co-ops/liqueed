@@ -3,20 +3,23 @@
 var service = require('../services/person');
 
 function list(req, res) {
-    var items = service.getPersons();
-    res.send(items);
+    service.getPersons(function (err, items) {
+        res.send(items);
+    });
 };
 
 function get(req, res) {
     var id = parseInt(req.params.id);
-    var item = service.getPersonById(id);
-    res.send(item);
+    service.getPersonById(id, function (err, item) {
+        res.send(item);
+    });
 };
 
 function getProjects(req, res) {
     var id = parseInt(req.params.id);
-    var items = service.getProjects(id);
-    res.send(items);
+    service.getProjects(id, function (err, items) {
+        res.send(items);
+    });
 };
 
 module.exports = {
