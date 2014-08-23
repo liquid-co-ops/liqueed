@@ -2,21 +2,27 @@
 
 var db = require('../utils/db');
 
-var store = db.store('persons');
+var store;
 
-function addPerson(data) {
-    return store.add(data);
+db.store('persons', function (err, data) {
+    if (err)
+        throw err;
+    store = data;
+});
+
+function addPerson(data, cb) {
+    store.add(data, cb);
 }
 
-function getPersonById(id) {
-    return store.get(id);
+function getPersonById(id, cb) {
+    store.get(id, cb);
 }
 
-function getPersons() {
-    return store.find();
+function getPersons(cb) {
+    return store.find(cb);
 }
 
-function getProjects(id) {
+function getProjects(id, cb) {
     var tstore = db.store('teams');
     var pstore = db.store('projects');
     var result = tstore.find({ person: id });

@@ -10,47 +10,65 @@ var project;
 var period;
 
 exports['clear data at start'] = function (test) {
-    db.clear();
+    test.async();
+    
+    db.clear(function(err, data) {
+        test.ok(!err);
+        test.done();
+    });
 };
 
 exports['load initial data simple test'] = function (test) {
-    loaddata();
+    test.async();
     
-    var persons = personService.getPersons();
-    test.ok(persons);
-    test.ok(Array.isArray(persons));
-    test.ok(persons.length);
-    
-    var projects = projectService.getProjects();
-    test.ok(projects);
-    test.ok(Array.isArray(projects));
-    test.ok(projects.length);
-    
-    project = projects[0];
+    loaddata(function (err, data) {
+        test.ok(!err);
+        
+        personService.getPersons(function (err, persons) {
+            test.ok(!err);
+            test.ok(persons);
+            test.ok(Array.isArray(persons));
+            test.ok(persons.length);
+            
+            projectService.getProjects(function (err, projects) {
+                test.ok(!err);
+                test.ok(projects);
+                test.ok(Array.isArray(projects));
+                test.ok(projects.length);
+                project = projects[0];
+                test.done();
+            });
+        });
+    });
 };
 
 exports['first project has team'] = function (test) {
-    var team = projectService.getTeam(project.id);
+    test.async();
     
-    test.ok(team);
-    test.ok(Array.isArray(team));
-    test.ok(team.length);
-    test.equal(team.length, 3);
-    
-    var alice = team[0];
-    
-    test.ok(alice);
-    test.equal(alice.name, 'Alice');
-    
-    var bob = team[1];
-    
-    test.ok(bob);
-    test.equal(bob.name, 'Bob');
-    
-    var charlie = team[2];
-    
-    test.ok(charlie);
-    test.equal(charlie.name, 'Charlie');
+    projectService.getTeam(project.id, function (err, team) {
+        test.ok(!err);
+        test.ok(team);
+        test.ok(Array.isArray(team));
+        test.ok(team.length);
+        test.equal(team.length, 3);
+        
+        var alice = team[0];
+        
+        test.ok(alice);
+        test.equal(alice.name, 'Alice');
+        
+        var bob = team[1];
+        
+        test.ok(bob);
+        test.equal(bob.name, 'Bob');
+        
+        var charlie = team[2];
+        
+        test.ok(charlie);
+        test.equal(charlie.name, 'Charlie');
+        
+        test.done();
+    });    
 }
 
 exports['first project has periods'] = function (test) {
