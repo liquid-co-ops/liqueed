@@ -31,6 +31,7 @@ function view(req, res) {
         model.periods = data;
         res.render('projectview', model);
     })
+    .run();
 }
 
 function viewPeriod(req, res) {
@@ -52,7 +53,7 @@ function viewPeriod(req, res) {
         service.getAssignments(periodId, next);
     })
     .then(function (data, next) {
-        model.assignments = assignments;
+        model.assignments = data;
         res.render('periodview', model);
     })
     .run();
