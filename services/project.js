@@ -118,8 +118,8 @@ function getShares(id) {
     return shares;
 }
 
-function getProjects() {
-    return store.find();
+function getProjects(cb) {
+    store.find(cb);
 }
 
 function addPeriod(projid, period, cb) {
@@ -135,20 +135,53 @@ function getPeriods(projid, cb) {
     periodstore.find({ project: projid }, cb);
 }
 
-function getAssignments(periodid) {
+function getAssignments(periodid, cb) {
     var sperson = require('./person');    
-    var data = assignmentstore.find({ period: periodid });
-
-    var list = [];
-    
-    data.forEach(function (item) {
-        var assignment = { id: item.id, amount: item.amount };
-        assignment.from = sperson.getPersonById(item.from);
-        assignment.to = sperson.getPersonById(item.to);
-        list.push(assignment);
+    assignmentstore.find({ period: periodid }, function (err, data) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        var list = [];
+        
+        var l = data.length;
+        var k = 0;
+        
+        doDataStep();
+        
+        function doDataStep() {
+            if (k >= l) {
+                cb(null, list);
+                return;
+            }
+            
+            var item = data[k++];
+            
+            var assignment = { id: item.id, amount: item.amount };
+            sperson.getPersonById(item.from, function (err, personid) {
+                if (err) {
+                    cb(err, null);
+                    return;
+                }
+                
+                assignment.from = personid;
+                
+                sperson.getPersonById(item.to, function (err, personid) {
+                    if (err) {
+                        cb(err, null);
+                        return;
+                    }
+                    
+                    assignment.to = personid;
+                    
+                    list.push(assignment);
+                    
+                    setImmediate(doDataStep);
+                });
+            })
+        }
     });
-    
-    return list;
 }
 
 function removeAssignments(projectid, periodid, fromid) {

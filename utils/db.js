@@ -12,9 +12,18 @@ function Store(impl) {
     };
     
     this.find = function (query, projection, cb) {
+        console.log('find', arguments.length);
+        
         if (!cb) {
-            cb = projection;
-            projection = null;
+            if (projection) {
+                cb = projection;
+                projection = null;
+            }
+            else {
+                cb = query;
+                query = null;
+                projection = null;
+            }
         }
         
         setImmediate(function() {

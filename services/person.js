@@ -19,12 +19,13 @@ function getPersonById(id, cb) {
 }
 
 function getPersons(cb) {
-    return store.find(cb);
+    store.find(cb);
 }
 
 function getProjects(id, cb) {
     var tstore = db.store('teams');
     var pstore = db.store('projects');
+    console.log('getProjects');
     var result = tstore.find({ person: id });
     
     var projects = [];

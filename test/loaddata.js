@@ -72,39 +72,54 @@ exports['first project has team'] = function (test) {
 }
 
 exports['first project has periods'] = function (test) {
-    var periods = projectService.getPeriods(project.id);
+    test.async();
     
-    test.ok(periods);
-    test.ok(Array.isArray(periods));
-    test.ok(periods.length);
-    test.equal(periods.length, 2);
-    
-    test.equal(periods[0].name, 'January 2014');
-    test.equal(periods[0].date, '2014-01-31');
-    test.equal(periods[1].name, 'February 2014');
-    test.equal(periods[1].date, '2014-02-28');
-    
-    period = periods[0];
+    projectService.getPeriods(project.id, function (err, periods) {
+        test.ok(!err);
+        test.ok(periods);
+        test.ok(Array.isArray(periods));
+        test.ok(periods.length);
+        test.equal(periods.length, 2);
+        
+        test.equal(periods[0].name, 'January 2014');
+        test.equal(periods[0].date, '2014-01-31');
+        test.equal(periods[1].name, 'February 2014');
+        test.equal(periods[1].date, '2014-02-28');
+        
+        period = periods[0];
+        
+        test.done();
+    });
 }
 
 exports['first project first period has assigments'] = function (test) {
-    var assignments = projectService.getAssignments(period.id);
+    test.async();
     
-    test.ok(assignments);
-    test.ok(Array.isArray(assignments));
-    test.ok(assignments.length);
-    test.equal(assignments.length, 6);
-    
-    test.equal(assignments[0].from.name, 'Alice');
-    test.equal(assignments[0].to.name, 'Bob');
-    test.equal(assignments[0].amount, 50);
-    
-    test.equal(assignments[1].from.name, 'Alice');
-    test.equal(assignments[1].to.name, 'Charlie');
-    test.equal(assignments[1].amount, 50);
+    projectService.getAssignments(period.id, function (err, assignments) {
+        test.ok(!err);
+        test.ok(assignments);
+        test.ok(Array.isArray(assignments));
+        test.ok(assignments.length);
+        test.equal(assignments.length, 6);
+        
+        test.equal(assignments[0].from.name, 'Alice');
+        test.equal(assignments[0].to.name, 'Bob');
+        test.equal(assignments[0].amount, 50);
+        
+        test.equal(assignments[1].from.name, 'Alice');
+        test.equal(assignments[1].to.name, 'Charlie');
+        test.equal(assignments[1].amount, 50);
+        
+        test.done();
+    });
 }
 
 exports['clear data at end'] = function (test) {
-    db.clear();
+    test.async();
+    
+    db.clear(function (err, data) {
+        test.ok(!err);
+        test.done();
+    });
 };
 
