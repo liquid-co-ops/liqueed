@@ -4,22 +4,31 @@ var controller = require('../controllers/person');
 
 var loaddata = require('../utils/loaddata');
 var db = require('../utils/db');
+var async = require('simpleasync');
 
 var persons;
 
 exports['clear and load data'] = function (test) {
+    test.async();
+    
     var personService = require('../services/person');
     
-    db.clear();
-    loaddata();
-    
-    persons = personService.getPersons();
-    
-    test.ok(persons);
-    test.ok(persons.length);
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) { loaddata(next); })
+    .then(function (data, next) { personService.getPersons(next); })
+    .then(function (data, next) {
+        persons = data;
+        test.ok(persons);
+        test.ok(persons.length);
+        test.done();
+    })
+    .run();
 };
 
 exports['get index'] = function (test) {
+    test.async();
+    
     var request = {};
     var response = {
         render: function (name, model) {
@@ -40,6 +49,8 @@ exports['get index'] = function (test) {
 };
 
 exports['get view first person'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: persons[0].id
