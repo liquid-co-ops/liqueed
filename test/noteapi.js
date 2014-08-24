@@ -3,23 +3,33 @@
 var controller = require('../controllers/noteapi');
 var loaddata = require('../utils/loaddata');
 var db = require('../utils/db');
+var async = require('simpleasync');
 
 var notes;
 
 exports['clear and load data'] = function(test) {
+    test.async();
+    
     var noteService = require('../services/note');
 
-    db.clear();
-    loaddata();
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) { loaddata(next); })
+    .then(function (data, next) { noteService.getAllNotes(next); })
+    .then(function (data, next) {
+        notes = data;
 
-    notes = noteService.getAllNotes();
-
-    test.ok(notes);
-    test.ok(Array.isArray(notes));
-    test.ok(notes.length);
+        test.ok(notes);
+        test.ok(Array.isArray(notes));
+        test.ok(notes.length);
+        test.done();
+    })
+    .run();
 };
 
 exports['get notes'] = function(test) {
+    test.async();
+    
     var request = {};
     var response = {
         send: function (model) {
@@ -36,6 +46,8 @@ exports['get notes'] = function(test) {
 };
 
 exports['get first note'] = function (test) {
+    test.async();
+    
     var request = {
         params: {
             id: notes[0].id.toString()
