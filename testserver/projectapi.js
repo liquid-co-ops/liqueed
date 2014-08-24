@@ -8,8 +8,13 @@ var project;
 var periods;
 
 exports['load test data'] = function (test) {
+    test.async();
+    
     var loaddata = require('../utils/loaddata');
-    loaddata();
+    loaddata(function (err, data) {
+        test.ok(!err);
+        test.done();
+    });
 }
 
 exports['start server'] = function (test) {

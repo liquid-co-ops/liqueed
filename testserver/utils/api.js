@@ -17,6 +17,9 @@ function doRequest(method, pageurl, data, cb) {
         method: method
     };
     
+    if (data)
+        options.headers = { 'content-type': 'application/json' };
+    
     var req = http.request(options, function(res) {
         var buffer = '';
 
