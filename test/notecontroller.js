@@ -4,13 +4,21 @@ var controller = require('../controllers/note');
 
 var loaddata = require('../utils/loaddata');
 var db = require('../utils/db');
+var async = require('simpleasync');
 
 exports['clear and load data'] = function (test) {
-    db.clear();
-    loaddata();
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) { loaddata(next); })
+    .then(function (data, next) { test.done(); })
+    .run();
 };
 
 exports['get index'] = function(test) {
+    test.async();
+    
     var request = {};
     var response = {
         render: function(name, model) {
@@ -31,6 +39,8 @@ exports['get index'] = function(test) {
 };
 
 exports['get a note'] = function(test) {
+    test.async();
+    
     var id = '1';
     var path;
     var request = {
@@ -59,6 +69,8 @@ exports['get a note'] = function(test) {
 };
 
 exports['get a note fails'] = function(test) {
+    test.async();
+    
     var path;
     var request = {
         param: function() {
@@ -76,6 +88,8 @@ exports['get a note fails'] = function(test) {
 };
 
 exports['create a note'] = function(test) {
+    test.async();
+    
     var expectedPath = '/notes/4';
     var request = {
         param: function(p) {
@@ -93,6 +107,8 @@ exports['create a note'] = function(test) {
 };
 
 exports['edit a note'] = function(test) {
+    test.async();
+    
     var id = '3';
     var expectedPath = '/notes/' + id;
     var request = {
@@ -111,6 +127,8 @@ exports['edit a note'] = function(test) {
 };
 
 exports['delete a note'] = function(test) {
+    test.async();
+    
     var expectedPath = '/notes';
     var request = {
         param: function(p) {

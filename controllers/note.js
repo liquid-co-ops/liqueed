@@ -4,18 +4,19 @@ var service = require('../services/note');
 
 function getNoteOrRedirect(req, res, template, redirectPath) {
     var id = req.param('id');
-    var note = service.getNoteById(id);
-    if (note) {
-        res.render(
-            template,
-            {
-                title: 'Note ' + note.id,
-                note:  note
-            }
-        );
-    } else {
-        res.redirect(redirectPath)
-    }
+    service.getNoteById(id, function (err, note) {
+        if (note) {
+            res.render(
+                template,
+                {
+                    title: 'Note ' + note.id,
+                    note:  note
+                }
+            );
+        } else {
+            res.redirect(redirectPath)
+        }
+    });
 }
 
 /*
@@ -23,14 +24,15 @@ function getNoteOrRedirect(req, res, template, redirectPath) {
  */
 
 exports.index = function(req, res) {
-    var notes = service.getAllNotes();
-    res.render(
-        'notes/list',
-        {
-            title: 'Notes',
-            notes: notes
-        }
-    );
+    service.getAllNotes(function (err, notes) {
+        res.render(
+            'notes/list',
+            {
+                title: 'Notes',
+                notes: notes
+            }
+        );
+    });
 };
 
 /*
@@ -47,12 +49,13 @@ exports.get = function(req, res) {
  */
 
 exports.create = function(req, res) {
-    var result = service.addNote({text: req.param('note.text')});
-    var path = '/notes';
-    if (typeof result === 'number') {
-        path = '/notes/' + result;
-    }
-    res.redirect(path);
+    service.addNote({text: req.param('note.text')}, function (err, result) {
+        var path = '/notes';
+        if (typeof result === 'number') {
+            path = '/notes/' + result;
+        }
+        res.redirect(path);
+    });
 };
 
 /*
@@ -69,8 +72,9 @@ exports.edit = function(req, res) {
 
 exports.put = function(req, res) {
     var id = req.param('id');
-    var result = service.updateNoteById(id, {text: req.param('note.text')});
-    res.redirect('/notes/' + id);
+    service.updateNoteById(id, {text: req.param('note.text')}, function (err, result) {
+        res.redirect('/notes/' + id);
+    });
 };
 
 /*
@@ -78,6 +82,7 @@ exports.put = function(req, res) {
  */
 
 exports.remove = function(req, res) {
-    var result = service.removeNoteById(req.param('id'));
-    res.redirect('/notes');
+    service.removeNoteById(req.param('id'), function (err, result) {
+        res.redirect('/notes');
+    });
 };
