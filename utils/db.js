@@ -202,6 +202,7 @@ function clear(cb) {
 function useDb(name, config, cb) {
     config = config || { };
     usedb = true;
+    dbstores = { };
     db = mongodb.openDatabase(name, config.host || 'localhost', config.port || 27017, cb);
 }
 
