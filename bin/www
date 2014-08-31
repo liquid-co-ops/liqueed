@@ -2,6 +2,7 @@
 
 'use strict';
 
+var async = require('simpleasync');
 var debug = require('debug')('Liqueed');
 var db = require('../utils/db');
 var app = require('../app');
@@ -11,39 +12,31 @@ var pservices = require('../services/project');
 
 app.set('port', process.env.PORT || 3000);
 
-if (config.mongodb)
-    db.useDb(config.mongodb.name, config.mongodb, function (err, data) {
-        if (err) {
-            debug(err);
-            return;
-        }
-        
-        pservices.getProjects(function (err, prjs) {
-            if (err) {
-                debug(err);
-                return;
-            }
-            
-            if (prjs.length == 0)
-                load(function (err, data) {
-                    if (err) {
-                        debug(err);
-                        return;
-                    }
-                    
-                    launch();
-                });
-            else
-                launch();
-        });
-    });
-else
+async()
+.then(function (data, next) {
+    if (config.mongodb)
+        db.useDb(config.mongodb.name, config.mongodb, next);
+    else
+        next(null, null);
+})
+.then(function (data, next) {
+    pservices.getProjects(next);
+})
+.then(function (prjs, next) {
+    if (prjs.length == 0) {
+        var loaddata = require('../utils/loaddata');
+        loaddata('../data.json', next);
+    }
+    else
+        next(null, null);
+})
+.then(function (data, next) {
     launch();
-    
-function load(cb) {
-    var loaddata = require('../utils/loaddata');
-    loaddata('../data.json', cb);
-}
+})
+.fail(function (err) {
+    debug(err);
+})
+.run();
 
 function launch() {
     var server = app.listen(app.get('port'), function() {

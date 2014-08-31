@@ -1,5 +1,5 @@
 {
-    "mongodb": {
+    "mongodb2": {
         "name": "liqueed",
         "host": "localhost",
         "port": 27017
