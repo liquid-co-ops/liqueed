@@ -1,10 +1,61 @@
 'use strict';
 
 var ostore = require('ostore');
+var mongodb = require('./mongodb');
 
-var stores = { };
+var mstores = { };
+var dbstores = { };
 
-function Store(impl) {
+var db;
+
+var usedb = false;
+
+function DbStore(impl) {
+    this.get = function (id, cb) { 
+        impl.findById(id, function (err, item) {
+            if (item && item._id) {
+                item.id = item._id;
+                delete item._id;
+            }
+            cb(err, item);
+        });
+    };
+    
+    this.find = function (query, projection, cb) {
+        if (!cb)
+            impl.find(query, projection);
+        else
+            impl.find(query, projection, cb);
+    };
+
+    this.add = function (data, cb) { 
+        impl.insert(data, function (err, item) {
+            console.log(item);
+            if (item && item._id)
+                cb(err, item._id);
+            else
+                cb(err, null);
+        });
+    };
+    
+    this.put = function (id, data, cb) {
+        impl.update(id, data, cb);
+    };
+    
+    this.remove = function (id, cb) {
+        impl.remove(id, cb);
+    };
+    
+    this.update = function (id, data, cb) {
+        impl.update(id, data, cb);
+    };
+    
+    this.clear = function (cb) {
+        impl.clear(cb);
+    };
+}
+
+function MemoryStore(impl) {
     this.get = function (id, cb) { 
         setImmediate(function () {
             cb(null, impl.get(id)); 
@@ -60,24 +111,54 @@ function Store(impl) {
     };
 }
 
-function getCreateStore(name) {
-    if (stores[name])
-        return stores[name];
+function getCreateMemoryStore(name) {
+    if (mstores[name])
+        return mstores[name];
         
-    var store = new Store(ostore.createStore());
-    stores[name] = store;
+    var store = new MemoryStore(ostore.createStore());
+    mstores[name] = store;
 
-    return stores[name];
+    return mstores[name];
 }
 
-function createStore(name) {
-    var store = new Store(ostore.createStore());
-    stores[name] = store;
+function getCreateDbStore(name) {
+    if (dbstores[name])
+        return dbstores[name];
+        
+    var store = new DbStore(mongodb.createRepository(db, name));
+    dbstores[name] = store;
+
+    return dbstores[name];
+}
+
+function getCreateStore(name) {
+    if (usedb)
+        return getCreateDbStore(name);
+        
+    return getCreateMemoryStore(name);
+}
+
+function createMemoryStore(name) {
+    var store = new MemoryStore(ostore.createStore());
+    mstores[name] = store;
     return store;
 }
 
+function createDbStore(name) {
+    var store = new DbStore(ostore.createStore());
+    dbstores[name] = store;
+    return store;
+}
+
+function createStore(name) {
+    if (usedb)
+        return createDbStore(name);
+        
+    return createMemoryStore(name);
+}
+
 function clear(cb) {
-    var names = Object.keys(stores);
+    var names = Object.keys(mstores);
     
     var l = names.length;
     
@@ -91,7 +172,7 @@ function clear(cb) {
             return;
         }
         
-        var store = stores[names[k++]];
+        var store = mstores[names[k++]];
         
         store.clear(function (err, data) {
             if (err)
@@ -102,11 +183,29 @@ function clear(cb) {
     }
 }
 
+function useDb(name, config, cb) {
+    config = config || { };
+    usedb = true;
+    db = mongodb.openDatabase(name, config.host || 'localhost', config.port || 27017, cb);
+}
+
+function closeDb(cb) {
+    db.close(cb);
+}
+
+function useMemory() {
+    usedb = false;
+    db.close();
+}
+
 module.exports = {
     store: getCreateStore,
 
     createStore: createStore,
-    clear: clear
+    clear: clear,
+    
+    useDb: useDb,
+    closeDb: closeDb
 };
 
 
