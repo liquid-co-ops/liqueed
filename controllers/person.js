@@ -3,6 +3,13 @@
 var service = require('../services/person');
 var async = require('simpleasync');
 
+function getId(id) {
+    if (id && id.length && id.length > 10)
+        return id;
+        
+    return parseInt(id);
+}
+
 function index(req, res) {
     service.getPersons(function (err, items) {
         if (err)
@@ -13,7 +20,7 @@ function index(req, res) {
 };
 
 function view(req, res) {
-    var id = parseInt(req.params.id);
+    var id = getId(req.params.id);
     
     var model = {
         title: 'Person'

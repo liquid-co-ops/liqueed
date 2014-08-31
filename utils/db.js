@@ -173,8 +173,8 @@ function createStore(name) {
     return createMemoryStore(name);
 }
 
-function clear(cb) {
-    var names = Object.keys(mstores);
+function clearStores(stores, cb) {
+    var names = Object.keys(stores);
     
     var l = names.length;
     
@@ -188,7 +188,7 @@ function clear(cb) {
             return;
         }
         
-        var store = mstores[names[k++]];
+        var store = stores[names[k++]];
         
         store.clear(function (err, data) {
             if (err)
@@ -199,11 +199,23 @@ function clear(cb) {
     }
 }
 
+function clear(cb) {
+    if (usedb)
+        clearStores(dbstores, cb);
+    else
+        clearStores(mstores, db);
+}
+
 function useDb(name, config, cb) {
     config = config || { };
     usedb = true;
     dbstores = { };
     db = mongodb.openDatabase(name, config.host || 'localhost', config.port || 27017, cb);
+    getCreateStore('persons');
+    getCreateStore('projects');
+    getCreateStore('teams');
+    getCreateStore('assignments');
+    getCreateStore('notes');
 }
 
 function closeDb(cb) {
@@ -224,6 +236,4 @@ module.exports = {
     useDb: useDb,
     closeDb: closeDb
 };
-
-
 

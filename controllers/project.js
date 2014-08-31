@@ -4,6 +4,13 @@ var sperson = require('../services/person');
 
 var async = require('simpleasync');
 
+function getId(id) {
+    if (id && id.length && id.length > 10)
+        return id;
+        
+    return parseInt(id);
+}
+
 function index(req, res) {
     service.getProjects(function (err, items) {
         res.render('projectlist', { title: 'Projects', items: items });
@@ -11,7 +18,7 @@ function index(req, res) {
 }
 
 function view(req, res) {
-    var id = parseInt(req.params.id);
+    var id = getId(req.params.id);
     
     var model = {
         title: 'Project'
@@ -35,8 +42,8 @@ function view(req, res) {
 }
 
 function viewPeriod(req, res) {
-    var projectId = parseInt(req.params.id);
-    var periodId = parseInt(req.params.idp);
+    var projectId = getId(req.params.id);
+    var periodId = getId(req.params.idp);
     
     var model = {
         title: 'Period'
