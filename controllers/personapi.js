@@ -2,6 +2,13 @@
 
 var service = require('../services/person');
 
+function getId(id) {
+    if (id && id.length && id.length > 10)
+        return id;
+        
+    return parseInt(id);
+}
+
 function list(req, res) {
     service.getPersons(function (err, items) {
         res.send(items);
@@ -9,14 +16,14 @@ function list(req, res) {
 };
 
 function get(req, res) {
-    var id = parseInt(req.params.id);
+    var id = getId(req.params.id);
     service.getPersonById(id, function (err, item) {
         res.send(item);
     });
 };
 
 function getProjects(req, res) {
-    var id = parseInt(req.params.id);
+    var id = getId(req.params.id);
     service.getProjects(id, function (err, items) {
         res.send(items);
     });
