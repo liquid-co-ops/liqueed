@@ -41,8 +41,6 @@ exports['add project'] = function (test) {
 exports['get project by id'] = function (test) {
     test.async();
     
-    console.dir(liqueedid);
-    
     service.getProjectById(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);

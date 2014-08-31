@@ -26,6 +26,26 @@ function Repository(db, name) {
         });
     };
     
+    this.find = function (query, projection, callback) {
+        if (!callback) {
+            callback = projection;
+            projection = null;
+        }
+        
+        getCollection(function (err, collection) {
+            if (err)
+                callback(err);
+            else {
+                collection.find(query).toArray(function (err, collection) {
+                    if (err)
+                        callback(err);
+                    else
+                        callback(null, collection);
+                });
+            }
+        });
+    };
+    
     this.insert = function (item, callback) {
         getCollection(function (err, collection) {
             if (err)

@@ -14,7 +14,7 @@ function DbStore(impl) {
     this.get = function (id, cb) { 
         impl.findById(id, function (err, item) {
             if (item && item._id) {
-                item.id = item._id;
+                item.id = item._id.toString();
                 delete item._id;
             }
             cb(err, item);
@@ -22,17 +22,18 @@ function DbStore(impl) {
     };
     
     this.find = function (query, projection, cb) {
-        if (!cb)
-            impl.find(query, projection);
+        if (!projection && !cb)
+            impl.findAll(makeTransform(query));
+        else if (!cb)
+            impl.find(query, makeTransform(projection));
         else
-            impl.find(query, projection, cb);
+            impl.find(query, projection, makeTransform(cb));
     };
 
     this.add = function (data, cb) { 
         impl.insert(data, function (err, item) {
-            console.log(item);
-            if (item && item._id)
-                cb(err, item._id);
+            if (item && item[0] && item[0]._id)
+                cb(err, item[0]._id.toString());
             else
                 cb(err, null);
         });
@@ -53,6 +54,21 @@ function DbStore(impl) {
     this.clear = function (cb) {
         impl.clear(cb);
     };
+}
+
+function makeTransform(cb) {
+    return function (err, items) {
+        if (items && items.length)
+            items.forEach(function (item) {
+                if (!item._id)
+                    return;
+                    
+                item.id = item._id.toString();
+                delete item._id;
+            });
+            
+        cb(err, items);
+    }
 }
 
 function MemoryStore(impl) {
