@@ -42,6 +42,7 @@ function view(req, res) {
 }
 
 function viewPeriod(req, res) {
+    console.log('viewPeriod');
     var projectId = getId(req.params.id);
     var periodId = getId(req.params.idp);
     

@@ -176,8 +176,7 @@ function createStore(name) {
 function clearStores(stores, cb) {
     var names = Object.keys(stores);
     
-    var l = names.length;
-    
+    var l = names.length;    
     var k = 0;
     
     doStep();
@@ -203,7 +202,7 @@ function clear(cb) {
     if (usedb)
         clearStores(dbstores, cb);
     else
-        clearStores(mstores, db);
+        clearStores(mstores, cb);
 }
 
 function useDb(name, config, cb) {

@@ -19,7 +19,8 @@ function load(filename, cb) {
     
     doPersonStep();
     
-    function doPersonStep() {        if (k >= l) {
+    function doPersonStep() {
+        if (k >= l) {
             doProjects();
             return;
         }

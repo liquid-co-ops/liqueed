@@ -179,6 +179,7 @@ function getAssignments(periodid, cb) {
             var item = data[k++];
             
             var assignment = { id: item.id, amount: item.amount };
+
             sperson.getPersonById(item.from, function (err, personid) {
                 if (err) {
                     cb(err, null);

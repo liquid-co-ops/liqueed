@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div id="projectspage">
+    <div id="projectspage" style='display: none'>
         <h1>My Projects</h1>
         <div id="projectsactions">
             <button type="button" class="btn btn-primary" onclick='pages.doSignOut()'>Sign Out</button>
@@ -88,7 +88,7 @@
         else
             client = clientlocal;
 
-        pages.gotoProjects();
+        pages.gotoSignIn();
 
         $("#slider-range").slider();
     </script>

@@ -1,7 +1,7 @@
 
 var pages = (function () {
     var active;
-    var me = 1;
+    var me;
     var currentproject = null;
     
     function makeProjectButton(text, fnclick) {
@@ -26,14 +26,19 @@ var pages = (function () {
     
     function doSignIn() {
         var select = $("#personlist");
+
+        var userid = select.val();
         
-        me = parseInt(select.val());
+        if (userid.length < 10)
+            me = parseInt(userid);
+        else
+            me = userid;
         
         gotoProjects();
     }
     
     function doSignOut() {
-        me = 0;
+        me = null;
         gotoSignIn();
     }
     
