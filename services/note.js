@@ -1,30 +1,30 @@
 'use strict';
 
 var db = require('../utils/db');
-var store;
-
-db.store('notes', function (err, data) {
-    store = data;
-});
 
 function addNote(data, cb) {
-  store.add(data, cb);
+    var store = db.store('notes');
+    store.add(data, cb);
 }
 
 function getNoteById(id, cb) {
-  store.get(id, cb);
+    var store = db.store('notes');
+    store.get(id, cb);
 }
 
 function getAllNotes(cb) {
-  store.find(cb);
+    var store = db.store('notes');
+    store.find(cb);
 }
 
 function updateNoteById(id, data, cb) {
-  store.update(id, data, cb);
+    var store = db.store('notes');
+    store.update(id, data, cb);
 }
 
 function removeNoteById(id, cb) {
-  store.remove(id, cb);
+    var store = db.store('notes');
+    store.remove(id, cb);
 }
 
 module.exports = {

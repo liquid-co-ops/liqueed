@@ -2,52 +2,26 @@
 
 var db = require('../utils/db');
 var async = require('simpleasync');
-
-var store;
-
-db.store('projects', function (err, data) {
-    store = data;
-});
-
-var teamstore;
-
-db.store('teams', function (err, data) {
-    teamstore = data;
-});
-
-var periodstore;
-
-db.store('periods', function (err, data) {
-    periodstore = data;
-});
-
-var assignmentstore;
-
-db.store('assignments', function (err, data) {
-    assignmentstore = data;
-});
-
-var personstore;
-
-db.store('persons', function (err, data) {
-    personstore = data;
-});
-
 var sl = require('simplelists');
 
 function addProject(data, cb) {
+    var store = db.store('projects');
     store.add(data, cb);
 }
 
 function getProjectById(id, cb) {
+    var store = db.store('projects');
     store.get(id, cb);
 }
 
 function addPersonToTeam(projid, personid, cb) {
+    var teamstore = db.store('teams');
     teamstore.add({ project: projid, person: personid }, cb);
 }
 
 function getTeam(id, cb) {
+    var teamstore = db.store('teams');
+
     teamstore.find({ project: id }, function (err, teamdata) {
         if (err) {
             cb(err, null);
@@ -87,6 +61,9 @@ function getTeam(id, cb) {
 function getShareholders(id, cb) {
     var teamdata;
     var sharedata;
+    var teamstore = db.store('teams');
+    var personstore = db.store('persons');
+    var assignmentstore = db.store('assignments');
     
     async()
     .then(function (data, next) {
@@ -118,6 +95,10 @@ function getShareholders(id, cb) {
 function getShares(id, cb) {
     var teamdata;
     var sharedata;
+
+    var teamstore = db.store('teams');
+    var assignmentstore = db.store('assignments');
+    var personstore = db.store('persons');
     
     async()
     .then(function (data, next) {
@@ -153,23 +134,28 @@ function getShares(id, cb) {
 }
 
 function getProjects(cb) {
+    var store = db.store('projects');
     store.find(cb);
 }
 
 function addPeriod(projid, period, cb) {
+    var periodstore = db.store('periods');
     period.project = projid;
     periodstore.add(period, cb);
 }
 
 function getPeriodById(periodid, cb) {
+    var periodstore = db.store('periods');
     periodstore.get(periodid, cb);
 }
 
 function getPeriods(projid, cb) {
+    var periodstore = db.store('periods');
     periodstore.find({ project: projid }, cb);
 }
 
 function getAssignments(periodid, cb) {
+    var assignmentstore = db.store('assignments');
     var sperson = require('./person');    
     assignmentstore.find({ period: periodid }, function (err, data) {
         if (err) {
@@ -219,6 +205,8 @@ function getAssignments(periodid, cb) {
 }
 
 function removeAssignments(projectid, periodid, fromid, cb) {
+    var assignmentstore = db.store('assignments');
+
     async()
     .then(function (data, next) {
         assignmentstore.find({ project: projectid, period: periodid, from: fromid }, next);
@@ -236,6 +224,8 @@ function removeAssignments(projectid, periodid, fromid, cb) {
 }
 
 function putAssignment(projectid, periodid, fromid, toid, amount, cb) {
+    var assignmentstore = db.store('assignments');
+
     getPeriodById(periodid, function (err, period) {
         if (err) {
             cb(err, null);
@@ -321,6 +311,8 @@ function putAssignments(projectid, periodid, fromid, assignments, cb) {
 }
 
 function getTotalAssignments(projectid, periodid, fromid, cb) {
+    var assignmentstore = db.store('assignments');
+    
     assignmentstore.find({ project: projectid, period: periodid, from: fromid }, function (err, items) {
         if (err) {
             cb(err, null);

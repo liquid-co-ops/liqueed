@@ -60,23 +60,20 @@ function Store(impl) {
     };
 }
 
-function getCreateStore(name, cb) {
-    if (stores[name]) {
-        cb(null, stores[name]);
-        return;
-    }
+function getCreateStore(name) {
+    if (stores[name])
+        return stores[name];
         
     var store = new Store(ostore.createStore());
     stores[name] = store;
-    
-    cb(null, store);
+
+    return stores[name];
 }
 
-function createStore(name, cb) {
+function createStore(name) {
     var store = new Store(ostore.createStore());
     stores[name] = store;
-    
-    cb(null, store);
+    return store;
 }
 
 function clear(cb) {

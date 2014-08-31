@@ -21,18 +21,24 @@ db.store('projects', function (err, data) {
 });
 
 function addPerson(data, cb) {
+    var store = db.store('persons');
     store.add(data, cb);
 }
 
 function getPersonById(id, cb) {
+    var store = db.store('persons');
     store.get(id, cb);
 }
 
 function getPersons(cb) {
+    var store = db.store('persons');
     store.find(cb);
 }
 
 function getProjects(id, cb) {
+    var tstore = db.store('teams');
+    var pstore = db.store('projects');
+    
     tstore.find({ person: id }, function (err, result) {
         if (err) {
             cb(err, null);
