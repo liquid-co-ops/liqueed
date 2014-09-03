@@ -105,6 +105,7 @@ exports['first project first period has assigments'] = function (test) {
         test.equal(assignments[0].from.name, 'Alice');
         test.equal(assignments[0].to.name, 'Bob');
         test.equal(assignments[0].amount, 50);
+        test.equal(assignments[0].feedback, 'Arrive earlier');
         
         test.equal(assignments[1].from.name, 'Alice');
         test.equal(assignments[1].to.name, 'Charlie');

@@ -182,7 +182,7 @@ exports['put assignment'] = function (test) {
     })
     .then(function (id, next) {
         cymentid = id;
-        service.putAssignment(liqueedid, periodid, alanid, cymentid, 50, next);
+        service.putAssignment(liqueedid, periodid, alanid, cymentid, 50, "The mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -228,7 +228,7 @@ exports['put same assignment different amount'] = function (test) {
     
     async()
     .then(function (data, next) {
-        service.putAssignment(liqueedid, periodid, alanid, cymentid, 40, next);
+        service.putAssignment(liqueedid, periodid, alanid, cymentid, 40, "The mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -270,7 +270,7 @@ exports['put and get total assignments by period/person'] = function (test) {
     })
     .then(function (id, next) {
         cebadorid = id;
-        service.putAssignment(liqueedid, periodid, alanid, cebadorid, 60, next);
+        service.putAssignment(liqueedid, periodid, alanid, cebadorid, 60, "The mentor", next);
     })
     .then(function (data, next) {
         service.getTotalAssignments(liqueedid, periodid, alanid, next);
@@ -288,7 +288,7 @@ exports['error on assignment too many shares'] = function (test) {
     
     async()
     .then(function (data, next) {
-        service.putAssignment(liqueedid, periodid, alanid, cebadorid, 70, next);
+        service.putAssignment(liqueedid, periodid, alanid, cebadorid, 70, "The mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -313,7 +313,7 @@ exports['error on assignment too many shares using new person'] = function (test
     })
     .then(function (id, next) {
         lavadoid = id;
-        service.putAssignment(liqueedid, periodid, alanid, lavadoid, 1, next);
+        service.putAssignment(liqueedid, periodid, alanid, lavadoid, 1, "The mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -351,8 +351,8 @@ exports['put assignments'] = function (test) {
     async()
     .then(function (data, next) {
         service.putAssignments(liqueedid, periodid, alanid, [
-            { to: cymentid, amount: 40 },
-            { to: cebadorid, amount: 60 }
+            { to: cymentid, amount: 40, feedback: "come on" },
+            { to: cebadorid, amount: 60, feedback: "great work" }
         ], next);
     })
     .then(function (result, next) {

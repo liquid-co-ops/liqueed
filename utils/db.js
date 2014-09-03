@@ -96,7 +96,7 @@ function MemoryStore(impl) {
         });
     };
 
-    this.add = function (data, cb) { 
+    this.add = function (data, cb) {
         setImmediate(function () {
             cb(null, impl.add(data));
         });

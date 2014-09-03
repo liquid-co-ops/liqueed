@@ -177,8 +177,7 @@ function getAssignments(periodid, cb) {
             }
             
             var item = data[k++];
-            
-            var assignment = { id: item.id, amount: item.amount };
+            var assignment = { id: item.id, amount: item.amount, feedback: item.feedback};
 
             sperson.getPersonById(item.from, function (err, personid) {
                 if (err) {
@@ -224,7 +223,7 @@ function removeAssignments(projectid, periodid, fromid, cb) {
     .run();
 }
 
-function putAssignment(projectid, periodid, fromid, toid, amount, cb) {
+function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) {
     var assignmentstore = db.store('assignments');
 
     getPeriodById(periodid, function (err, period) {
@@ -257,6 +256,7 @@ function putAssignment(projectid, periodid, fromid, toid, amount, cb) {
 
                 if (olditem) {
                     olditem.amount = amount;
+                    olditem.feedback = feedback;
                     assignmentstore.put(olditem.id, olditem, function(err, data) {
                         if (err)
                             cb(err, null);
@@ -265,7 +265,7 @@ function putAssignment(projectid, periodid, fromid, toid, amount, cb) {
                     });
                 }
                 else
-                    assignmentstore.add({ project: projectid, period: periodid, from: fromid, to: toid, amount: amount }, function (err, id) {
+                    assignmentstore.add({ project: projectid, period: periodid, from: fromid, to: toid, amount: amount, feedback: feedback }, function (err, id) {
                         if (err)
                             cb(err, null);
                         else
@@ -296,7 +296,7 @@ function putAssignments(projectid, periodid, fromid, assignments, cb) {
             }
             
             var assignment = assignments[k++];
-            putAssignment(projectid, periodid, fromid, assignment.to, assignment.amount, function (err, result) {
+            putAssignment(projectid, periodid, fromid, assignment.to, assignment.amount, assignment.feedback, function (err, result) {
                 if (err) {
                     cb(err, null);
                     return;

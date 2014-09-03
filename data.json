@@ -6,7 +6,7 @@
                 { 
                     "name": "January 2014", "date": "2014-01-31", "amount": 100,
                     "assignments": [
-                        { "from": "Alice", "to": "Bob", "amount": 50 },
+                        { "from": "Alice", "to": "Bob", "amount": 50, "feedback": "Arrive earlier" },
                         { "from": "Alice", "to": "Charlie", "amount": 50 },
                         { "from": "Bob", "to": "Alice", "amount": 60 },
                         { "from": "Bob", "to": "Charlie", "amount": 40 },

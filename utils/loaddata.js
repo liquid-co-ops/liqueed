@@ -11,7 +11,6 @@ function load(filename, cb) {
     }
         
     var data = require(filename);
-    
     var persons = { };
 
     var l = data.persons.length;
@@ -114,7 +113,7 @@ function load(filename, cb) {
                                     return;
                                 }
                                 
-                                var assignment = perioddata.assignments[ka++];                                var fromid = persons[assignment.from];                                var toid = persons[assignment.to];                                projectService.putAssignment(projid, periodid, fromid, toid, assignment.amount, function (err, id) {
+                                var assignment = perioddata.assignments[ka++];                                var fromid = persons[assignment.from];                                var toid = persons[assignment.to];                                projectService.putAssignment(projid, periodid, fromid, toid, assignment.amount, assignment.feedback, function (err, id) {
                                     if (err)
                                         cb(err, null);
                                     else
