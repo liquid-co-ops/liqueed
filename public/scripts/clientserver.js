@@ -52,7 +52,7 @@ var clientserver = (function() {
         getEntity(idproj, cb, "/team");
     }
     
-    function getShares(idproj, cb) {
+    function getSharesByProject(idproj, cb) {
         getEntity(idproj, cb, "/share");
     }
     
@@ -87,7 +87,7 @@ var clientserver = (function() {
         getPeriods: getPeriods,
         getTeam: getTeam,
         getShareholders: getShareholders,
-        getShares: getShares,
+        getSharesByProject: getSharesByProject,
         getAssignments: getAssignments,
         putAssigments: putAssignments,
         getPersons: getPersons

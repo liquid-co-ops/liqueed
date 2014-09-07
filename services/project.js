@@ -92,16 +92,23 @@ function getShareholders(id, cb) {
     .run();
 }
 
-function getShares(id, cb) {
+function getSharesByProject(projectid, cb) {
+    getShares({ project: projectid }, cb);
+}
+
+function getSharesByPeriod(projectid, periodid, cb) {
+    getShares({ project: projectid, period: periodid }, cb);
+}
+
+function getShares(filter, cb) {
     var sharedata;
 
-    var teamstore = db.store('teams');
     var assignmentstore = db.store('assignments');
     var personstore = db.store('persons');
     
     async()
     .then(function (data, next) {
-        assignmentstore.find({ project: id }, next);  
+        assignmentstore.find(filter, next);  
     })
     .then(function (data, next) {
         sharedata = data;
@@ -326,7 +333,8 @@ module.exports = {
     getTeam: getTeam,
     
     getShareholders: getShareholders,
-    getShares: getShares,
+    getSharesByProject: getSharesByProject,
+    getSharesByPeriod: getSharesByPeriod,
     
     addPeriod: addPeriod,
     getPeriodById: getPeriodById,

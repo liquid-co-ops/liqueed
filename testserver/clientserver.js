@@ -142,7 +142,7 @@ exports['get assignments from first project first period'] = function (test) {
 exports['get shares from first project'] = function (test) {
     test.async();
     
-    client.getShares(projects[0].id, function (err, result) {
+    client.getSharesByProject(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));

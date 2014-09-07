@@ -363,7 +363,7 @@ exports['error on assignment too many shares using new person'] = function (test
 exports['get total shares by project'] = function (test) {
     test.async();
     
-    service.getShares(liqueedid, function (err, result) {
+    service.getSharesByProject(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));

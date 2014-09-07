@@ -36,9 +36,9 @@ function getShareholders(req, res) {
     });
 }
 
-function getShares(req, res) {
+function getSharesByProject(req, res) {
     var id = getId(req.params.id);
-    service.getShares(id, function (err, items) {
+    service.getSharesByProject(id, function (err, items) {
         res.send(items);
     });
 }
@@ -90,7 +90,7 @@ module.exports = {
     get: get,
     getTeam: getTeam,
     getShareholders: getShareholders,
-    getShares: getShares,
+    getSharesByProject: getSharesByProject,
     getPeriods: getPeriods,
     getPeriod: getPeriod,
     getAssignments: getAssignments,
