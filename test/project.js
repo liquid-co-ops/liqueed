@@ -376,6 +376,22 @@ exports['get total shares by project'] = function (test) {
     });
 };
 
+exports['get total shares by project period'] = function (test) {
+    test.async();
+    
+    service.getSharesByPeriod(liqueedid, periodid, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.equal(result.length, 2);
+
+        test.ok(sl.exist(result, { id: cymentid, name: 'Cyment', shares: 40 }));
+        test.ok(sl.exist(result, { id: cebadorid, name: 'Cebador', shares: 60 }));
+        
+        test.done();
+    });
+};
+
 exports['put assignments'] = function (test) {
     test.async();
     
