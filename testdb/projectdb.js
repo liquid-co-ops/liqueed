@@ -156,6 +156,7 @@ exports['add period to project'] = function (test) {
         test.equal(result[0].name, 'First period');
         test.equal(result[0].date, '2014-01-01');
         test.equal(result[0].amount, 100);
+        test.ok(!result[0].closed);
         test.done();
     })
     .run();
@@ -169,6 +170,7 @@ exports['get period'] = function (test) {
         test.ok(result);
         test.equal(result.name, 'First period');
         test.equal(result.date, '2014-01-01');
+        test.ok(!result.closed);
         test.done();
     });
 };
@@ -194,7 +196,7 @@ exports['put assignment'] = function (test) {
     })
     .then(function (id, next) {
         cymentid = id;
-        service.putAssignment(liqueedid, periodid, alanid, cymentid, 50, next);
+        service.putAssignment(liqueedid, periodid, alanid, cymentid, 50, "The mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -235,12 +237,40 @@ exports['get shareholders from team and assignments'] = function (test) {
     });
 };
 
+exports['put assignment that close the period'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        service.putAssignment(liqueedid, periodid, alanid, cymentid, 100, "The mentor", next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        service.getAssignments(periodid, next);
+    })
+    .then(function (list, next) {
+        test.ok(list);
+        test.ok(Array.isArray(list));
+        test.equal(list.length, 1);
+        
+        test.equal(list[0].from.id, alanid);
+        test.equal(list[0].from.name, 'Alan');
+        test.equal(list[0].to.id, cymentid);
+        test.equal(list[0].to.name, 'Cyment');
+        test.equal(list[0].amount, 100);
+        //test.ok(list[0].closed);
+        
+        test.done();
+    })
+    .run();
+};
+
 exports['put same assignment different amount'] = function (test) {
     test.async();
     
     async()
     .then(function (data, next) {
-        service.putAssignment(liqueedid, periodid, alanid, cymentid, 40, next);
+        service.putAssignment(liqueedid, periodid, alanid, cymentid, 40, "The mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -256,6 +286,7 @@ exports['put same assignment different amount'] = function (test) {
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 40);
+        test.ok(!list[0].closed);
         
         test.done();
     })
@@ -282,7 +313,7 @@ exports['put and get total assignments by period/person'] = function (test) {
     })
     .then(function (id, next) {
         cebadorid = id;
-        service.putAssignment(liqueedid, periodid, alanid, cebadorid, 60, next);
+        service.putAssignment(liqueedid, periodid, alanid, cebadorid, 60, "The mentor", next);
     })
     .then(function (data, next) {
         service.getTotalAssignments(liqueedid, periodid, alanid, next);
@@ -300,7 +331,7 @@ exports['error on assignment too many shares'] = function (test) {
     
     async()
     .then(function (data, next) {
-        service.putAssignment(liqueedid, periodid, alanid, cebadorid, 70, next);
+        service.putAssignment(liqueedid, periodid, alanid, cebadorid, 70, "The mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -325,7 +356,7 @@ exports['error on assignment too many shares using new person'] = function (test
     })
     .then(function (id, next) {
         lavadoid = id;
-        service.putAssignment(liqueedid, periodid, alanid, lavadoid, 1, next);
+        service.putAssignment(liqueedid, periodid, alanid, lavadoid, 1, "The mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -344,7 +375,7 @@ exports['error on assignment too many shares using new person'] = function (test
 exports['get total shares by project'] = function (test) {
     test.async();
     
-    service.getShares(liqueedid, function (err, result) {
+    service.getSharesByProject(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
@@ -363,8 +394,8 @@ exports['put assignments'] = function (test) {
     async()
     .then(function (data, next) {
         service.putAssignments(liqueedid, periodid, alanid, [
-            { to: cymentid, amount: 40 },
-            { to: cebadorid, amount: 60 }
+            { to: cymentid, amount: 40, feedback: "come on" },
+            { to: cebadorid, amount: 60, feedback: "great work" }
         ], next);
     })
     .then(function (result, next) {

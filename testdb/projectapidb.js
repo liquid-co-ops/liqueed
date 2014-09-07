@@ -224,10 +224,6 @@ exports['get first project first period assignments'] = function (test) {
             test.ok(Array.isArray(model));
             test.equal(model.length, 6);
 
-            test.equal(model[0].from.name, 'Alice');
-            test.equal(model[0].to.name, 'Bob');
-            test.equal(model[0].amount, 50);
-            
             test.done();
         }
     };
