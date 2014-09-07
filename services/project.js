@@ -225,56 +225,48 @@ function removeAssignments(projectid, periodid, fromid, cb) {
 
 function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) {
     var assignmentstore = db.store('assignments');
-
-    getPeriodById(periodid, function (err, period) {
-        if (err) {
-            cb(err, null);
+    
+    var period;
+    var total;
+    var items;
+    
+    async()
+    .then(function (data, next) { getPeriodById(periodid, next) })
+    .then(function (data, next) { period = data; getTotalAssignments(projectid, periodid, fromid, next); })
+    .then(function (data, next) { total = data; assignmentstore.find({ project: projectid, period: periodid, from: fromid, to: toid }, next); })
+    .then(function (data, next) {
+        items = data;
+        var olditem = (items && items.length) ? items[0] : null;
+        var oldamount = olditem ? olditem.amount : 0;
+            
+        var newtotal = total - oldamount + amount;
+        
+        if (newtotal > period.amount) {
+            cb(null, { error: 'You assigned too many shares' });;
             return;
         }
-        
-        getTotalAssignments(projectid, periodid, fromid, function (err, total) {
-            if (err) {
-                cb(err, null);
-                return;
-            }
-            
-            assignmentstore.find({ project: projectid, period: periodid, from: fromid, to: toid }, function (err, items) {
-                if (err) {
-                    cb(err, null);
-                    return;
-                }
-                
-                var olditem = (items && items.length) ? items[0] : null;
-                var oldamount = olditem ? olditem.amount : 0;
-                    
-                var newtotal = total - oldamount + amount;
-                
-                if (newtotal > period.amount) {
-                    cb(null, { error: 'You assigned too many shares' });;
-                    return;
-                }
 
-                if (olditem) {
-                    olditem.amount = amount;
-                    olditem.feedback = feedback;
-                    assignmentstore.put(olditem.id, olditem, function(err, data) {
-                        if (err)
-                            cb(err, null);
-                        else
-                            cb(null, olditem.id);
-                    });
-                }
+        if (olditem) {
+            olditem.amount = amount;
+            olditem.feedback = feedback;
+            assignmentstore.put(olditem.id, olditem, function(err, data) {
+                if (err)
+                    next(err, null);
                 else
-                    assignmentstore.add({ project: projectid, period: periodid, from: fromid, to: toid, amount: amount, feedback: feedback }, function (err, id) {
-                        if (err)
-                            cb(err, null);
-                        else
-                            cb(null, id);
-                    });
+                    next(null, olditem.id);
             });
-        })
-    });
-    
+        }
+        else
+            assignmentstore.add({ project: projectid, period: periodid, from: fromid, to: toid, amount: amount, feedback: feedback }, function (err, id) {
+                if (err)
+                    next(err, null);
+                else
+                    next(null, id);
+            });
+    })
+    .then(function (data, next) { cb(null, data); })
+    .fail(function (err) { cb(err, null); })
+    .run();
 }
 
 function putAssignments(projectid, periodid, fromid, assignments, cb) {
