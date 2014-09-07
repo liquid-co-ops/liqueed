@@ -93,7 +93,6 @@ function getShareholders(id, cb) {
 }
 
 function getShares(id, cb) {
-    var teamdata;
     var sharedata;
 
     var teamstore = db.store('teams');
@@ -102,10 +101,6 @@ function getShares(id, cb) {
     
     async()
     .then(function (data, next) {
-        teamstore.find({ project: id }, next);
-    })
-    .then(function (data, next) {
-        teamdata = data;
         assignmentstore.find({ project: id }, next);  
     })
     .then(function (data, next) {
