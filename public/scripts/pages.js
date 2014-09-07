@@ -109,6 +109,8 @@ var pages = (function () {
                 return;
             }
             
+            periods = sl.sort(periods, 'date', true);
+            
             if (client.getShares)
                 client.getShares(project.id, function (err, shares) {
                     if (err)
@@ -206,6 +208,8 @@ var pages = (function () {
         projname.html(project.name);
         var pername = $("#periodname");        
         pername.html(period.name);
+        var perdate = $("#perioddate");        
+        perdate.html(period.date);
         var amount = $("#periodamount");
         amount.html(period.amount);
         var shares = $("#shares");

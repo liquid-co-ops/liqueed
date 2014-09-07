@@ -7,9 +7,9 @@ if (typeof sl == 'undefined')
 var projects = [
     { id: 1, name: 'My project 1',
         periods: [
-            { id: 1, name: 'January 2014', amount: 100 },
-            { id: 2, name: 'February 2014', amount: 100 },
-            { id: 3, name: 'March 2014', amount: 100 }
+            { id: 1, name: 'January 2014', amount: 100, "date": "2014-01-31" },
+            { id: 2, name: 'February 2014', amount: 100, "date": "2014-02-28" },
+            { id: 3, name: 'March 2014', amount: 100, "date": "2014-03-31" }
         ],
         shareholders: [
             { id: 1, name: 'Alan' },
