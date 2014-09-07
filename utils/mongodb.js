@@ -60,7 +60,7 @@ function Repository(db, name) {
             if (err)
                 callback(err);
             else
-                collection.update({ _id: collection.db.bson_serializer.ObjectID.createFromHexString(id) }, item, callback);
+                collection.update({ _id: collection.db.bson_serializer.ObjectID.createFromHexString(id) }, { $set: item }, callback);
         });
     };
     

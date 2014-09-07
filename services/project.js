@@ -231,6 +231,8 @@ function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) 
     var period;
     var total;
     var items;
+    var assignid;
+    var totalassigned;
     
     async()
     .then(function (data, next) { getPeriodById(periodid, next) })
@@ -266,7 +268,27 @@ function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) 
                     next(null, id);
             });
     })
-    .then(function (data, next) { cb(null, data); })
+    .then(function (data, next) {
+        assignid = data;
+        
+        assignmentstore.find({ project: projectid, period: periodid }, next);
+    })
+    .then(function (data, next) {
+        totalassigned = sl.sum(data, 'amount');
+        getTeam(projectid, next);
+    })
+    .then(function (data, next) {
+        var nteam = data.length;
+        var closed = totalassigned >= nteam * period.amount;
+        
+        if (closed != period.closed) {
+            var periodstore = db.store('periods');
+            periodstore.update(period.id, { closed: closed }, next);
+        }
+        else
+            next(null, null);
+    })
+    .then(function (data, next) { cb(null, assignid); })
     .fail(function (err) { cb(err, null); })
     .run();
 }

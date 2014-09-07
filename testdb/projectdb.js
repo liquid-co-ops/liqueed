@@ -258,8 +258,11 @@ exports['put assignment that close the period'] = function (test) {
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 100);
-        //test.ok(list[0].closed);
         
+        service.getPeriodById(periodid, next);
+    })
+    .then(function (period, next) {
+        test.ok(period.closed);
         test.done();
     })
     .run();
@@ -286,8 +289,11 @@ exports['put same assignment different amount'] = function (test) {
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 40);
-        test.ok(!list[0].closed);
         
+        service.getPeriodById(periodid, next);
+    })
+    .then(function (period, next) {
+        test.ok(!period.closed);
         test.done();
     })
     .run();
@@ -376,6 +382,22 @@ exports['get total shares by project'] = function (test) {
     test.async();
     
     service.getSharesByProject(liqueedid, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.equal(result.length, 2);
+
+        test.ok(sl.exist(result, { id: cymentid, name: 'Cyment', shares: 40 }));
+        test.ok(sl.exist(result, { id: cebadorid, name: 'Cebador', shares: 60 }));
+        
+        test.done();
+    });
+};
+
+exports['get total shares by project period'] = function (test) {
+    test.async();
+    
+    service.getSharesByPeriod(liqueedid, periodid, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));

@@ -246,8 +246,11 @@ exports['put assignment that close the period'] = function (test) {
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 100);
-        //test.ok(list[0].closed);
         
+        service.getPeriodById(periodid, next);
+    })
+    .then(function (period, next) {
+        test.ok(period.closed);
         test.done();
     })
     .run();
@@ -274,8 +277,11 @@ exports['put same assignment different amount'] = function (test) {
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 40);
-        test.ok(!list[0].closed);
         
+        service.getPeriodById(periodid, next);
+    })
+    .then(function (period, next) {
+        test.ok(!period.closed);
         test.done();
     })
     .run();
