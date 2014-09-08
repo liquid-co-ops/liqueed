@@ -51,6 +51,7 @@
         <th>Name</th>
         <th>Date</th>
         <th>Amount</th>
+        <th>Status</th>
     </tr>
 <% periods.forEach(function (period) { %>
     <tr>
@@ -58,6 +59,7 @@
         <td><%= period.name %></td>
         <td><%= period.date %></td>
         <td><%= period.amount %></td>
+        <td><%= period.closed ? "Closed" : "Opened" %></td>
     </tr>
 <% }); %>
 </table>
