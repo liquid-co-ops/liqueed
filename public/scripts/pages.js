@@ -1,4 +1,13 @@
 
+var client;
+var $;
+
+if (typeof client == 'undefined' && typeof clientlocal == 'undefined' && typeof clientserver == 'undefined')
+    client = require('./client');
+    
+if (typeof $ == 'undefined')
+    $ = require('simplejquery').$;
+    
 var pages = (function () {
     var active;
     var me;
@@ -42,16 +51,19 @@ var pages = (function () {
         gotoSignIn();
     }
     
-    function gotoSignIn() {
+    function gotoSignIn(cb) {
         client.getPersons(function (err, persons) {
             if (err)
-                alert(err);
+                if (cb)
+                    cb(err, null);
+                else
+                    alert(err);
             else
-                showSignIn(persons);
+                showSignIn(persons, cb);
         });
     }
     
-    function showSignIn(persons) {
+    function showSignIn(persons, cb) {
         var page = $("#signinpage");
         
         var select = $("#personlist");
@@ -68,6 +80,9 @@ var pages = (function () {
             
         active = page;
         page.show();
+        
+        if (cb)
+            cb(null, persons);
     }
     
     function gotoProjects() {
@@ -307,3 +322,6 @@ var pages = (function () {
     
     return retval;
 })();
+
+if (typeof window == 'undefined')
+    module.exports = pages;
