@@ -65,6 +65,35 @@ exports['get new project'] = function (test) {
     controller.newProject(request, response);
 };
 
+exports['add new project'] = function (test) {
+    test.async();
+    
+    var formdata = {
+        name: 'New Project'
+    }
+    
+    var request = {
+        param: function (name) {
+            return formdata[name];
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'projectview');
+            test.ok(model);
+            test.equal(model.title, 'Project');
+            test.ok(model.item);
+            test.ok(model.item.id);
+            test.equal(model.item.name, 'New Project');
+            test.done();
+        }
+    };
+    
+    controller.addProject(request, response);
+};
+
 exports['get view first project'] = function (test) {
     test.async();
     

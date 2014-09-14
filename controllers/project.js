@@ -80,6 +80,12 @@ function viewPeriod(req, res) {
     .run();
 }
 
+function makeProject(req) {
+    return {
+        name: req.param('name')
+    }
+}
+
 module.exports = {
     index: index,
     view: view,
