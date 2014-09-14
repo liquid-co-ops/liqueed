@@ -311,7 +311,7 @@ exports['add new project'] = function (test) {
     };
 
     var response = {
-        send: function (id) {
+        json: function (id) {
             test.ok(id);
             
             projectService.getProjectById(id, function (err, project) {

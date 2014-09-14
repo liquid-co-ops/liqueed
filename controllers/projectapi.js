@@ -24,7 +24,7 @@ function get(req, res) {
 
 function addProject(req, res) {
     service.addProject(req.body, function (err, id) {
-        res.send(id);
+        res.json(id);
     });
 }
 

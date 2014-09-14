@@ -31,6 +31,22 @@ var clientserver = (function() {
             cb(err, null);
         });
     }
+    
+    function addProject(proj, cb) {        
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: '/api/project/',
+            data: JSON.stringify(proj),
+            dataType: "json",
+            success: function (msg) {
+                cb(null, msg);
+            },
+            error: function (err){
+                cb(err, null);
+            }            
+        });
+    }
 
     function getEntity(idproj, cb, entityName) {
         $.get('/api/project/' + idproj + entityName, function (data) {
@@ -84,6 +100,7 @@ var clientserver = (function() {
     return {
         getMyProjects: getMyProjects,
         getProject: getProject,
+        addProject: addProject,
         getPeriods: getPeriods,
         getTeam: getTeam,
         getShareholders: getShareholders,

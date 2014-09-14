@@ -1,6 +1,7 @@
 var app = require('../app');
 var api = require('./utils/api');
 var ajax = require('./utils/ajax');
+var async = require('simpleasync');
 
 ajax.setPrefix('http://localhost:3000');
 
@@ -191,6 +192,29 @@ exports['get persons'] = function (test) {
         
         test.done();
     });
+}
+
+exports['add project'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { client.addProject({ name: 'New Project' }, next); })
+    .then(function (data, next) {
+        test.ok(data);
+        client.getProject(data, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(data.id);
+        test.ok(data.name);
+        test.equal(data.name, 'New Project');
+        test.done();
+    })
+    .fail(function (err) {
+        console.log(err);
+        throw err;
+    })
+    .run();
 }
 
 exports['stop server'] = function (test) {

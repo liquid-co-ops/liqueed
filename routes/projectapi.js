@@ -3,6 +3,7 @@ var router = express.Router();
 var controller = require('../controllers/projectapi');
 
 router.get('/', controller.list);
+router.post('/', controller.addProject);
 router.get('/:id', controller.get);
 router.get('/:id/team', controller.getTeam);
 router.get('/:id/shareholder', controller.getShareholders);
