@@ -27,6 +27,8 @@ h1, h2, h3 {
 
 .actions {
     text-align:center;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #projectactions {
