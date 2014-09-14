@@ -17,6 +17,20 @@ function index(req, res) {
     });
 }
 
+function newProject(req, res) {
+    res.render('projectnew', { title: 'New Project' });
+}
+
+function addProject(req, res) {
+    var project = makeProject(req);
+    service.addProject(project, function (err, id) {
+        if (!req.params)
+            req.params = { };
+        req.params.id = id;
+        view(req, res);
+    });
+}
+
 function view(req, res) {
     var id = getId(req.params.id);
     
@@ -69,6 +83,8 @@ function viewPeriod(req, res) {
 module.exports = {
     index: index,
     view: view,
+    newProject: newProject,
+    addProject: addProject,
     viewPeriod: viewPeriod
 }
 

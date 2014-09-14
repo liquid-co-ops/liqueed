@@ -47,6 +47,24 @@ exports['get index'] = function (test) {
     controller.index(request, response);
 };
 
+exports['get new project'] = function (test) {
+    test.async();
+    
+    var request = {};
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'projectnew');
+            test.ok(model);
+            test.equal(model.title, 'New Project');
+            test.done();
+        }
+    };
+    
+    controller.newProject(request, response);
+};
+
 exports['get view first project'] = function (test) {
     test.async();
     
