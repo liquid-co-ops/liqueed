@@ -126,8 +126,8 @@ var pages = (function () {
             
             periods = sl.sort(periods, 'date', true);
             
-            if (client.getShares)
-                client.getShares(project.id, function (err, shares) {
+            if (client.getSharesByProject)
+                client.getSharesByProject(project.id, function (err, shares) {
                     if (err)
                         alert(err);
                     else
