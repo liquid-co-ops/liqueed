@@ -301,3 +301,29 @@ exports['get first project first period put assignments'] = function (test) {
     controller.putAssignments(request, response);
 };
 
+exports['add new project'] = function (test) {
+    test.async();
+    
+    var request = {
+        body: {
+            name: 'New Project'
+        }
+    };
+
+    var response = {
+        send: function (id) {
+            test.ok(id);
+            
+            projectService.getProjectById(id, function (err, project) {
+                test.ok(!err);
+                test.equal(project.id, id);
+                test.equal(project.name, 'New Project');
+                
+                test.done();
+            });
+        }
+    };
+    
+    controller.addProject(request, response);
+};
+

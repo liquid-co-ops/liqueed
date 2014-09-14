@@ -22,6 +22,12 @@ function get(req, res) {
     });
 }
 
+function addProject(req, res) {
+    service.addProject(req.body, function (err, id) {
+        res.send(id);
+    });
+}
+
 function getTeam(req, res) {
     var id = getId(req.params.id);
     service.getTeam(id, function (err, items) {
@@ -88,6 +94,7 @@ function putAssignments(req, res) {
 module.exports = {
     list: list,
     get: get,
+    addProject: addProject,
     getTeam: getTeam,
     getShareholders: getShareholders,
     getSharesByProject: getSharesByProject,
@@ -98,3 +105,4 @@ module.exports = {
     putAssignments: putAssignments
 }
 
+    
