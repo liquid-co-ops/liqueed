@@ -2,13 +2,14 @@
 <html lang="en" ng-app="LiqueedApp">
 <head>
   <meta charset="utf-8">
-  <title>My Company: <%= title %></title>
+  <title>Liqueed: <%= title %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
 
   <!-- Le styles -->
   <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/site.css" rel="stylesheet">
   <style>
     body {
       padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -49,7 +50,9 @@
   </div>
 
   <div class="container">
-
+    <div class="row">
+    <h1><%= title %></h1>
+    </div>
     <%- body %>
 
   </div>
