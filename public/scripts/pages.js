@@ -222,6 +222,17 @@ var pages = (function () {
             }]
         });
     }
+    
+    function createProject() {
+        var name = $("#projectnew_name").val();
+        var proj = { name: name };
+        client.addProject(proj, function (err, id) {
+            if (err)
+                alert(err);
+            else
+                gotoProjects();
+        });
+    }
 
     function showPeriod(project, period, shareholders) {
         var page = $("#periodpage");
@@ -318,6 +329,7 @@ var pages = (function () {
         gotoProjects: gotoProjects,
         gotoProject: function () { gotoProject(currentproject); },
         gotoNewProject: gotoNewProject,
+        createProject: createProject,
         showProjects: showProjects,
         doSignOut: doSignOut,
         doSignIn: doSignIn,

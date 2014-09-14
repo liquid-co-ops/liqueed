@@ -23,6 +23,8 @@ var projects = [
     }
 ];
 
+var maxprojid = 2;
+
 var clientlocal = (function() {
     function getPersons(cb) {
         var result = [];
@@ -36,6 +38,13 @@ var clientlocal = (function() {
     
     function getMyProjects(cb) {
         cb(null, sl.sort(projects, 'name'));
+    }
+    
+    function addProject(project, cb) {
+        project.id = ++maxprojid;
+        projects.push(project);
+        
+        cb(null, project.id);
     }
     
     function getProject(idproj, cb) {
@@ -69,6 +78,7 @@ var clientlocal = (function() {
     return {
         getMyProjects: getMyProjects,
         getProject: getProject,
+        addProject: addProject,
         getPeriods: getPeriods,
         getShareholders: getShareholders,
         getPersons: getPersons

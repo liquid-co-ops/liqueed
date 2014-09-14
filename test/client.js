@@ -1,5 +1,6 @@
 
 var client = require('../public/scripts/client.js');
+var async = require('simpleasync');
 
 var projects;
 var project;
@@ -87,5 +88,27 @@ exports['get persons'] = function (test) {
     });
 }
 
+exports['add project'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { client.addProject({ name: 'New Project' }, next); })
+    .then(function (data, next) {
+        test.ok(data);
+        client.getProject(data, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(data.id);
+        test.ok(data.name);
+        test.equal(data.name, 'New Project');
+        test.done();
+    })
+    .fail(function (err) {
+        console.log(err);
+        throw err;
+    })
+    .run();
+}
 
 

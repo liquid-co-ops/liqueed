@@ -50,7 +50,20 @@
         <div class="actions">
             <button type="button" class="btn btn-primary" onclick='pages.gotoProjects()'>Projects</button>
         </div>
-        <div>
+        <div id="periodshares">
+            <form id="projectnew" class="form-horizontal" role="form">
+                <div class="row">
+                    <div class=" col-sm-offset-3 col-sm-2 col-xs-4">
+                        <label class="control-label" style="width:100%;">Name</label>
+                    </div>
+                    <div class="col-sm-2 col-xs-4">
+                        <input type="text"class="form-control" id="projectnew_name">
+                    </div>
+                </div>            
+            </form>
+        </div>
+        <div class="actions">
+            <button type="button" class="btn btn-success" onclick='pages.createProject()'>Create Project</button>
         </div>
     </div>
     
