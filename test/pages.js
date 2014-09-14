@@ -25,3 +25,19 @@ exports['Go to sign in'] = function (test) {
         test.done();
     });
 }
+
+exports['Go to new project'] = function (test) {
+    test.async();
+    
+    pages.gotoSignIn(function (err, data) {
+        test.equal(err, null);
+        
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.ok(data.length);
+        
+        test.ok($("#projectnewpage").$.visible());
+        
+        test.done();
+    });
+}

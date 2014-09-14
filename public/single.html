@@ -37,13 +37,23 @@
 
     <div id="projectspage" style='display: none'>
         <h1>My Projects</h1>
-        <div id="projectsactions">
+        <div class="actions">
             <button type="button" class="btn btn-primary" onclick='pages.doSignOut()'>Sign Out</button>
+            <button type="button" class="btn btn-primary" onclick='pages.gotoNewProject()'>New Project</button>
         </div>
         <div id="projects">
         </div>
     </div>
 
+    <div id="projectnewpage" style='display: none'>
+        <h1>New Project</h1>
+        <div class="actions">
+            <button type="button" class="btn btn-primary" onclick='pages.gotoProjects()'>Projects</button>
+        </div>
+        <div>
+        </div>
+    </div>
+    
     <div id="projectpage" style='display: none'>
         <h1 id="projectname"></h1>
         <div id="projectactions">

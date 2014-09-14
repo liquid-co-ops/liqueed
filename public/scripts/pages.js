@@ -13,6 +13,14 @@ var pages = (function () {
     var me;
     var currentproject = null;
     
+    function activatePage(page) {
+        if (active)
+            active.hide();
+            
+        active = page;
+        active.show();
+    }
+    
     function makeProjectButton(text, fnclick) {
         return $("<button>")
             .html(text)
@@ -75,11 +83,7 @@ var pages = (function () {
             select.append(option);
         });
         
-        if (active)
-            active.hide();
-            
-        active = page;
-        page.show();
+        activatePage(page);
         
         if (cb)
             cb(null, persons);
@@ -109,14 +113,21 @@ var pages = (function () {
             projs.append(element);
         });
         
-        if (active)
-            active.hide();
-            
-        active = page;
-        page.show();
+        activatePage(page);
     }
     
-    function gotoProject(project) {
+    function gotoNewProject(cb) {
+        currentproject = null;
+        
+        var page = $("#projectnewpage");
+
+        activatePage(page);
+        
+        if (cb)
+            cb(null, null);
+    }
+    
+    function gotoProject(project, cb) {
         currentproject = project;
         client.getPeriods(project.id, function (err, periods) {
             if (err) {
@@ -135,7 +146,7 @@ var pages = (function () {
                 });
             else
                 showProject(project, periods);            
-        });
+        });    
     }
     
     function showProject(project, periods, shares) {
@@ -169,11 +180,7 @@ var pages = (function () {
             chartcontainer.show();
         }
         
-        if (active)
-            active.hide();
-            
-        active = page;
-        page.show();
+        activatePage(page);
     }
     
     function showSharesChart(container, shares) {
@@ -304,16 +311,13 @@ var pages = (function () {
             alert(result);
         }
         
-        if (active)
-            active.hide();
-            
-        active = page;
-        page.show();
+        activatePage(page);
     }
     
     var retval = {
         gotoProjects: gotoProjects,
         gotoProject: function () { gotoProject(currentproject); },
+        gotoNewProject: gotoNewProject,
         showProjects: showProjects,
         doSignOut: doSignOut,
         doSignIn: doSignIn,
