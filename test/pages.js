@@ -29,12 +29,8 @@ exports['Go to sign in'] = function (test) {
 exports['Go to new project'] = function (test) {
     test.async();
     
-    pages.gotoSignIn(function (err, data) {
+    pages.gotoNewProject(function (err, data) {
         test.equal(err, null);
-        
-        test.ok(data);
-        test.ok(Array.isArray(data));
-        test.ok(data.length);
         
         test.ok($("#projectnewpage").$.visible());
         
