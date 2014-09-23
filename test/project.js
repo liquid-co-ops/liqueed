@@ -87,6 +87,27 @@ exports['add person and get people in project'] = function (test) {
     .run();
 };
 
+exports['add existing person to team'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (id, next) {
+        service.addPersonToTeam(liqueedid, alanid, next);
+    })
+    .then(function (data, next) {
+        service.getTeam(liqueedid, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.equal(result.length, 1);
+        test.equal(result[0].id, alanid);
+        test.equal(result[0].name, 'Alan');
+        test.done();
+    })
+    .run();
+};
+
 exports['get one shareholder'] = function (test) {
     test.async();
     

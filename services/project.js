@@ -16,7 +16,17 @@ function getProjectById(id, cb) {
 
 function addPersonToTeam(projid, personid, cb) {
     var teamstore = db.store('teams');
-    teamstore.add({ project: projid, person: personid }, cb);
+    teamstore.find({ project: projid, person: personid }, function (err, data) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        if (data.length)
+            cb(null, data[0].id);
+        else
+            teamstore.add({ project: projid, person: personid }, cb);
+    });
 }
 
 function getTeam(id, cb) {
