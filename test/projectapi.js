@@ -328,3 +328,35 @@ exports['add new project'] = function (test) {
     controller.addProject(request, response);
 };
 
+exports['add person to first project team'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        personService.getPersonByName('Daniel', next);
+    })
+    .then(function (data, next) {
+        var request = {
+            params: {
+                id: project.id.toString(),
+                pid: data.id.toString()
+            }
+        };
+
+        var response = {
+            json: function (model) {
+                test.ok(model);
+                projectService.getTeam(project.id, next);
+            }
+        };
+        
+        controller.addPersonToTeam(request, response);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.ok(sl.exist(data, { name: 'Daniel' }));
+        test.done();
+    })
+    .run();
+};

@@ -33,7 +33,6 @@ exports['get person by name'] = function (test) {
     service.getPersonByName('Anna', function (err, result) {
         test.ok(!err);
         test.ok(result);
-        console.dir(result);
         test.equal(result.name, 'Anna');
         test.equal(result.id, annaid);
         test.done();
