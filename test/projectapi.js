@@ -24,15 +24,16 @@ exports['clear and load data'] = function (test) {
         projects = data;
         test.ok(projects);
         test.ok(projects.length);
+        test.ok(sl.exist(projects, { name: 'FaceHub' }));
     
-        project = projects[0];
+        project = sl.first(projects, { name: 'FaceHub' });
         projectService.getPeriods(project.id, next);
     })
     .then(function (data, next) {
         periods = data;
         test.ok(periods);
         test.ok(periods.length);
-    
+        
         period = periods[0];
         projectService.getTeam(project.id, next);
     })

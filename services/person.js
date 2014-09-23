@@ -30,6 +30,21 @@ function getPersonById(id, cb) {
     store.get(id, cb);
 }
 
+function getPersonByName(name, cb) {
+    var store = db.store('persons');
+    store.find({ name: name }, function (err, items) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        if (items.length)
+            cb(null, items[0]);
+        else
+            cb(null, null);
+    });
+}
+
 function getPersons(cb) {
     var store = db.store('persons');
     store.find(cb);
@@ -84,6 +99,7 @@ function getProjects(id, cb) {
 module.exports = {
     addPerson: addPerson,
     getPersonById: getPersonById,
+    getPersonByName: getPersonByName,
     getPersons: getPersons,
     getProjects: getProjects
 };

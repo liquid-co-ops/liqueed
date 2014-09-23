@@ -35,6 +35,14 @@ function getTeam(req, res) {
     });
 }
 
+function addPersonToTeam(req, res) {
+    var projid = getId(req.params.id);
+    var persid = getId(req.params.pid);
+    service.addPersonToTeam(projid, persid, function (err, id) {
+        res.json(id);
+    });
+}
+
 function getShareholders(req, res) {
     var id = getId(req.params.id);
     service.getShareholders(id, function (err, items) {
@@ -96,6 +104,7 @@ module.exports = {
     get: get,
     addProject: addProject,
     getTeam: getTeam,
+    addPersonToTeam: addPersonToTeam,
     getShareholders: getShareholders,
     getSharesByProject: getSharesByProject,
     getPeriods: getPeriods,

@@ -2,15 +2,15 @@
 var service = require('../services/person');
 var pservice = require('../services/project');
 
-var aliceid;
+var annaid;
 
 exports['add person'] = function (test) {
     test.async();
     
-    service.addPerson({ name: 'Alice' }, function (err, result) {
+    service.addPerson({ name: 'Anna' }, function (err, result) {
         test.ok(!err);
         test.ok(result);
-        aliceid = result;
+        annaid = result;
         test.done();
     });    
 };
@@ -18,11 +18,34 @@ exports['add person'] = function (test) {
 exports['get person by id'] = function (test) {
     test.async();
     
-    service.getPersonById(aliceid, function (err, result) {
+    service.getPersonById(annaid, function (err, result) {
         test.ok(!err);
         test.ok(result);
-        test.equal(result.name, 'Alice');
-        test.equal(result.id, aliceid);
+        test.equal(result.name, 'Anna');
+        test.equal(result.id, annaid);
+        test.done();
+    });    
+};
+
+exports['get person by name'] = function (test) {
+    test.async();
+    
+    service.getPersonByName('Anna', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        console.dir(result);
+        test.equal(result.name, 'Anna');
+        test.equal(result.id, annaid);
+        test.done();
+    });    
+};
+
+exports['get unknown person by name'] = function (test) {
+    test.async();
+    
+    service.getPersonByName('FooMan', function (err, result) {
+        test.ok(!err);
+        test.equal(result, null);
         test.done();
     });    
 };
@@ -42,7 +65,7 @@ exports['get persons'] = function (test) {
 exports['no projects yet'] = function (test) {
     test.async();
     
-    service.getProjects(aliceid, function (err, result) {
+    service.getProjects(annaid, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
@@ -58,11 +81,11 @@ exports['add and get projects'] = function (test) {
         test.ok(!err);
         test.ok(projid);
         
-        pservice.addPersonToTeam(projid, aliceid, function (err, pid) {
+        pservice.addPersonToTeam(projid, annaid, function (err, pid) {
             test.ok(!err);
             test.ok(pid);
             
-            service.getProjects(aliceid, function (err, result) {
+            service.getProjects(annaid, function (err, result) {
                 test.ok(!err);
                 test.ok(result);
                 test.ok(Array.isArray(result));
