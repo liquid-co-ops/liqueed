@@ -10,8 +10,7 @@ var app = require('../app');
 var config = require('../config.json');
 var pservices = require('../services/project');
 
-app.set('port', process.env.PORT || 3000);
-
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000);
 async()
 .then(function (data, next) {
     if (config.mongodb)
