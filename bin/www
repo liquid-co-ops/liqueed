@@ -10,7 +10,12 @@ var app = require('../app');
 var config = require('../config.json');
 var pservices = require('../services/project');
 
-app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000);
+var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000;
+var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+
+app.set('port', port);
+app.set('ip', ip);
+
 async()
 .then(function (data, next) {
     if (config.mongodb)
@@ -38,7 +43,7 @@ async()
 .run();
 
 function launch() {
-    var server = app.listen(app.get('port'), function() {
+    var server = app.listen(app.get('port'), app.get('ip'), function() {
       debug('Express server listening on port ' + server.address().port);
     });
 }
