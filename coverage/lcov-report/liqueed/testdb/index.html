@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for liqueed\services\person.js</title>
+    <title>Code coverage report for liqueed\testdb\</title>
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="../../prettify.css">
@@ -196,347 +196,122 @@
 </head>
 <body>
 <div class="header high">
-    <h1>Code coverage report for <span class="entity">liqueed\services\person.js</span></h1>
+    <h1>Code coverage report for <span class="entity">liqueed\testdb\</span></h1>
     <h2>
         
-        Statements: <span class="metric">82.46% <small>(47 / 57)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(412 / 412)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">64.29% <small>(9 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(15 / 15)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">75% <small>(9 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(86 / 86)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">82.46% <small>(47 / 57)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(412 / 412)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
-    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">liqueed\services\</a> &#187; person.js</div>
+    <div class="path"><a href="../../index.html">All files</a> &#187; liqueed\testdb\</div>
 </div>
 <div class="body">
-<pre><table class="coverage">
-<tr><td class="line-count">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">62</span>
-<span class="cline-any cline-yes">62</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">440</span>
-<span class="cline-any cline-yes">440</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">13</span>
-<span class="cline-any cline-yes">13</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">18</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
-&nbsp;
-var db = require('../utils/db');
-&nbsp;
-var store;
-&nbsp;
-db.store('persons', <span class="fstat-no" title="function not covered" >function (err, data) {</span>
-<span class="cstat-no" title="statement not covered" >    store = data;</span>
-});
-&nbsp;
-var tstore;
-&nbsp;
-db.store('teams', <span class="fstat-no" title="function not covered" >function (err, data) {</span>
-<span class="cstat-no" title="statement not covered" >    tstore = data;</span>
-});
-&nbsp;
-var pstore;
-&nbsp;
-db.store('projects', <span class="fstat-no" title="function not covered" >function (err, data) {</span>
-<span class="cstat-no" title="statement not covered" >    pstore = data;</span>
-});
-&nbsp;
-function addPerson(data, cb) {
-    var store = db.store('persons');
-    store.add(data, cb);
-}
-&nbsp;
-function getPersonById(id, cb) {
-    var store = db.store('persons');
-    store.get(id, cb);
-}
-&nbsp;
-function getPersonByName(name, cb) {
-    var store = db.store('persons');
-    store.find({ name: name }, function (err, items) {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
-<span class="cstat-no" title="statement not covered" >            cb(err, null);</span>
-<span class="cstat-no" title="statement not covered" >            return;</span>
-        }
-        
-        if (items.length)
-            cb(null, items[0]);
-        else
-            cb(null, null);
-    });
-}
-&nbsp;
-function getPersons(cb) {
-    var store = db.store('persons');
-    store.find(cb);
-}
-&nbsp;
-function getProjects(id, cb) {
-    var tstore = db.store('teams');
-    var pstore = db.store('projects');
-    
-    tstore.find({ person: id }, function (err, result) {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
-<span class="cstat-no" title="statement not covered" >            cb(err, null);</span>
-<span class="cstat-no" title="statement not covered" >            return;</span>
-        }
-        
-        var projects = [];
-        var ids = { };
-        
-        var l = result.length;
-        var k = 0;
-        
-        doTeamStep();
-        
-        function doTeamStep() {
-            if (k &gt;= l) {
-                cb(null, projects);
-                return;
-            } 
-             
-            var team = result[k++];
-            var id = team.project;
-            
-            <span class="missing-if-branch" title="if path not taken" >I</span>if (ids[id]) {
-<span class="cstat-no" title="statement not covered" >                setImmediate(doTeamStep);</span>
-<span class="cstat-no" title="statement not covered" >                return;</span>
-            }
-                
-            ids[id] = true;
-            pstore.get(id, function (err, project) {
-                <span class="missing-if-branch" title="if path not taken" >I</span>if (err)
-<span class="cstat-no" title="statement not covered" >                    cb(err, null);</span>
-                else {
-                    <span class="missing-if-branch" title="else path not taken" >E</span>if (project)
-                        projects.push(project);
-                    setImmediate(doTeamStep);
-                }
-            });
-        }
-    });
-}
-&nbsp;
-module.exports = {
-    addPerson: addPerson,
-    getPersonById: getPersonById,
-    getPersonByName: getPersonByName,
-    getPersons: getPersons,
-    getProjects: getProjects
-};
-&nbsp;
-&nbsp;</pre></td></tr>
-</table></pre>
+<div class="coverage-summary">
+<table>
+<thead>
+<tr>
+   <th data-col="file" data-fmt="html" data-html="true" class="file">File</th>
+   <th data-col="pic" data-type="number" data-fmt="html" data-html="true" class="pic"></th>
+   <th data-col="statements" data-type="number" data-fmt="pct" class="pct">Statements</th>
+   <th data-col="statements_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="branches" data-type="number" data-fmt="pct" class="pct">Branches</th>
+   <th data-col="branches_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="functions" data-type="number" data-fmt="pct" class="pct">Functions</th>
+   <th data-col="functions_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="lines" data-type="number" data-fmt="pct" class="pct">Lines</th>
+   <th data-col="lines_raw" data-type="number" data-fmt="html" class="abs"></th>
+</tr>
+</thead>
+<tbody><tr>
+	<td class="file high" data-value="personapidb.js"><a href="personapidb.js.html">personapidb.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="63" class="abs high">(63&nbsp;/&nbsp;63)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="16" class="abs high">(16&nbsp;/&nbsp;16)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="63" class="abs high">(63&nbsp;/&nbsp;63)</td>
+	</tr>
 
+<tr>
+	<td class="file high" data-value="personcontrollerdb.js"><a href="personcontrollerdb.js.html">personcontrollerdb.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="59" class="abs high">(59&nbsp;/&nbsp;59)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="13" class="abs high">(13&nbsp;/&nbsp;13)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="59" class="abs high">(59&nbsp;/&nbsp;59)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="persondb.js"><a href="persondb.js.html">persondb.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="16" class="abs high">(16&nbsp;/&nbsp;16)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="4" class="abs high">(4&nbsp;/&nbsp;4)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="16" class="abs high">(16&nbsp;/&nbsp;16)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="projectapidb.js"><a href="projectapidb.js.html">projectapidb.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="156" class="abs high">(156&nbsp;/&nbsp;156)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="15" class="abs high">(15&nbsp;/&nbsp;15)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="32" class="abs high">(32&nbsp;/&nbsp;32)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="156" class="abs high">(156&nbsp;/&nbsp;156)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="projectcontrollerdb.js"><a href="projectcontrollerdb.js.html">projectcontrollerdb.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="102" class="abs high">(102&nbsp;/&nbsp;102)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="17" class="abs high">(17&nbsp;/&nbsp;17)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="102" class="abs high">(102&nbsp;/&nbsp;102)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="projectdb.js"><a href="projectdb.js.html">projectdb.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="16" class="abs high">(16&nbsp;/&nbsp;16)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="4" class="abs high">(4&nbsp;/&nbsp;4)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="16" class="abs high">(16&nbsp;/&nbsp;16)</td>
+	</tr>
+
+</tbody>
+</table>
+</div>
 </div>
 <div class="footer">
     <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 27 2014 08:36:55 GMT-0300 (Argentina Standard Time)</div>

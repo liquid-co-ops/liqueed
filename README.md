@@ -1,15 +1,53 @@
 # Liqueed
 
-## Installation
+Application for Liquid Cooperatives, using Node.js/Express/MongoDB.
 
-After cloning the repository execute ```npm install``` to download all the 
-dependencies.
+## Setup
 
-To run the application locally execute ```npm start```.    
-The bootstrapping of the application is on ```./bin/www```, so ```npm start```
-actually executes ```node ./bin/www```. 
+Clone the repository and install dependencies:
+```
+git clone git@github.com:liquid-co-ops/liqueed.git
+cd liqueed
+npm install
+```
 
-To run the tests execute ```npm test```.
+## Tests
+
+Run the tests with:
+```
+npm test
+```
+
+If you have a MongoDB instance running, the database tests are:
+```
+simpleunit ./testdb
+```
+
+## Running the application
+
+Run
+```
+npm start
+```
+
+
+## Code Coverage
+
+Install `istanbul` globally:
+```
+npm install -g istanbul
+```
+Run the tests with:
+```
+istanbul cover node_modules/simpleunit/bin/simpleunit -- ./test ./testserver
+```
+
+If you have MongoDB running, run the tests:
+```
+istanbul cover node_modules/simpleunit/bin/simpleunit -- ./test ./testserver ./testdb
+```
+
+The reports is at `coverage/lcov-report/index.html`.
 
 ## Resources
 
