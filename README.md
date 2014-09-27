@@ -30,6 +30,7 @@ Run
 npm start
 ```
 
+Then browse to `http://localhost:3000/`
 
 ## Code Coverage
 
