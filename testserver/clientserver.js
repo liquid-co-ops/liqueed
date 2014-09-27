@@ -75,7 +75,7 @@ exports['get periods from second project'] = function (test) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
-        test.equal(result.length, projects[1].id);
+        test.ok(result.length);
         test.done();
     });
 }
