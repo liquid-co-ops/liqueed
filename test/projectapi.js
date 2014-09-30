@@ -260,6 +260,64 @@ exports['get first project first period put assignment'] = function (test) {
     controller.putAssignment(request, response);
 };
 
+exports['close first project first period'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        }
+    };
+
+    var response = {
+        json: function (model) {
+            test.ok(model);
+            
+            projectService.getPeriodById(period.id, function (err, period) {
+                test.ok(!err);
+                test.ok(period.id);
+                test.ok(period.name);
+                test.ok(period.date);
+                test.equal(period.closed, true);
+                
+                test.done();
+            });
+        }
+    };
+    
+    controller.closePeriod(request, response);
+};
+
+exports['reopen first project first period'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        }
+    };
+
+    var response = {
+        json: function (model) {
+            test.ok(model);
+            
+            projectService.getPeriodById(period.id, function (err, period) {
+                test.ok(!err);
+                test.ok(period.id);
+                test.ok(period.name);
+                test.ok(period.date);
+                test.equal(period.closed, false);
+                
+                test.done();
+            });
+        }
+    };
+    
+    controller.openPeriod(request, response);
+};
+
 exports['get first project first period put assignments'] = function (test) {
     test.async();
     

@@ -99,6 +99,22 @@ function putAssignments(req, res) {
     });
 }
 
+function openPeriod(req, res) {
+    var id = getId(req.params.id);
+    var idp = getId(req.params.idp);
+    service.openPeriod(id, idp, function (err, data) {
+        res.json(true);
+    });
+}
+
+function closePeriod(req, res) {
+    var id = getId(req.params.id);
+    var idp = getId(req.params.idp);
+    service.closePeriod(id, idp, function (err, data) {
+        res.json(true);
+    });
+}
+
 module.exports = {
     list: list,
     get: get,
@@ -111,7 +127,9 @@ module.exports = {
     getPeriod: getPeriod,
     getAssignments: getAssignments,
     putAssignment: putAssignment,
-    putAssignments: putAssignments
+    putAssignments: putAssignments,
+    openPeriod: openPeriod,
+    closePeriod: closePeriod
 }
 
     
