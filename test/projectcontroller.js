@@ -5,6 +5,8 @@ var db = require('../utils/db');
 var async = require('simpleasync');
 
 var projects;
+var periods;
+var period;
 
 exports['clear and load data'] = function (test) {
     test.async();
@@ -146,10 +148,11 @@ exports['get view first project first period'] = function (test) {
     test.async();
     
     var project = projects[0];
-    require('../services/project').getPeriods(project.id, function (err, periods) {
+    require('../services/project').getPeriods(project.id, function (err, data) {
         test.ok(!err);
-        
-        var period = periods[0];
+
+        periods = data;
+        period = periods[0];
         
         var request = {
             params: {
@@ -184,4 +187,84 @@ exports['get view first project first period'] = function (test) {
         
         controller.viewPeriod(request, response);
     });
+};
+
+exports['close first project first period'] = function (test) {
+    test.async();
+    
+    var project = projects[0];
+        
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'periodview');
+            test.ok(model);
+            test.equal(model.title, 'Period');
+            
+            test.ok(model.project);
+            test.equal(model.project.id, project.id);
+            test.equal(model.project.name, project.name);
+            
+            test.ok(model.item);
+            test.equal(model.item.id, period.id);
+            test.equal(model.item.name, period.name);
+            test.equal(model.item.date, period.date);
+            test.equal(model.item.amount, period.amount);
+            test.equal(model.item.closed, true);
+            
+            test.ok(model.assignments);
+            test.ok(Array.isArray(model.assignments));
+            
+            test.done();
+        }
+    };
+    
+    controller.closePeriod(request, response);
+};
+
+exports['open first project first period'] = function (test) {
+    test.async();
+    
+    var project = projects[0];
+        
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'periodview');
+            test.ok(model);
+            test.equal(model.title, 'Period');
+            
+            test.ok(model.project);
+            test.equal(model.project.id, project.id);
+            test.equal(model.project.name, project.name);
+            
+            test.ok(model.item);
+            test.equal(model.item.id, period.id);
+            test.equal(model.item.name, period.name);
+            test.equal(model.item.date, period.date);
+            test.equal(model.item.amount, period.amount);
+            test.equal(model.item.closed, false);
+            
+            test.ok(model.assignments);
+            test.ok(Array.isArray(model.assignments));
+            
+            test.done();
+        }
+    };
+    
+    controller.openPeriod(request, response);
 };

@@ -80,6 +80,24 @@ function viewPeriod(req, res) {
     .run();
 }
 
+function closePeriod(req, res) {
+    var projectId = getId(req.params.id);
+    var periodId = getId(req.params.idp);
+    
+    service.closePeriod(projectId, periodId, function (err, result) {
+        viewPeriod(req, res);
+    });
+}
+
+function openPeriod(req, res) {
+    var projectId = getId(req.params.id);
+    var periodId = getId(req.params.idp);
+    
+    service.openPeriod(projectId, periodId, function (err, result) {
+        viewPeriod(req, res);
+    });
+}
+
 function makeProject(req) {
     return {
         name: req.param('name')
@@ -91,6 +109,8 @@ module.exports = {
     view: view,
     newProject: newProject,
     addProject: addProject,
-    viewPeriod: viewPeriod
+    viewPeriod: viewPeriod,
+    openPeriod: openPeriod,
+    closePeriod: closePeriod
 }
 
