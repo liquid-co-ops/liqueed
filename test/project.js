@@ -277,6 +277,50 @@ exports['put assignment that close the period'] = function (test) {
     .run();
 };
 
+exports['reopen period'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        service.openPeriod(liqueedid, periodid, next);
+    })
+    .then(function (result, next) {
+        service.getPeriodById(periodid, next);
+    })
+    .then(function (item, next) {
+        test.ok(item);
+        test.ok(item.id);
+        test.ok(item.name);
+        test.ok(item.date);
+        test.equal(item.closed, false);
+
+        test.done();
+    })
+    .run();
+};
+
+exports['close period'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        service.closePeriod(liqueedid, periodid, next);
+    })
+    .then(function (result, next) {
+        service.getPeriodById(periodid, next);
+    })
+    .then(function (item, next) {
+        test.ok(item);
+        test.ok(item.id);
+        test.ok(item.name);
+        test.ok(item.date);
+        test.equal(item.closed, true);
+
+        test.done();
+    })
+    .run();
+};
+
 exports['put same assignment different amount'] = function (test) {
     test.async();
     

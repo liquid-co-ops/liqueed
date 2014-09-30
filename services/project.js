@@ -356,6 +356,19 @@ function getTotalAssignments(projectid, periodid, fromid, cb) {
     });
 }
 
+function setPeriodClosed(projectid, periodid, closed, cb) {
+    var periodstore = db.store('periods');
+    periodstore.update(periodid, { closed: closed }, cb);
+}
+
+function openPeriod(projectid, periodid, cb) {
+    setPeriodClosed(projectid, periodid, false, cb);
+}
+
+function closePeriod(projectid, periodid, cb) {
+    setPeriodClosed(projectid, periodid, true, cb);
+}
+
 module.exports = {
     addProject: addProject,
     getProjectById: getProjectById,
@@ -376,6 +389,9 @@ module.exports = {
     putAssignment: putAssignment,
     putAssignments: putAssignments,
     getTotalAssignments: getTotalAssignments,
-    removeAssignments: removeAssignments
+    removeAssignments: removeAssignments,
+    
+    openPeriod: openPeriod,
+    closePeriod: closePeriod
 }
 
