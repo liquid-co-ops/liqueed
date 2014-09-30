@@ -6,6 +6,7 @@ var server;
 var projects;
 var project;
 var periods;
+var period;
 
 exports['load test data'] = function (test) {
     test.async();
@@ -80,8 +81,47 @@ exports['get periods of first project'] = function (test) {
         test.ok(result.length);
         
         periods = result;
+        period = periods[0];
         
         test.done();
+    });
+}
+
+exports['close period'] = function (test) {
+    test.async();
+    
+    api.doRequest('PUT', 'http://localhost:3000/api/project/' + project.id + '/period/' + period.id + '/close', function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        
+        api.doRequest('GET', 'http://localhost:3000/api/project/' + project.id + '/period/' + period.id, function (err, data) {
+            var result = JSON.parse(data);
+            test.ok(result);
+            test.ok(result.name);
+            test.ok(result.date);
+            test.equal(result.closed, true);
+            
+            test.done();
+        });
+    });
+}
+
+exports['open period'] = function (test) {
+    test.async();
+    
+    api.doRequest('PUT', 'http://localhost:3000/api/project/' + project.id + '/period/' + period.id + '/open', function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        
+        api.doRequest('GET', 'http://localhost:3000/api/project/' + project.id + '/period/' + period.id, function (err, data) {
+            var result = JSON.parse(data);
+            test.ok(result);
+            test.ok(result.name);
+            test.ok(result.date);
+            test.equal(result.closed, false);
+            
+            test.done();
+        });
     });
 }
 
