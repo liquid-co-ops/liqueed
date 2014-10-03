@@ -1,7 +1,9 @@
 {
-    "mongodb2": {
+    "mongodb": {
         "name": "liqueed",
         "host": "localhost",
-        "port": 27017
+        "port": 27017,
+		"username" : null, 
+		"password" : null
     }
 }

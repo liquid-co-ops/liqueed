@@ -209,7 +209,7 @@ function useDb(name, config, cb) {
     config = config || { };
     usedb = true;
     dbstores = { };
-    db = mongodb.openDatabase(name, config.host || 'localhost', config.port || 27017, cb);
+    db = mongodb.openDatabase(name, config.host || 'localhost', config.port || 27017, config.username, config.password, cb);
     getCreateStore('persons');
     getCreateStore('projects');
     getCreateStore('teams');

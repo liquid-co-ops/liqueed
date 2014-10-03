@@ -13,13 +13,20 @@ var pservices = require('../services/project');
 var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000;
 var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 
+
 app.set('port', port);
 app.set('ip', ip);
 
 async()
 .then(function (data, next) {
     if (config.mongodb)
+	{
+		config.mongodb.host = process.env.OPENSHIFT_MONGODB_DB_HOST || config.mongodb.host;
+		config.mongodb.port = process.env.OPENSHIFT_MONGODB_DB_PORT || config.mongodb.port;
+		config.mongodb.username = process.env.OPENSHIFT_MONGODB_DB_USERNAME || config.mongodb.username;
+		config.mongodb.password = process.env.OPENSHIFT_MONGODB_DB_PASSWORD || config.mongodb.password;
         db.useDb(config.mongodb.name, config.mongodb, next);
+		}
     else
         next(null, null);
 })

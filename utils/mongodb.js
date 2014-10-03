@@ -94,10 +94,14 @@ function Repository(db, name) {
 
 module.exports = {
     createRepository: function (db, name) { return new Repository(db, name); },
-    openDatabase: function (dbname, host, port, cb) {
+    openDatabase: function (dbname, host, port, username, password, cb) {
         if (!cb)
             cb = function () { };
         var db = new mongodb.Db(dbname, new mongodb.Server(host, port, {auto_reconnect: true}, {}), { safe: true  });
+		if(username != null)
+		{
+			db.authenticate(username, password);
+		}
         db.open(cb);
         return db;
     }
