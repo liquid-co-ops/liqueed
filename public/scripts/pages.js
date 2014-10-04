@@ -4,23 +4,23 @@ var $;
 
 if (typeof client == 'undefined' && typeof clientlocal == 'undefined' && typeof clientserver == 'undefined')
     client = require('./client');
-    
+
 if (typeof $ == 'undefined')
     $ = require('simplejquery').$;
-    
+
 var pages = (function () {
     var active;
     var me;
     var currentproject = null;
-    
+
     function activatePage(page) {
         if (active)
             active.hide();
-            
+
         active = page;
         active.show();
     }
-    
+
     function makeProjectButton(text, fnclick) {
         return $("<button>")
             .html(text)
@@ -40,25 +40,25 @@ var pages = (function () {
             .addClass('period')
             .click(fnclick);
     }
-    
+
     function doSignIn() {
         var select = $("#personlist");
 
         var userid = select.val();
-        
+
         if (userid.length < 10)
             me = parseInt(userid);
         else
             me = userid;
-        
+
         gotoProjects();
     }
-    
+
     function doSignOut() {
         me = null;
         gotoSignIn();
     }
-    
+
     function gotoSignIn(cb) {
         client.getPersons(function (err, persons) {
             if (err)
@@ -70,25 +70,25 @@ var pages = (function () {
                 showSignIn(persons, cb);
         });
     }
-    
+
     function showSignIn(persons, cb) {
         var page = $("#signinpage");
-        
+
         var select = $("#personlist");
-        
+
         select.empty();
-        
+
         persons.forEach(function (item) {
             var option = $("<option>").attr("value", item.id).html(item.name);
             select.append(option);
         });
-        
+
         activatePage(page);
-        
+
         if (cb)
             cb(null, persons);
     }
-    
+
     function gotoProjects() {
         currentproject = null;
         client.getMyProjects(function (err, projects) {
@@ -101,32 +101,32 @@ var pages = (function () {
 
     function showProjects(projects) {
         var page = $("#projectspage");
-        
+
         var projs = $("#projects");
         projs.empty();
-        
+
         projects.forEach(function (project) {
             var element = $("<div>").html(makeProjectButton(project.name, function () {
                 gotoProject(project);
             }));
-            
+
             projs.append(element);
         });
-        
+
         activatePage(page);
     }
-    
+
     function gotoNewProject(cb) {
         currentproject = null;
-        
+
         var page = $("#projectnewpage");
 
         activatePage(page);
-        
+
         if (cb)
             cb(null, null);
     }
-    
+
     function gotoProject(project, cb) {
         currentproject = project;
         client.getPeriods(project.id, function (err, periods) {
@@ -134,9 +134,9 @@ var pages = (function () {
                 alert(err);
                 return;
             }
-            
+
             periods = sl.sort(periods, 'date', true);
-            
+
             if (client.getSharesByProject)
                 client.getSharesByProject(project.id, function (err, shares) {
                     if (err)
@@ -145,23 +145,23 @@ var pages = (function () {
                         showProject(project, periods, shares);
                 });
             else
-                showProject(project, periods);            
-        });    
+                showProject(project, periods);
+        });
     }
-    
+
     function showProject(project, periods, shares) {
         var page = $("#projectpage");
-        
+
         var projname = $("#projectname");
         var chartcontainer = $('#projectshares');
-        
+
         chartcontainer.hide();
-        
+
         projname.html(project.name);
 
         var pers = $("#periods");
         pers.empty();
-        
+
         periods.forEach(function (period) {
             var element = $("<div>").html(makePeriodButton(period.name, function () {
                 client.getShareholders(project.id, function (err, shareholders) {
@@ -171,25 +171,25 @@ var pages = (function () {
                         showPeriod(project, period, shareholders);
                 });
             }));
-            
+
             pers.append(element);
         });
-        
-        if (shares && shares.length) {       
+
+        if (shares && shares.length) {
             showSharesChart(chartcontainer, shares);
             chartcontainer.show();
         }
-        
+
         activatePage(page);
     }
-    
+
     function showSharesChart(container, shares) {
         var data = [];
-        
+
         shares.forEach(function (share) {
             data.push([share.name, share.shares]);
         });
-    
+
         $(container).highcharts({
             chart: {
                 plotBackgroundColor: null,
@@ -222,7 +222,7 @@ var pages = (function () {
             }]
         });
     }
-    
+
     function createProject() {
         var name = $("#projectnew_name").val();
         var proj = { name: name };
@@ -236,20 +236,22 @@ var pages = (function () {
 
     function showPeriod(project, period, shareholders) {
         var page = $("#periodpage");
-        
-        var projname = $("#periodprojectname");        
+
+        var projname = $("#periodprojectname");
         projname.html(project.name);
-        var pername = $("#periodname");        
+        var pername = $("#periodname");
         pername.html(period.name);
-        var perdate = $("#perioddate");        
+        var perdate = $("#perioddate");
         perdate.html(period.date);
         var amount = $("#periodamount");
         amount.html(period.amount);
+        var amountLeft = $("#periodamountLeft");
+        amountLeft.html(period.amount);
         var shares = $("#shares");
         shares.empty();
-        
+
         var inputs = [];
-        
+
         shareholders.forEach(function (shareholder) {
             if (shareholder.id == me)
                 return;
@@ -264,7 +266,15 @@ var pages = (function () {
                 max:period.amount,
                 slide: function (event, ui) {
                     input.val(ui.value);
+                },
+                change: function (event, ui) {
+                  var total = 0;
+                  $('.personal-amount').each(function(i, obj) {
+                    total += +obj.value;
+                  });
+                  amountLeft.html(amount.text() - total);
                 }
+
             });
             input.shareholder = shareholder;
             input.change(function () {
@@ -275,56 +285,56 @@ var pages = (function () {
             });
             inputs.push(input);
         });
-        
+
         retval.sharesDone = function () {
             var values = [];
-            
+
             inputs.forEach(function (input) {
-                values.push({ 
+                values.push({
                     id: input.shareholder.id,
                     name: input.shareholder.name,
                     amount: input.val()
                 });
             });
-            
+
             var result = logic.acceptShares(period.amount, values);
-            
+
             if (result === true) {
                 if (client.putAssigments) {
                     var assignments = [];
-                    
+
                     values.forEach(function (value) {
                         var amount = value.amount;
-                        
+
                         if (typeof amount == 'string')
                             amount = parseInt(amount);
-                            
+
                         if (isNaN(amount) || amount < 0)
                             amount = 0;
-                            
+
                         assignments.push({ to: value.id, amount: amount });
                     });
-                    
+
                     client.putAssigments(project.id, period.id, me, assignments, done);
                 }
                 else
                     done(null, true);
-                
+
                 function done(err, result) {
                     alert('Thanks for your input');
                     gotoProject(project);
                     return;
                 }
-                
+
                 return;
             }
-                
+
             alert(result);
         }
-        
+
         activatePage(page);
     }
-    
+
     var retval = {
         gotoProjects: gotoProjects,
         gotoProject: function () { gotoProject(currentproject); },
@@ -335,7 +345,7 @@ var pages = (function () {
         doSignIn: doSignIn,
         gotoSignIn: gotoSignIn
     }
-    
+
     return retval;
 })();
 

@@ -18,7 +18,7 @@
                     <label class="control-label" style="width:100%;">shareholder.name</label>
                 </div>
                 <div class="col-sm-2 col-xs-4">
-                    <input type="number" min="0" max="period.amount" class="form-control" />
+                    <input type="number" min="0" max="period.amount" class="form-control personal-amount" />
                 </div>
                 <div class="col-sm-3 col-xs-4" style="padding-left: 2em; padding-top: 0.5em;">
                     <div role="slider"></div>
@@ -59,14 +59,14 @@
                     <div class="col-sm-2 col-xs-4">
                         <input type="text"class="form-control" id="projectnew_name">
                     </div>
-                </div>            
+                </div>
             </form>
         </div>
         <div class="actions">
             <button type="button" class="btn btn-success" onclick='pages.createProject()'>Create Project</button>
         </div>
     </div>
-    
+
     <div id="projectpage" style='display: none'>
         <h1 id="projectname"></h1>
         <div class="actions">
@@ -83,7 +83,7 @@
         <h2 id="periodname"></h2>
         <h2 id="perioddate"></h2>
         <h3>Shares <span id='periodamount' /></h3>
-
+        <h3>Left <span id='periodamountLeft' /></h3>
         <div class="actions">
             <button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Project</button>
         </div>
@@ -118,4 +118,3 @@
     </script>
 </body>
 </html>
-
