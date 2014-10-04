@@ -36,6 +36,7 @@ async()
         else {
             db.useDb(config.mongodb.name, config.mongodb, next);
 		}
+    }
     else
         next(null, null);
 })
