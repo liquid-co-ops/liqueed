@@ -21,11 +21,20 @@ async()
 .then(function (data, next) {
     if (config.mongodb)
 	{
-		config.mongodb.host = process.env.OPENSHIFT_MONGODB_DB_HOST || config.mongodb.host;
-		config.mongodb.port = process.env.OPENSHIFT_MONGODB_DB_PORT || config.mongodb.port;
-		config.mongodb.username = process.env.OPENSHIFT_MONGODB_DB_USERNAME || config.mongodb.username;
-		config.mongodb.password = process.env.OPENSHIFT_MONGODB_DB_PASSWORD || config.mongodb.password;
-        db.useDb(config.mongodb.name, config.mongodb, next);
+        if (process.env.OPENSHIFT_MONGODB_DB_HOST) {
+            config.mongodb.host = process.env.OPENSHIFT_MONGODB_DB_HOST || config.mongodb.host;
+            config.mongodb.port = process.env.OPENSHIFT_MONGODB_DB_PORT || config.mongodb.port;
+            config.mongodb.username = process.env.OPENSHIFT_MONGODB_DB_USERNAME || config.mongodb.username;
+            config.mongodb.password = process.env.OPENSHIFT_MONGODB_DB_PASSWORD || config.mongodb.password;
+            
+            config.mongodb.host = config.mongodb.username + ':' +
+                config.mongodb.password + '@' +
+                config.mongodb.host;
+                
+            db.useDb(config.mongodb.name, config.mongodb, next);
+        }
+        else {
+            db.useDb(config.mongodb.name, config.mongodb, next);
 		}
     else
         next(null, null);
