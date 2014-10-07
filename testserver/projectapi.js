@@ -1,6 +1,7 @@
 
 var app = require('../app');
 var api = require('./utils/api');
+var sl = require('simplelists');
 
 var server;
 var projects;
@@ -33,7 +34,10 @@ exports['get projects'] = function (test) {
         test.ok(Array.isArray(result));
         test.ok(result.length);
         projects = result;
-        project = projects[0];
+        
+        project = sl.first(projects, { name: 'FaceHub' });
+        test.ok(project);
+        
         test.done();
     });
 }
@@ -49,6 +53,25 @@ exports['get first project'] = function (test) {
         
         test.equal(result.id, project.id);
         test.equal(result.name, project.name);
+        
+        test.done();
+    });
+}
+
+exports['get first project team'] = function (test) {
+    test.async();
+    
+    api.doRequest('GET', 'http://localhost:3000/api/project/' + project.id + '/team', function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        var result = JSON.parse(data);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        
+        test.ok(sl.exist(result, { name: 'Alice' }));
+        test.ok(sl.exist(result, { name: 'Bob' }));
+        test.ok(sl.exist(result, { name: 'Charlie' }));
         
         test.done();
     });
