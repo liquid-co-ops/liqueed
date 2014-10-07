@@ -18,73 +18,10 @@ exports['use db'] = function (test) {
     });
 }
 
-exports['clear and load data'] = function (test) {
-    test.async();
-    
-    var personService = require('../services/person');
-    
-    async()
-    .then(function (data, next) { db.clear(next); })
-    .then(function (data, next) { loaddata(next); })
-    .then(function (data, next) { personService.getPersons(next); })
-    .then(function (data, next) {
-        persons = data;
-        test.ok(persons);
-        test.ok(persons.length);
-        test.done();
-    })
-    .run();
-};
+var personcontroller = require('../test/personcontroller');
 
-exports['get index'] = function (test) {
-    test.async();
-    
-    var request = {};
-    var response = {
-        render: function (name, model) {
-            test.ok(name);
-            test.equal(name, 'personlist');
-            test.ok(model);
-            test.equal(model.title, 'People');
-            test.ok(model.items);
-            test.ok(Array.isArray(model.items));
-            test.ok(model.items.length);
-            test.ok(model.items[0].id);
-            test.ok(model.items[0].name);
-            test.done();
-        }
-    };
-    
-    controller.index(request, response);
-};
-
-exports['get view first person'] = function (test) {
-    test.async();
-    
-    var request = {
-        params: {
-            id: persons[0].id
-        }
-    };
-
-    var response = {
-        render: function (name, model) {
-            test.ok(name);
-            test.equal(name, 'personview');
-            test.ok(model);
-            test.equal(model.title, 'Person');
-            test.ok(model.item);
-            test.equal(model.item.id, persons[0].id);
-            test.equal(model.item.name, persons[0].name);
-            test.ok(model.projects);
-            test.ok(Array.isArray(model.projects));
-            test.ok(model.projects.length);
-            test.done();
-        }
-    };
-    
-    controller.view(request, response);
-};
+for (var n in personcontroller)
+    exports[n] = personcontroller[n];
 
 exports['close db'] = function (test) {
     test.async();
