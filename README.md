@@ -1,3 +1,6 @@
+[ ![Codeship Status for 
+liquid-co-ops/liqueed](https://www.codeship.io/projects/ae5e9a00-2f8a-0132-1216-3ad622bf587e/status)](https://www.codeship.io/projects/39530)
+
 # Liqueed
 
 Application for Liquid Cooperatives, using Node.js/Express/MongoDB.
