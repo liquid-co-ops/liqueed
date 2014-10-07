@@ -132,4 +132,3 @@ module.exports = {
     closePeriod: closePeriod
 }
 
-    

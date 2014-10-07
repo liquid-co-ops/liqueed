@@ -3,8 +3,10 @@ var controller = require('../controllers/project');
 var loaddata = require('../utils/loaddata');
 var db = require('../utils/db');
 var async = require('simpleasync');
+var sl = require('simplelists');
 
 var projects;
+var project;
 var periods;
 var period;
 
@@ -42,6 +44,10 @@ exports['get index'] = function (test) {
             test.ok(model.items.length);
             test.ok(model.items[0].id);
             test.ok(model.items[0].name);
+            
+            project = sl.first(model.items, { name: 'FaceHub' });
+            test.ok(project);
+            
             test.done();
         }
     };
@@ -101,7 +107,7 @@ exports['get view first project'] = function (test) {
     
     var request = {
         params: {
-            id: projects[0].id.toString()
+            id: project.id.toString()
         }
     };
 
@@ -113,8 +119,8 @@ exports['get view first project'] = function (test) {
             test.equal(model.title, 'Project');
             
             test.ok(model.item);
-            test.equal(model.item.id, projects[0].id);
-            test.equal(model.item.name, projects[0].name);
+            test.equal(model.item.id, project.id);
+            test.equal(model.item.name, project.name);
             
             test.ok(model.team);
             test.ok(Array.isArray(model.team));
@@ -147,7 +153,6 @@ exports['get view first project'] = function (test) {
 exports['get view first project first period'] = function (test) {
     test.async();
     
-    var project = projects[0];
     require('../services/project').getPeriods(project.id, function (err, data) {
         test.ok(!err);
 
@@ -192,8 +197,6 @@ exports['get view first project first period'] = function (test) {
 exports['close first project first period'] = function (test) {
     test.async();
     
-    var project = projects[0];
-        
     var request = {
         params: {
             id: project.id.toString(),
@@ -232,8 +235,6 @@ exports['close first project first period'] = function (test) {
 exports['open first project first period'] = function (test) {
     test.async();
     
-    var project = projects[0];
-        
     var request = {
         params: {
             id: project.id.toString(),
