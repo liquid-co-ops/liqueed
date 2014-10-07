@@ -6,6 +6,7 @@ router.get('/', controller.list);
 router.post('/', controller.addProject);
 router.get('/:id', controller.get);
 router.get('/:id/team', controller.getTeam);
+router.put('/:id/team/:pid', controller.addPersonToTeam);
 router.get('/:id/shareholder', controller.getShareholders);
 router.get('/:id/share', controller.getSharesByProject);
 router.get('/:id/period', controller.getPeriods);
