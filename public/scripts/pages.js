@@ -266,15 +266,7 @@ var pages = (function () {
                 max:period.amount,
                 slide: function (event, ui) {
                     input.val(ui.value);
-                },
-                change: function (event, ui) {
-                  var total = 0;
-                  $('.personal-amount').each(function(i, obj) {
-                    total += +obj.value;
-                  });
-                  amountLeft.html(amount.text() - total);
                 }
-
             });
             input.shareholder = shareholder;
             input.change(function () {
@@ -282,6 +274,11 @@ var pages = (function () {
                 if (!(isNaN(value) || value < 0)) {
                     slider.slider("value", value);
                 };
+                var total = 0;
+                $('.personal-amount').each(function(i, obj) {
+                  total += +obj.value;
+                });
+                amountLeft.html(amount.text() - total);
             });
             inputs.push(input);
         });
