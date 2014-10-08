@@ -12,11 +12,13 @@ var projects = [
             { id: 3, name: 'March 2014', amount: 100, "date": "2014-03-31" }
         ],
         shareholders: [
-            { id: 1, name: 'Alan' },
-            { id: 2, name: 'Fabricio' },
-            { id: 3, name: 'Nicolas' },
-            { id: 4, name: 'Maximo' },
-            { id: 5, name: 'Angel' }
+            { id: 1, name: 'Alan', username: 'alan' },
+            { id: 2, name: 'Fabricio', username: 'fabricio' },
+            { id: 3, name: 'Nicolas', username: 'nicolas' },
+            { id: 4, name: 'Maximo', username: 'maximo' },
+            { id: 5, name: 'Angel', username: 'ajlopez' },
+            { id: 6, name: 'Sebastian Streiger', username: 'sebastian' },
+            { id: 7, name: 'Laura Fraile', username: 'laura' }
         ]
     },
     { id: 2, name: 'My project 2'
