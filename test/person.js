@@ -29,6 +29,39 @@ exports['get person by id'] = function (test) {
     });    
 };
 
+exports['login person'] = function (test) {
+    test.async();
+    
+    service.loginPerson('anna', 'anna', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.name, 'Anna');
+        test.equal(result.id, annaid);
+        test.equal(result.username, 'anna');
+        test.done();
+    });    
+};
+
+exports['login unknown person'] = function (test) {
+    test.async();
+    
+    service.loginPerson('foo', 'foo', function (err, result) {
+        test.ok(err);
+        test.equal(err, 'Unknown username');
+        test.done();
+    });    
+};
+
+exports['login invalid password'] = function (test) {
+    test.async();
+    
+    service.loginPerson('anna', 'foo', function (err, result) {
+        test.ok(err);
+        test.equal(err, 'Invalid password');
+        test.done();
+    });    
+};
+
 exports['get person by name'] = function (test) {
     test.async();
     

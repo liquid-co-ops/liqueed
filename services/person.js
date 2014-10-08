@@ -1,6 +1,7 @@
 'use strict';
 
 var db = require('../utils/db');
+var async = require('simpleasync');
 
 var store;
 
@@ -32,6 +33,30 @@ function addPerson(data, cb) {
 function getPersonById(id, cb) {
     var store = db.store('persons');
     store.get(id, cb);
+}
+
+function loginPerson(username, password, cb) {
+    async()
+    .then(function (data, next) {
+        getPersonByUserName(username, next);
+    })
+    .then(function (data, next) {
+        if (!data) {
+            cb('Unknown username', null);
+            return;
+        }   
+        
+        if (username != password) {
+            cb('Invalid password', null);
+            return;
+        }
+        
+        cb(null, data);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
 }
 
 function getPersonByName(name, cb) {
@@ -120,6 +145,7 @@ module.exports = {
     getPersonByName: getPersonByName,
     getPersonByUserName: getPersonByUserName,
     getPersons: getPersons,
-    getProjects: getProjects
+    getProjects: getProjects,
+    loginPerson: loginPerson
 };
 
