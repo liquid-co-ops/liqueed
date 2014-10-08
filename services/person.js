@@ -82,10 +82,29 @@ function getPersonByUserName(username, cb) {
             return;
         }
         
-        if (items.length)
+        if (items.length) {
             cb(null, items[0]);
-        else
+            return;
+        }
+        
+        getPersons(function (err, persons) {
+            if (err) {
+                cb(err, null);
+                return;
+            }
+            
+            for (var n in persons) {
+                var person = persons[n];
+                
+                if (person.name && person.name.toLowerCase() == username) {
+                    person.username = person.name.toLowerCase();
+                    cb(null, person);
+                    return;
+                }
+            }
+            
             cb(null, null);
+        });
     });
 }
 function getPersons(cb) {

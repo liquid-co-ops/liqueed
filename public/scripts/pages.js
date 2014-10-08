@@ -42,16 +42,29 @@ var pages = (function () {
     }
 
     function doSignIn() {
-        var select = $("#personlist");
+        var username = $("#login_username").val();
+        var password = $("#login_password").val();
 
-        var userid = select.val();
+        client.loginPerson(username, password, function (err, user) {
+            if (err) {
+                alert(err);
+                return;
+            }
+            
+            if (user.error) {
+                alert(user.error);
+                return;
+            }
+            
+            var userid = user.id;
 
-        if (userid.length < 10)
-            me = parseInt(userid);
-        else
-            me = userid;
+            if (userid.length && userid.length < 10)
+                me = parseInt(userid);
+            else
+                me = userid;
 
-        gotoProjects();
+            gotoProjects();            
+        });
     }
 
     function doSignOut() {
