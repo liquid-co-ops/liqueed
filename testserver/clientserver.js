@@ -10,6 +10,7 @@ var client = require('../public/scripts/clientserver');
 var projects;
 var team;
 var periods;
+var persons;
 
 exports['load test data'] = function (test) {
     test.async();
@@ -188,7 +189,49 @@ exports['get persons'] = function (test) {
         result.forEach(function (item) {
             test.ok(item.id);
             test.ok(item.name);
+            test.ok(item.username);
         });
+        
+        persons = result;
+        
+        test.done();
+    });
+}
+
+exports['login person'] = function (test) {
+    test.async();
+    
+    client.loginPerson(persons[0].username, persons[0].username, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        
+        test.equal(result.id, persons[0].id);
+        test.equal(result.name, persons[0].name);
+        test.equal(result.username, persons[0].username);
+        
+        test.done();
+    });
+}
+
+exports['login unknown person'] = function (test) {
+    test.async();
+    
+    client.loginPerson('foo', 'foo', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.error, 'Unknown username');
+        
+        test.done();
+    });
+}
+
+exports['login invalid password'] = function (test) {
+    test.async();
+    
+    client.loginPerson(persons[0].username, 'foo', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.error, 'Invalid password');
         
         test.done();
     });

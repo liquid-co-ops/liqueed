@@ -47,6 +47,27 @@ var clientserver = (function() {
             }            
         });
     }
+    
+    function loginPerson(username, password, cb) {        
+        var data = {
+            username: username,
+            password: password
+        };
+        
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json; charset=utf-8",
+            url: '/api/person/login/',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (msg) {
+                cb(null, msg);
+            },
+            error: function (err){
+                cb(err, null);
+            }            
+        });
+    }
 
     function getEntity(idproj, cb, entityName) {
         $.get('/api/project/' + idproj + entityName, function (data) {
@@ -107,7 +128,8 @@ var clientserver = (function() {
         getSharesByProject: getSharesByProject,
         getAssignments: getAssignments,
         putAssigments: putAssignments,
-        getPersons: getPersons
+        getPersons: getPersons,
+        loginPerson: loginPerson
     };
 })();
 
