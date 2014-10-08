@@ -4,6 +4,7 @@ var async = require('simpleasync');
 
 var projects;
 var project;
+var persons;
 
 exports['get my projects'] = function (test) {
     test.async();
@@ -84,10 +85,51 @@ exports['get persons'] = function (test) {
             test.ok(item.name);
         });
         
+        persons = result;
+        
         test.done();
     });
 }
 
+
+exports['login person'] = function (test) {
+    test.async();
+    
+    client.loginPerson(persons[0].username, persons[0].username, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        
+        test.equal(result.id, persons[0].id);
+        test.equal(result.name, persons[0].name);
+        test.equal(result.username, persons[0].username);
+        
+        test.done();
+    });
+}
+
+exports['login unknown person'] = function (test) {
+    test.async();
+    
+    client.loginPerson('foo', 'foo', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.error, 'Unknown username');
+        
+        test.done();
+    });
+}
+
+exports['login invalid password'] = function (test) {
+    test.async();
+    
+    client.loginPerson(persons[0].username, 'foo', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.error, 'Invalid password');
+        
+        test.done();
+    });
+}
 exports['add project'] = function (test) {
     test.async();
     

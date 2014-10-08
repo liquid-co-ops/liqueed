@@ -38,6 +38,30 @@ var clientlocal = (function() {
         cb(null, sl.sort(result, 'name'));
     }
     
+    function loginPerson(username, password, cb) {
+        getPersons(function (err, persons) {
+            if (err) {
+                cb(err, null);
+                return;
+            }
+            
+            for (var n in persons) {
+                var person = persons[n];
+                
+                if (person.username == username) {
+                    if (username == password)
+                        cb(null, person);
+                    else
+                        cb(null, { error: 'Invalid password' });
+                        
+                    return;
+                }
+            }
+            
+            cb(null, { error: 'Unknown username' });
+        });
+    }
+    
     function getMyProjects(cb) {
         cb(null, sl.sort(projects, 'name'));
     }
@@ -83,7 +107,8 @@ var clientlocal = (function() {
         addProject: addProject,
         getPeriods: getPeriods,
         getShareholders: getShareholders,
-        getPersons: getPersons
+        getPersons: getPersons,
+        loginPerson: loginPerson
     };
 })();
 
