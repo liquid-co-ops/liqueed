@@ -33,7 +33,10 @@ function loginPerson(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     service.loginPerson(username, password, function (err, items) {
-        res.send(items);
+        if (err)
+            res.send({ error: err });
+        else
+            res.send(items);
     });
 };
 

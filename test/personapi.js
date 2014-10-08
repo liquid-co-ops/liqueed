@@ -114,3 +114,49 @@ exports['login person'] = function (test) {
     
     controller.loginPerson(request, response);
 };
+
+exports['login unknown person'] = function (test) {
+    test.async();
+    
+    var request = {
+        body: {
+            username: 'foo',
+            password: 'foo'
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.ok(model.error);
+            test.equal(model.error, 'Unknown username');
+            
+            test.done();
+        }
+    };
+    
+    controller.loginPerson(request, response);
+};
+
+exports['login invalid password'] = function (test) {
+    test.async();
+    
+    var request = {
+        body: {
+            username: persons[0].username,
+            password: 'foo'
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.ok(model.error);
+            test.equal(model.error, 'Invalid password');
+            
+            test.done();
+        }
+    };
+    
+    controller.loginPerson(request, response);
+};
