@@ -89,3 +89,28 @@ exports['get first person projects'] = function (test) {
     
     controller.getProjects(request, response);
 };
+
+exports['login person'] = function (test) {
+    test.async();
+    
+    var request = {
+        body: {
+            username: persons[0].username,
+            password: persons[0].username
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            
+            test.equal(model.id, persons[0].id);
+            test.equal(model.name, persons[0].name);
+            test.equal(model.username, persons[0].username);
+            
+            test.done();
+        }
+    };
+    
+    controller.loginPerson(request, response);
+};

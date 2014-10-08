@@ -29,8 +29,17 @@ function getProjects(req, res) {
     });
 };
 
+function loginPerson(req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
+    service.loginPerson(username, password, function (err, items) {
+        res.send(items);
+    });
+};
+
 module.exports = {
     list: list,
     get: get,
-    getProjects: getProjects
+    getProjects: getProjects,
+    loginPerson: loginPerson
 };
