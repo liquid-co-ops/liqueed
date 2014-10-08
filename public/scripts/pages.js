@@ -344,7 +344,21 @@ var pages = (function () {
 
         activatePage(page);
     }
+    
+    function gotoNewPeriod(project, cb) {
+    	if(project==null) {
+    		alert("you must select a project");
+    		return;
+    	}    	
+        var page = $("#createperiodpage");        
+        var projname = $("#newperiodprojectname");
+        projname.html(project.name);
+        activatePage(page);
+        if (cb)
+            cb(null, null);
+    }
 
+    
     var retval = {
         gotoProjects: gotoProjects,
         gotoProject: function () { gotoProject(currentproject); },
@@ -353,7 +367,8 @@ var pages = (function () {
         showProjects: showProjects,
         doSignOut: doSignOut,
         doSignIn: doSignIn,
-        gotoSignIn: gotoSignIn
+        gotoSignIn: gotoSignIn,
+        gotoNewPeriod:  function () { gotoNewPeriod(currentproject); }
     }
 
     return retval;

@@ -87,6 +87,7 @@
         <h1 id="projectname"></h1>
         <div class="actions">
             <button type="button" class="btn btn-primary" onclick='pages.gotoProjects()'>Projects</button>
+            <button type="button" class="btn btn-primary" onclick='pages.gotoNewPeriod()'>Create Period</button>
         </div>
         <div id="periods">
         </div>
@@ -110,7 +111,33 @@
             <button type="button" class="btn btn-success" id='sharesdone' onclick='pages.sharesDone()'>I'm done sharing</button>
         </div>
     </div>
-    </div>
+
+	<div id="createperiodpage" style='display: none'>
+		<h1 id="newperiodprojectname"></h1>
+		<div class="actions">
+			<button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Back to project</button>
+		</div>
+		<div class="actions">
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label for="inputName" class="col-sm-offset-3 col-sm-2 control-label">Name</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="inputName" placeholder="period name">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputAmount" class="col-sm-offset-3 col-sm-2 control-label">Amount</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="inputAmount" placeholder="amount to share">
+					</div>
+				</div>
+			</form>				
+			<button type="button" class="btn btn-success" onclick='alert("TODO");'>Create Period</button>
+		</div>
+	</div>
+
+
+	</div>
     <script src='scripts/jquery-2.1.1.min.js' type='text/javascript'></script>
     <script src="scripts/jquery-ui-1.11.1/jquery-ui.js" type='text/javascript'></script>
     <script src='scripts/simplelists.js' type='text/javascript'></script>
