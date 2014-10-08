@@ -26,11 +26,13 @@ async()
             config.mongodb.port = process.env.OPENSHIFT_MONGODB_DB_PORT || config.mongodb.port;
             config.mongodb.username = process.env.OPENSHIFT_MONGODB_DB_USERNAME || config.mongodb.username;
             config.mongodb.password = process.env.OPENSHIFT_MONGODB_DB_PASSWORD || config.mongodb.password;
-            
+
+/*            
             config.mongodb.host = config.mongodb.username + ':' +
                 config.mongodb.password + '@' +
                 config.mongodb.host;
-                
+*/
+              
             db.useDb(config.mongodb.name, config.mongodb, next);
         }
         else {
