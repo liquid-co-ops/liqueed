@@ -3,6 +3,7 @@ var service = require('../services/person');
 var pservice = require('../services/project');
 
 var annaid;
+var lauraid;
 
 exports['add person'] = function (test) {
     test.async();
@@ -23,6 +24,7 @@ exports['get person by id'] = function (test) {
         test.ok(result);
         test.equal(result.name, 'Anna');
         test.equal(result.id, annaid);
+        test.equal(result.username, 'anna');
         test.done();
     });    
 };
@@ -35,6 +37,43 @@ exports['get person by name'] = function (test) {
         test.ok(result);
         test.equal(result.name, 'Anna');
         test.equal(result.id, annaid);
+        test.done();
+    });    
+};
+
+exports['get person by username'] = function (test) {
+    test.async();
+    
+    service.getPersonByUserName('anna', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.username, 'anna');
+        test.equal(result.name, 'Anna');
+        test.equal(result.id, annaid);
+        test.done();
+    });    
+};
+
+exports['add person with username'] = function (test) {
+    test.async();
+    
+    service.addPerson({ username: 'lingalls', name: 'Laura' }, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        lauraid = result;
+        test.done();
+    });    
+};
+
+exports['get person with username by id'] = function (test) {
+    test.async();
+    
+    service.getPersonById(lauraid, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.name, 'Laura');
+        test.equal(result.id, lauraid);
+        test.equal(result.username, 'lingalls');
         test.done();
     });    
 };

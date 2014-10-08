@@ -22,6 +22,10 @@ db.store('projects', function (err, data) {
 
 function addPerson(data, cb) {
     var store = db.store('persons');
+    
+    if (!data.username && data.name)
+        data.username = data.name.toLowerCase();
+        
     store.add(data, cb);
 }
 
@@ -45,6 +49,20 @@ function getPersonByName(name, cb) {
     });
 }
 
+function getPersonByUserName(username, cb) {
+    var store = db.store('persons');
+    store.find({ username: username }, function (err, items) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        if (items.length)
+            cb(null, items[0]);
+        else
+            cb(null, null);
+    });
+}
 function getPersons(cb) {
     var store = db.store('persons');
     store.find(cb);
@@ -100,6 +118,7 @@ module.exports = {
     addPerson: addPerson,
     getPersonById: getPersonById,
     getPersonByName: getPersonByName,
+    getPersonByUserName: getPersonByUserName,
     getPersons: getPersons,
     getProjects: getProjects
 };
