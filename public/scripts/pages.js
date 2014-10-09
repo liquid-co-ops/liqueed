@@ -11,8 +11,9 @@ if (typeof $ == 'undefined')
 var pages = (function () {
     var active;
     var me;
-    var currentproject = null;
-
+    var currentproject = null;    
+    
+    
     function activatePage(page) {
         if (active)
             active.hide();
@@ -248,6 +249,7 @@ var pages = (function () {
     }
     
     function createPeriod(project) {
+    	
     	if(!project) {
     		alert("You should select a project");
     		return;
@@ -262,8 +264,21 @@ var pages = (function () {
     		alert("You should input an amount > 0");
     		return;
     	}
-    	var period = { id: 1, name: name, amount: amount, "date": "2014-01-31" };
-    	alert("TODO: create a period " + JSON.stringify(period));
+    	
+    	//TODO: to implement in clientserver and reneame to local
+    	if(client != clientlocal) {
+    		alert("TODO: be implemented in clientserver");
+    		return;
+    	}
+    	client.addPeriod(project.id, {name: name, amount: amount}, function(err,result) {
+    		//TODO: change to error
+    		if(result.error) {
+    			alert(result.error);
+    		} else {
+    			alert("A new period was created");    			
+    			gotoProject(project);
+    		}
+    	});
     }
 
     function showPeriod(project, period, shareholders) {

@@ -22,10 +22,19 @@ var projects = [
         ]
     },
     { id: 2, name: 'My project 2'
+    },
+    { id: 3, name: 'My project 3',
+        periods: [
+                  { id: 1, name: 'First 2014', amount: 100, "date": "2014-06-01", closed: true },
+                  { id: 2, name: 'Second 2014', amount: 100, "date": "2014-07-01", closed: true },
+                  { id: 3, name: 'Third 2014', amount: 100, "date": "2014-08-01", closed: true }
+             ]    	
     }
+
+    
 ];
 
-var maxprojid = 2;
+var maxprojid = 3;
 
 var clientlocal = (function() {
     function getPersons(cb) {
@@ -93,9 +102,58 @@ var clientlocal = (function() {
         }
     }
 
-    function getPeriods(idproj, cb) {
-        getProject(idproj, getViaCallback("periods", cb));
-    }
+	    function getPeriods(idproj, cb) {
+		getProject(idproj, getViaCallback("periods", cb));
+	}
+
+	function addPeriod(projid, period, cb) {
+		// validation
+		if (!projid) {
+			cb(null, {error : 'the project id is undefined'})
+			return;
+		}
+		if (!period) {
+			cb(null, {error : 'the period to be created is not defined'})
+			return;
+		}
+		if (!period.name) {
+			cb(null, {error : "A period name is needed"});
+			return;
+		}
+		if (!period.amount || isNaN(period.amount) || period.amount <= 0) {
+			cb(null, {error : "You should input an amount > 0"});
+			return;
+		}
+		
+		getPeriods(projid, function(err, result) {
+			if (err) {
+				cb(err, null);
+				return;
+			}
+
+			for ( var n in result) {
+				var aPeriod = result[n];
+				if (!aPeriod.closed) {
+					cb(null,{error : 'There is an open period, to create another all periods should be closed'})
+					return;
+				}
+				if (aPeriod.name === period.name) {
+					cb(null,{error : 'Already exist a period with the same name'});
+					return;
+				}
+			}
+
+			// create period
+			period.id = result.length;
+			var today = new Date();
+			period.date = [ today.getFullYear(),("00" + (today.getMonth() + 1)).slice(-2),("00" + today.getDate()).slice(-2) ].join('-');
+			period.closed = false;
+
+			result.push(period);
+
+			cb(null, period.id);
+		});
+	}
     
     function getShareholders(idproj, cb) {
         getProject(idproj, getViaCallback("shareholders", cb));
@@ -106,6 +164,7 @@ var clientlocal = (function() {
         getProject: getProject,
         addProject: addProject,
         getPeriods: getPeriods,
+        addPeriod: addPeriod, 
         getShareholders: getShareholders,
         getPersons: getPersons,
         loginPerson: loginPerson
