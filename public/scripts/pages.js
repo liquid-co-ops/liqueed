@@ -246,6 +246,25 @@ var pages = (function () {
                 gotoProjects();
         });
     }
+    
+    function createPeriod(project) {
+    	if(!project) {
+    		alert("You should select a project");
+    		return;
+    	}
+    	var name = $("#periodnewname").val();
+    	if(!name) {
+    		alert("A period name is needed");
+    		return;
+    	}
+    	var amount = $("#periodnewamount").val();
+    	if(!amount || isNaN(amount) || amount <= 0) {
+    		alert("You should input an amount > 0");
+    		return;
+    	}
+    	var period = { id: 1, name: name, amount: amount, "date": "2014-01-31" };
+    	alert("TODO: create a period " + JSON.stringify(period));
+    }
 
     function showPeriod(project, period, shareholders) {
         var page = $("#periodpage");
@@ -368,7 +387,8 @@ var pages = (function () {
         doSignOut: doSignOut,
         doSignIn: doSignIn,
         gotoSignIn: gotoSignIn,
-        gotoNewPeriod:  function () { gotoNewPeriod(currentproject); }
+        gotoNewPeriod:  function () { gotoNewPeriod(currentproject); },
+        createPeriod: function () { createPeriod(currentproject); }
     }
 
     return retval;
