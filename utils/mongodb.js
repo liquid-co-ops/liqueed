@@ -97,12 +97,29 @@ module.exports = {
     openDatabase: function (dbname, host, port, username, password, cb) {
         if (!cb)
             cb = function () { };
-        var db = new mongodb.Db(dbname, new mongodb.Server(host, port, {auto_reconnect: true}, {}), { safe: true  });
+        var server = new mongodb.Server(host, port, {auto_reconnect: true}, {});
+        var db = new mongodb.Db(dbname, server, { safe: true  });
 		if(username != null)
 		{
 			db.authenticate(username, password);
 		}
-        db.open(cb);
+        db.open(function (err, db) {
+            if (err) {
+                cb(err, null);
+                return;
+            }
+            
+            if (username) {
+                db.authenticate(username, password, {authdb: "admin"}, function (err, res) {
+                    if (err)
+                        cb(err, null);
+                    else
+                        cb(null, db);
+                });
+            }
+            else
+                cb(null, db);
+        });
         return db;
     }
 };
