@@ -14,7 +14,16 @@ var clientserver = (function() {
         }).fail(function (err) {
             cb(err, null);
         });
-    }    
+    }
+
+
+    function getProjectsByUser(userid, cb) {
+      $.get('/api/person/' + userid+'/project', function (data) {
+          cb(null, data);
+      }).fail(function (err) {
+          cb(err, null);
+      });
+    }
 
     function getMyProjects(cb) {
         $.get('/api/project', function (data) {
@@ -23,7 +32,7 @@ var clientserver = (function() {
             cb(err, null);
         });
     }
-    
+
     function getProject(idproj, cb) {
         $.get('/api/project/' + idproj, function (data) {
             cb(null, data);
@@ -31,8 +40,8 @@ var clientserver = (function() {
             cb(err, null);
         });
     }
-    
-    function addProject(proj, cb) {        
+
+    function addProject(proj, cb) {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -44,16 +53,16 @@ var clientserver = (function() {
             },
             error: function (err){
                 cb(err, null);
-            }            
+            }
         });
     }
-    
-    function loginPerson(username, password, cb) {        
+
+    function loginPerson(username, password, cb) {
         var data = {
             username: username,
             password: password
         };
-        
+
         $.ajax({
             type: "PUT",
             contentType: "application/json; charset=utf-8",
@@ -65,7 +74,7 @@ var clientserver = (function() {
             },
             error: function (err){
                 cb(err, null);
-            }            
+            }
         });
     }
 
@@ -80,29 +89,29 @@ var clientserver = (function() {
     function getPeriods(idproj, cb) {
         getEntity(idproj, cb, "/period");
     }
-    
+
     function getShareholders(idproj, cb) {
         getEntity(idproj, cb, "/shareholder");
     }
-    
+
     function getTeam(idproj, cb) {
         getEntity(idproj, cb, "/team");
     }
-    
+
     function getSharesByProject(idproj, cb) {
         getEntity(idproj, cb, "/share");
     }
-    
+
     function getAssignments(projectid, periodid, cb) {
         getEntity(projectid, cb, "/period/" + periodid + "/assign");
     }
-    
+
     function putAssignments(projectid, periodid, fromid, assignments, cb) {
         var data = {
             from: fromid,
             assignments: assignments
         }
-        
+
         $.ajax({
             type: "PUT",
             contentType: "application/json; charset=utf-8",
@@ -114,11 +123,12 @@ var clientserver = (function() {
             },
             error: function (err){
                 cb(err, null);
-            }            
+            }
         });
     }
 
     return {
+        getProjectsByUser: getProjectsByUser,
         getMyProjects: getMyProjects,
         getProject: getProject,
         addProject: addProject,

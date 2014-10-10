@@ -11,9 +11,9 @@ if (typeof $ == 'undefined')
 var pages = (function () {
     var active;
     var me;
-    var currentproject = null;    
-    
-    
+    var currentproject = null;
+
+
     function activatePage(page) {
         if (active)
             active.hide();
@@ -51,12 +51,12 @@ var pages = (function () {
                 alert(err);
                 return;
             }
-            
+
             if (user.error) {
                 alert(user.error);
                 return;
             }
-            
+
             var userid = user.id;
 
             if (userid.length && userid.length < 10)
@@ -64,7 +64,7 @@ var pages = (function () {
             else
                 me = userid;
 
-            gotoProjects();            
+            gotoProjects();
         });
     }
 
@@ -105,7 +105,7 @@ var pages = (function () {
 
     function gotoProjects() {
         currentproject = null;
-        client.getMyProjects(function (err, projects) {
+        client.getProjectsByUser(me, function (err, projects) {
             if (err)
                 alert(err);
             else
@@ -247,9 +247,9 @@ var pages = (function () {
                 gotoProjects();
         });
     }
-    
+
     function createPeriod(project) {
-    	
+
     	if(!project) {
     		alert("You should select a project");
     		return;
@@ -264,7 +264,7 @@ var pages = (function () {
     		alert("You should input an amount > 0");
     		return;
     	}
-    	
+
     	//TODO: to implement in clientserver and reneame to local
     	if(client != clientlocal) {
     		alert("TODO: be implemented in clientserver");
@@ -275,7 +275,7 @@ var pages = (function () {
     		if(result.error) {
     			alert(result.error);
     		} else {
-    			alert("A new period was created");    			
+    			alert("A new period was created");
     			gotoProject(project);
     		}
     	});
@@ -378,13 +378,13 @@ var pages = (function () {
 
         activatePage(page);
     }
-    
+
     function gotoNewPeriod(project, cb) {
     	if(project==null) {
     		alert("you must select a project");
     		return;
-    	}    	
-        var page = $("#createperiodpage");        
+    	}
+        var page = $("#createperiodpage");
         var projname = $("#newperiodprojectname");
         projname.html(project.name);
         activatePage(page);
@@ -392,7 +392,7 @@ var pages = (function () {
             cb(null, null);
     }
 
-    
+
     var retval = {
         gotoProjects: gotoProjects,
         gotoProject: function () { gotoProject(currentproject); },
