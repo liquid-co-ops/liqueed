@@ -21,11 +21,15 @@ db.store('projects', function (err, data) {
     pstore = data;
 });
 
+function makeUserName(name) {
+    return name.split(' ').join('_').toLowerCase();
+}
+
 function addPerson(data, cb) {
     var store = db.store('persons');
     
     if (!data.username && data.name)
-        data.username = data.name.toLowerCase();
+        data.username = makeUserName(data.name);
         
     store.add(data, cb);
 }
@@ -96,8 +100,8 @@ function getPersonByUserName(username, cb) {
             for (var n in persons) {
                 var person = persons[n];
                 
-                if (person.name && person.name.toLowerCase() == username) {
-                    person.username = person.name.toLowerCase();
+                if (person.name && makeUserName(person.name) == username) {
+                    person.username = makeUserName(person.name);
                     cb(null, person);
                     return;
                 }

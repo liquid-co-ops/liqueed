@@ -18,7 +18,8 @@
     "ostore": "0.0.4",
     "simplelists": "0.0.4",
     "simpleasync": "0.0.5",
-    "mongodb": "~1.4.19"
+    "mongodb": "~1.4.19",
+    "bcrypt-nodejs": "0.0.3"
   },
   "devDependencies": {
     "simpleunit": "0.0.5",
