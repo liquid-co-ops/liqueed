@@ -3,6 +3,8 @@ var router = express.Router();
 var controller = require('../controllers/person');
 
 router.get('/', controller.index);
+router.get('/new', controller.newPerson);
+router.post('/new', controller.addPerson);
 router.get('/:id', controller.view);
 
 module.exports = router;
