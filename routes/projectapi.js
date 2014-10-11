@@ -12,6 +12,7 @@ router.get('/:id/share', controller.getSharesByProject);
 router.get('/:id/period', controller.getPeriods);
 router.get('/:id/period/:idp', controller.getPeriod);
 router.get('/:id/period/:idp/assign', controller.getAssignments);
+router.post('/:id/period', controller.addPeriod);
 router.put('/:id/period/:idp/assign', controller.putAssignment);
 router.put('/:id/period/:idp/assigns', controller.putAssignments);
 router.put('/:id/period/:idp/open', controller.openPeriod);

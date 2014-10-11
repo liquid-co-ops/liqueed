@@ -153,28 +153,6 @@ exports['add project'] = function (test) {
     .run();
 }
 
-exports['successfully add a period to a project'] = function (test) {
-	test.async();
-    
-	async()
-	.then(function (data, next) {
-		client.addPeriod( projects[2].id, {name: "new period", amount: 100}, next);		
-	})	
-	.then(function (data, next) {
-		test.ok(data);
-		client.getPeriods(projects[2].id, function(err,result){
-			test.ok(result);
-			test.ok(result[data]);
-			test.equal(result[data].name, "new period");
-			test.equal(result[data].amount, 100);
-			test.ok(result[data].date);
-			test.done()
-		});
-	})
-	.run();	
-   // verify that the period was successfully added.
-}
-
 exports['fails when adding a period with invalid input'] = function (test) {
 	test.async();
 	
@@ -228,14 +206,8 @@ exports['fails when adding a period with an existing name'] = function (test) {
 
 exports['successfully add a period to a project'] = function (test) {
 	test.async();
-    
-	async()
-	.then(function (data, next) {
-		client.addPeriod( projects[2].id, 
-				  {name: "new period", amount: 100},
-				  next);		
-	})	
-	.then(function (data, next) {
+
+	client.addPeriod( projects[2].id, {name: "new period", amount: 100},  function (err, data) {
 		test.ok(data);
 		client.getPeriods(projects[2].id, function(err,result){
 			test.ok(result);
@@ -245,8 +217,7 @@ exports['successfully add a period to a project'] = function (test) {
 			test.ok(result[data].date);
 			test.done()
 		});
-	})
-	.run();
+    });	
 }
 
 //WARN: this case depend directly of the 'successfully add a period to a project' (TO REVIEW) 

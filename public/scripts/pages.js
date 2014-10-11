@@ -264,14 +264,12 @@ var pages = (function () {
     		alert("You should input an amount > 0");
     		return;
     	}
-
-    	//TODO: to implement in clientserver and reneame to local
-    	if(client != clientlocal) {
-    		alert("TODO: be implemented in clientserver");
-    		return;
-    	}
-    	client.addPeriod(project.id, {name: name, amount: amount}, function(err,result) {
-    		//TODO: change to error
+    	
+      	client.addPeriod(project.id, {name: name, amount: amount}, function(err,result) {    		
+    		if(err) {
+    			alert(err);
+    			return;
+    		}    		
     		if(result.error) {
     			alert(result.error);
     		} else {

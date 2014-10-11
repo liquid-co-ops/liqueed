@@ -89,6 +89,27 @@ var clientserver = (function() {
     function getPeriods(idproj, cb) {
         getEntity(idproj, cb, "/period");
     }
+    
+    
+    function addPeriod(projid, period, cb) {
+        var data = {
+        		projid: projid,
+        		period: period
+         };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: '/api/project/' + projid + '/period',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (msg) {
+                cb(null, msg);
+            },
+            error: function (err){
+                cb(err, null);
+            }
+        });
+    }    
 
     function getShareholders(idproj, cb) {
         getEntity(idproj, cb, "/shareholder");
@@ -133,6 +154,7 @@ var clientserver = (function() {
         getProject: getProject,
         addProject: addProject,
         getPeriods: getPeriods,
+        addPeriod: addPeriod,
         getTeam: getTeam,
         getShareholders: getShareholders,
         getSharesByProject: getSharesByProject,

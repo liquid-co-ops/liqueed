@@ -72,6 +72,14 @@ function getPeriod(req, res) {
     });
 }
 
+function addPeriod(req, res) {
+    var id = getId(req.params.id);    
+    service.addPeriod(id, req.body.period, function (err, id) {
+        res.json(id);
+    });
+}
+
+
 function getAssignments(req, res) {
     var id = getId(req.params.id);
     var idp = getId(req.params.idp);
@@ -128,6 +136,7 @@ module.exports = {
     getAssignments: getAssignments,
     putAssignment: putAssignment,
     putAssignments: putAssignments,
+    addPeriod: addPeriod,
     openPeriod: openPeriod,
     closePeriod: closePeriod
 }

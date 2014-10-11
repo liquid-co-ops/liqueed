@@ -151,9 +151,56 @@ function getProjects(cb) {
 }
 
 function addPeriod(projid, period, cb) {
-    var periodstore = db.store('periods');
-    period.project = projid;
-    periodstore.add(period, cb);
+      
+	// validation
+	if (!projid) {
+		cb(null, {error : 'the project id is undefined'})
+		return;
+	}
+	if (!period) {
+		cb(null, {error : 'the period to be created is not defined'})
+		return;
+	}
+	if (!period.name) {
+		cb(null, {error : "A period name is needed"});
+		return;
+	}
+	if (!period.amount || isNaN(period.amount) || period.amount <= 0) {
+		cb(null, {error : "You should input an amount > 0"});
+		return;
+	}
+
+	getPeriods(projid, function(err, result) {
+		if (err) {
+			cb(err, null);
+			return;
+		}
+
+		for ( var n in result) {
+			var aPeriod = result[n];
+//			if (!aPeriod.closed) {
+//				cb(null,{error : 'There is an open period, to create another all periods should be closed'})
+//				return;
+//			}
+			if (aPeriod.name === period.name) {
+				cb(null,{error : 'Already exist a period with the same name'});
+				return;
+			}
+		}
+
+
+		// create period
+		period.project = projid;
+		var today = new Date();
+		if(!period.date) {
+			period.date = [ today.getFullYear(),("00" + (today.getMonth() + 1)).slice(-2),("00" + today.getDate()).slice(-2) ].join('-');
+		}
+		period.closed = false;
+
+		var periodstore = db.store('periods');
+		periodstore.add(period, cb);		
+	});	 
+
 }
 
 function getPeriodById(periodid, cb) {

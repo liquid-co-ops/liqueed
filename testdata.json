@@ -25,7 +25,16 @@
                 { "name": "April 2014", "date": "2014-04-30", "amount": 400 }
             ],
             "team": [ "Alice", "Charlie", "Daniel" ]
-        }
+        },        
+        { 
+        	"name": "My project 3",
+            "periods": [
+                      {"name": "First 2014", "amount": 100, "date": "2014-06-01", "closed": true },
+                      {"name": "Second 2014", "amount": 100, "date": "2014-07-01","closed": true },
+                      {"name": "Third 2014", "amount": 100, "date": "2014-08-01", "closed": true }
+                 ],
+                 "team": [ "Alice", "Daniel", "Charlie" ]
+        }        
     ],
     "persons": [
         { "name": "Alice" },

@@ -92,7 +92,7 @@ function load(filename, cb) {
                         }
                         
                         var perioddata = periods[kp++];    
-                        var period = { name: perioddata.name, date: perioddata.date, amount: perioddata.amount };
+                        var period = { name: perioddata.name, date: perioddata.date, amount: perioddata.amount, closed: perioddata.closed };
                         projectService.addPeriod(projid, period, function (err, periodid) {                            if (err) {
                                 cb(err, null);
                                 return;
