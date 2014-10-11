@@ -178,16 +178,15 @@ function addPeriod(projid, period, cb) {
 
 		for ( var n in result) {
 			var aPeriod = result[n];
-//			if (!aPeriod.closed) {
-//				cb(null,{error : 'There is an open period, to create another all periods should be closed'})
-//				return;
-//			}
+			if (!aPeriod.closed) {
+				cb(null,{error : 'There is an open period, to create another all periods should be closed'})
+				return;
+			}
 			if (aPeriod.name === period.name) {
 				cb(null,{error : 'Already exist a period with the same name'});
 				return;
 			}
 		}
-
 
 		// create period
 		period.project = projid;

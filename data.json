@@ -32,7 +32,14 @@
                 { "name": "First Month", "date": "2014-08-31", "amount": 100 }
             ],
             "team": [ "Alan", "Fabricio", "Maximo", "Nicolas", "Sebastian", "Angel" ]
+        },
+        {
+           "name": "Game0",
+            "periods": [         
+            ],
+            "team": [ "Alan", "Fabricio", "Maximo", "Nicolas", "Sebastian", "Angel" ]
         }
+
     ],
     "persons": [
         { "name": "Alice" },

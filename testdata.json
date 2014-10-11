@@ -33,7 +33,7 @@
                       {"name": "Second 2014", "amount": 100, "date": "2014-07-01","closed": true },
                       {"name": "Third 2014", "amount": 100, "date": "2014-08-01", "closed": true }
                  ],
-                 "team": [ "Alice", "Daniel", "Charlie" ]
+                 "team": [ "Alice", "Daniel", "Charlie", "Bob"]
         }        
     ],
     "persons": [

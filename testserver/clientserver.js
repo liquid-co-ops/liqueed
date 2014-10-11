@@ -12,6 +12,14 @@ var team;
 var periods;
 var persons;
 
+function getProjectByName(projectName) {
+	for ( var p in projects) {
+			if (projects[p].name === projectName) {
+				return projects[p];
+			}
+	}
+}
+
 exports['load test data'] = function (test) {
     test.async();
     
@@ -263,112 +271,138 @@ exports['add project'] = function (test) {
 exports['fails when adding a period with invalid input'] = function (test) {
 	test.async();
 	
-    client.addPeriod( projects[2].id, {amount: 100},  function (err, result) {
-    	test.ok(!err);
-		test.ok(result.error);
-		test.equal(result.error, "A period name is needed");
+	var myProject;    
+	async()
+	.then(function (data, next) {
+		myProject = getProjectByName("My project 3");
+		test.ok(myProject);
 		test.done();
-    });
-    
-    client.addPeriod( projects[2].id, {name: 'A period', amount: 0},  function (err, result) {
-    	test.ok(!err);
-        test.ok(result.error);
-        test.equal(result.error, 'You should input an amount > 0');
-        test.done();
-    });
-    
-    client.addPeriod( projects[2].id, {name: 'A period'},  function (err, result) {
-    	  test.ok(!err);
-          test.ok(result.error);
-          test.equal(result.error, 'You should input an amount > 0');
-          test.done();
-      }); 
-    
-    client.addPeriod( projects[2].id, {name: 'A period', amount: 'foo'},  function (err, result) {
-  	    test.ok(!err);
-        test.ok(result.error);
-        test.equal(result.error, 'You should input an amount > 0');
-        test.done();
-    });
-    
-    client.addPeriod(undefined, {name: 'A period', amount: '100'},  function (err, result) {
-    	  test.ok(!err);
-          test.ok(result.error);          
-          test.equal(result.error, 'the project id is undefined');
-          test.done();
-      });
+    })
+	.then(function (data, next) {		
+
+
+
+				client.addPeriod(projects[2].id, {
+			amount : 100
+		}, function(err, result) {
+			test.ok(!err);
+			test.ok(result.error);
+			test.equal(result.error, "A period name is needed");
+			test.done();
+		});
+
+		client.addPeriod(projects[2].id, {
+			name : 'A period',
+			amount : 0
+		}, function(err, result) {
+			test.ok(!err);
+			test.ok(result.error);
+			test.equal(result.error, 'You should input an amount > 0');
+			test.done();
+		});
+
+		client.addPeriod(projects[2].id, {
+			name : 'A period'
+		}, function(err, result) {
+			test.ok(!err);
+			test.ok(result.error);
+			test.equal(result.error, 'You should input an amount > 0');
+			test.done();
+		});
+
+		client.addPeriod(projects[2].id, {
+			name : 'A period',
+			amount : 'foo'
+		}, function(err, result) {
+			test.ok(!err);
+			test.ok(result.error);
+			test.equal(result.error, 'You should input an amount > 0');
+			test.done();
+		});
+
+		client.addPeriod(undefined, {
+			name : 'A period',
+			amount : '100'
+		}, function(err, result) {
+			test.ok(!err);
+			test.ok(result.error);
+			test.equal(result.error, 'the project id is undefined');
+			test.done();
+		});	 
+	    
+	}).run();
 }
 
-//WARN: this case depend directly of the 'successfully add a period to a project' (TO REVIEW) 
-exports['fails when adding a period with an existing name'] = function (test) {
-	test.async();	
-	var project = function() {
-		for ( var p in projects) {
-			if (projects[p].name === "My project 3") {
-				return projects[p]
-			}
-		}
-	}();
-    test.ok(project);
-    test.ok(project.id);
-    test.done();	
-	var myProject;
+exports['fails when adding a period with an existing name'] = function (test) {	
+	test.async();
+	var myProject;		
 	async()
-    .then(function (data, next) {
-		client.getProject(project.id,function(err,project){
-			console.log(project);
-			myProject = project;
-		});
-    })
-    .then(function (data, next) {
-    client.addPeriod( myProject.id, {name: 'First 2014', amount: 100},  function (err, result) {
-    	  test.ok(!err);
-          test.ok(result.error);
-          test.equal(result.error, 'Already exist a period with the same name');
-          test.done();
-    })
-    }).run();
+	.then(function (data, next) {
+		myProject = getProjectByName("My project 3");
+		test.ok(myProject);
+		test.done();
+	})
+	.then(function (data, next) {
+				client.addPeriod(myProject.id, { name : 'First 2014', amount : 100 }, function(err, result) {
+					test.ok(!err);
+					test.ok(result.error);
+					test.equal(result.error, 'Already exist a period with the same name');
+					test.done();
+				});
+	}).run();	
 }
 
 exports['successfully add a period to a project'] = function (test) {
 	test.async();
-
-	client.addPeriod( projects[2].id, {name: "new period", amount: 100},  function (err, data) {
-		test.ok(data);
-		client.getPeriods(projects[2].id, function(err,result){
-			test.ok(result);
-			var period = function() {
-				for ( var n in result) {
-					if (result[n].name === "new period") {
-						return result[n]
+	var myProject;
+	async()
+    .then(function (data, next) {
+		myProject = getProjectByName("My project 3");
+		test.ok(myProject);
+		test.done();
+    })
+    .then(function(data, next) {
+		client.addPeriod(myProject.id, {name : "new period", amount : 100}, next);
+    })
+	.then(function(data, next) {
+		test.ok(data)
+		client.getPeriods(myProject.id, function(err, result) {
+				test.ok(result);
+				var period = function() {
+					for ( var n in result) {
+						if (result[n].name === "new period") {
+							return result[n]
+						}
 					}
-				}
-			}();			
-			test.ok(period);
-			test.equal(period.name, "new period");
-			test.equal(period.amount, 100);
-			test.ok(period.date);
-			test.done()
+				}();
+				test.ok(period);
+				test.equal(period.name, "new period");
+				test.equal(period.amount, 100);
+				test.ok(period.date);
+				test.done()
 		});
-    });	
+	}).run();
 }
 
-//TODO: REVIEW THIS IMPLEMENTATION
-////WARN: this case depend directly of the 'successfully add a period to a project' (TO REVIEW) 
-//exports['fails when adding a period to a project with an open periods'] = function (test) {
-//	test.async();
-//    
-//	async()
-//	.then(function (data, next) {
-//		client.addPeriod( projects[2].id, {name: "an other period", amount: 100},  next);		
-//	})	
-//	.then(function (data, next) {
-//	        test.ok(data);
-//	        test.equal(data.error, 'There is an open period, to create another all periods should be closed');	        
-//	        test.done();
-//	})
-//	.run();
-//}
+exports['fails when adding a period to a project with an open periods'] = function (test) {
+	test.async();
+	var myProject;    
+	async()
+	.then(function (data, next) {
+		myProject = getProjectByName("My project 3");
+		test.ok(myProject);
+		test.done();
+    })
+	.then(function (data, next) {
+		client.addPeriod(myProject.id, {name: "an other period", amount: 100},  next);		
+	})	
+	.then(function (data, next) {
+	        test.ok(data);
+	        test.equal(data.error, 'There is an open period, to create another all periods should be closed');	        
+	        test.done();
+	})
+	.run();
+}
 
 exports['stop server'] = function (test) {
     server.close();
