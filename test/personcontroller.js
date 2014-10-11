@@ -5,6 +5,7 @@ var controller = require('../controllers/person');
 var loaddata = require('../utils/loaddata');
 var db = require('../utils/db');
 var async = require('simpleasync');
+var bcrypt = require('bcrypt-nodejs');
 
 var persons;
 
@@ -47,6 +48,59 @@ exports['get index'] = function (test) {
     };
     
     controller.index(request, response);
+};
+
+exports['get new person'] = function (test) {
+    test.async();
+    
+    var request = {};
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'personnew');
+            test.ok(model);
+            test.equal(model.title, 'New Person');
+            test.done();
+        }
+    };
+    
+    controller.newPerson(request, response);
+};
+
+exports['add new person'] = function (test) {
+    test.async();
+    
+    var formdata = {
+        name: 'New Person',
+        username: 'newperson',
+        email: 'newperson@gmail.com',
+        password: 'newnew'
+    }
+    
+    var request = {
+        param: function (name) {
+            return formdata[name];
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'personview');
+            test.ok(model);
+            test.equal(model.title, 'Person');
+            test.ok(model.item);
+            test.ok(model.item.id);
+            test.equal(model.item.username, 'newperson');
+            test.equal(model.item.name, 'New Person');
+            test.equal(model.item.email, 'newperson@gmail.com');
+            test.ok(bcrypt.compareSync('newnew', model.item.password));
+            test.done();
+        }
+    };
+    
+    controller.addPerson(request, response);
 };
 
 exports['get view first person'] = function (test) {

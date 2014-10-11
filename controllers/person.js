@@ -39,7 +39,32 @@ function view(req, res) {
     .run();
 };
 
+function newPerson(req, res) {
+    res.render('personnew', { title: 'New Person' });
+}
+
+function addPerson(req, res) {
+    var persona = makePerson(req);
+    service.addPerson(persona, function (err, id) {
+        if (!req.params)
+            req.params = { };
+        req.params.id = id;
+        view(req, res);
+    });
+}
+
+function makePerson(req) {
+    return {
+        username: req.param('username'),
+        name: req.param('name'),
+        email: req.param('email'),
+        password: req.param('password')
+    }
+}
+
 module.exports = {
     index: index,
-    view: view
+    view: view,
+    newPerson: newPerson,
+    addPerson: addPerson
 };

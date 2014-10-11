@@ -95,18 +95,17 @@ exports['login person'] = function (test) {
     
     var request = {
         body: {
-            username: persons[0].username,
-            password: persons[0].username
+            username: persons[1].username,
+            password: persons[1].username
         }
     };
 
     var response = {
         send: function (model) {
             test.ok(model);
-            
-            test.equal(model.id, persons[0].id);
-            test.equal(model.name, persons[0].name);
-            test.equal(model.username, persons[0].username);
+            test.equal(model.id, persons[1].id);
+            test.equal(model.name, persons[1].name);
+            test.equal(model.username, persons[1].username);
             
             test.done();
         }

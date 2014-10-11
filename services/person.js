@@ -53,13 +53,15 @@ function loginPerson(username, password, cb) {
             cb('Unknown username', null);
             return;
         }   
-
-        if (!bcrypt.compareSync(password, data.password)) {
-            cb('Invalid password', null);
-            return;
-        }
         
-        cb(null, data);
+        bcrypt.compare(password, data.password, function (err, res) {
+            if (err || !res) {
+                cb('Invalid password', null);
+                return;
+            }
+
+            cb(null, data);
+        });
     })
     .fail(function (err) {
         cb(err, null);
@@ -115,6 +117,7 @@ function getPersonByUserName(username, cb) {
         });
     });
 }
+
 function getPersons(cb) {
     var store = db.store('persons');
     store.find(cb);
@@ -172,6 +175,8 @@ function completePerson(person) {
         
     if (!person.password)
         person.password = makePassword(person.username);
+    else if (person.password.length < 30)
+        person.password = makePassword(person.password);
 }
 
 function normalizePersons(cb) {
@@ -189,7 +194,6 @@ function normalizePersons(cb) {
                 person.username = makeUsername(person.name);
             if (!person.password)
                 person.password = makePassword(person.username);
-            
             store.update(person.id, { username: person.username, password: person.password }, function (err, data) {
                 if (err)
                     next(err, null);
