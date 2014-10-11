@@ -32,9 +32,8 @@ function makePassword(username) {
 
 function addPerson(data, cb) {
     var store = db.store('persons');
-    
-    if (!data.username && data.name)
-        data.username = makeUsername(data.name);
+
+    completePerson(data);
         
     store.add(data, cb);
 }
@@ -54,8 +53,8 @@ function loginPerson(username, password, cb) {
             cb('Unknown username', null);
             return;
         }   
-        
-        if (username != password) {
+
+        if (!bcrypt.compareSync(password, data.password)) {
             cb('Invalid password', null);
             return;
         }
