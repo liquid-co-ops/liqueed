@@ -111,6 +111,9 @@ function getPersonByUserName(username, cb) {
                     cb(null, person);
                     return;
                 }
+                
+                if (person.password)
+                    delete person.password;
             }
             
             cb(null, null);

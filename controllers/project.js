@@ -98,6 +98,33 @@ function openPeriod(req, res) {
     });
 }
 
+function newTeamMember(req, res) {
+    var id = getId(req.params.id);
+    
+    var model = { title: 'Add to Team' };
+    
+    async()
+    .then(function (data, next) { service.getProjectById(id, next); })
+    .then(function (data, next) {
+        model.item = data;
+        sperson.getPersons(next);
+    })
+    .then(function (items, next) {
+        model.persons = items;
+        res.render('teammembernew', model);
+    })
+    .run();
+}
+
+function addTeamMember(req, res) {
+    var id = getId(req.params.id);
+    var pid = getId(req.param('person'));
+    
+    service.addPersonToTeam(id, pid, function (err, data) {
+        view(req, res);
+    });
+}
+
 function makeProject(req) {
     return {
         name: req.param('name')
@@ -111,6 +138,8 @@ module.exports = {
     addProject: addProject,
     viewPeriod: viewPeriod,
     openPeriod: openPeriod,
-    closePeriod: closePeriod
+    closePeriod: closePeriod,
+    newTeamMember: newTeamMember,
+    addTeamMember: addTeamMember
 }
 

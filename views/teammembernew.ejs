@@ -1,0 +1,20 @@
+<div class="row actions">
+<a class="btn btn-info" href="<%= adminprefix %>/project">Projects</a>
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= item.id %>">Project</a>
+</div>
+
+<div class='row'>
+<form method="post" role="form" class="form">
+    <div class="form-group">
+        <label for="username">Person</label>
+        <select name="person" id="person">
+        <% persons.forEach(function (person) { %>
+            <option value="<%= person.id %>"><%= person.username %></option>
+        <% }); %>
+        </select>
+    </div>
+    
+    <input class="btn btn-success" type="submit" value="Add to Team" />
+</form>
+</div>
+

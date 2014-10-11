@@ -269,3 +269,77 @@ exports['open first project first period'] = function (test) {
     
     controller.openPeriod(request, response);
 };
+
+exports['get new team member'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            id: project.id.toString()
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'teammembernew');
+            test.ok(model);
+            test.ok(model.item);
+            test.ok(model.item.id)
+            test.ok(model.persons);
+            test.ok(model.persons.length);
+            test.equal(model.title, 'Add to Team');
+            test.done();
+        }
+    };
+    
+    controller.newTeamMember(request, response);
+};
+
+exports['add team member'] = function (test) {
+    test.async();
+    
+    var personservice = require('../services/person');
+    
+    async()
+    .then(function (data, next) { personservice.getPersonByName('Daniel', next); })
+    .then(function (person, next) {
+        var form = {
+            person: person.id.toString()
+        }
+        
+        var request = {
+            params: {
+                id: project.id.toString()
+            },
+            param: function (name) {
+                return form[name];
+            }
+        };
+
+        var response = {
+            render: function (name, model) {
+                test.ok(name);
+                test.equal(name, 'projectview');
+                test.ok(model);
+                test.ok(model.item);
+                test.ok(model.item.id);
+                test.equal(model.item.id, project.id);
+                test.equal(model.title, 'Project');
+                
+                var projectService = require('../services/project');
+                
+                projectService.getTeam(project.id, next);
+            }
+        };
+        
+        controller.addTeamMember(request, response);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(sl.exist(data, { name: 'Daniel' }));
+        test.done();
+    })
+    .run();
+};
+
