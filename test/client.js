@@ -147,7 +147,7 @@ exports['add project'] = function (test) {
         test.done();
     })
     .fail(function (err) {
-        console.log(err);
+        console.log(err);	
         throw err;
     })
     .run();
@@ -192,7 +192,6 @@ exports['fails when adding a period with invalid input'] = function (test) {
       });
 }
 
-//WARN: this case depend directly of the 'successfully add a period to a project' (TO REVIEW) 
 exports['fails when adding a period with an existing name'] = function (test) {
 	test.async();
 	
@@ -220,18 +219,12 @@ exports['successfully add a period to a project'] = function (test) {
     });	
 }
 
-//WARN: this case depend directly of the 'successfully add a period to a project' (TO REVIEW) 
 exports['fails when adding a period to a project with an open periods'] = function (test) {
 	test.async();
     
-	async()
-	.then(function (data, next) {
-		client.addPeriod( projects[2].id, {name: "an other period", amount: 100},  next);		
-	})	
-	.then(function (data, next) {
+	client.addPeriod( projects[2].id, {name: "an other period", amount: 100}, function (err, data) {  		
 	        test.ok(data);
 	        test.equal(data.error, 'There is an open period, to create another all periods should be closed');	        
 	        test.done();
-	})
-	.run();
+	});
 }
