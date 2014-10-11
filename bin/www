@@ -13,7 +13,6 @@ var pservices = require('../services/project');
 var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000;
 var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 
-
 app.set('port', port);
 app.set('ip', ip);
 
@@ -50,8 +49,10 @@ async()
         var loaddata = require('../utils/loaddata');
         loaddata('../data.json', next);
     }
-    else
-        next(null, null);
+    else {
+        var ps = require('../services/person');
+        ps.normalizePersons(next);
+    }
 })
 .then(function (data, next) {
     launch();

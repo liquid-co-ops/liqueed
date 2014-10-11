@@ -41,6 +41,7 @@ exports['get index'] = function (test) {
             test.ok(model.items.length);
             test.ok(model.items[0].id);
             test.ok(model.items[0].name);
+            test.ok(model.items[0].username);
             test.done();
         }
     };

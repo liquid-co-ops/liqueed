@@ -162,6 +162,35 @@ function getProjects(id, cb) {
     });
 }
 
+function normalizePersons(cb) {
+    var store = db.store('persons');
+    
+    async()
+    .then(function (data, next) {
+        getPersons(next);
+    })
+    .map(function (person, next) {
+        if (person.username)
+            next(null, person);
+        else {
+            person.username = makeUserName(person.name);
+            store.update(person.id, { username: person.username }, function (err, data) {
+                if (err)
+                    next(err, null);
+                else
+                    next(null, person);
+            });
+        }
+    })
+    .then(function (data, next) {
+        cb(null, next);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
+}
+
 module.exports = {
     addPerson: addPerson,
     getPersonById: getPersonById,
@@ -169,6 +198,7 @@ module.exports = {
     getPersonByUserName: getPersonByUserName,
     getPersons: getPersons,
     getProjects: getProjects,
-    loginPerson: loginPerson
+    loginPerson: loginPerson,
+    normalizePersons: normalizePersons
 };
 

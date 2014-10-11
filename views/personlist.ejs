@@ -5,11 +5,13 @@
 <table class="table-striped table-bordered">
     <tr>
         <th>&nbsp;</th>
+        <th>Username</th>
         <th>Name</th>
     </tr>
 <% items.forEach(function (item) { %>
     <tr>
         <td><a href="<%= adminprefix %>/person/<%= item.id %>">View</a></td>
+        <td><%= item.username %></td>
         <td><%= item.name %></td>
     </tr>
 <% }); %>

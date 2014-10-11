@@ -1,6 +1,7 @@
 
 var service = require('../services/person');
 var pservice = require('../services/project');
+var async = require('simpleasync');
 
 var annaid;
 var lauraid;
@@ -131,6 +132,32 @@ exports['get persons'] = function (test) {
         test.ok(result.length);
         test.done();
     });
+};
+
+exports['normalize and get persons'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        service.normalizePersons(next);
+    })
+    .then(function (data, next) {
+        service.getPersons(next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        
+        result.forEach(function (item) {
+            test.ok(item.id);
+            test.ok(item.name);
+            test.ok(item.username);
+        });
+        
+        test.done();
+    })
+    .run();
 };
 
 exports['no projects yet'] = function (test) {
