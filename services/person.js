@@ -2,6 +2,7 @@
 
 var db = require('../utils/db');
 var async = require('simpleasync');
+var bcrypt = require('bcrypt-nodejs');
 
 var store;
 
@@ -21,15 +22,19 @@ db.store('projects', function (err, data) {
     pstore = data;
 });
 
-function makeUserName(name) {
+function makeUsername(name) {
     return name.split(' ').join('_').toLowerCase();
+}
+
+function makePassword(username) {
+    return bcrypt.hashSync(username);
 }
 
 function addPerson(data, cb) {
     var store = db.store('persons');
     
     if (!data.username && data.name)
-        data.username = makeUserName(data.name);
+        data.username = makeUsername(data.name);
         
     store.add(data, cb);
 }
@@ -100,8 +105,8 @@ function getPersonByUserName(username, cb) {
             for (var n in persons) {
                 var person = persons[n];
                 
-                if (person.name && makeUserName(person.name) == username) {
-                    person.username = makeUserName(person.name);
+                if (person.name && makeUsername(person.name) == username) {
+                    person.username = makeUsername(person.name);
                     cb(null, person);
                     return;
                 }
@@ -162,6 +167,14 @@ function getProjects(id, cb) {
     });
 }
 
+function completePerson(person) {
+    if (!person.username)
+        person.username = makeUsername(person.name);
+        
+    if (!person.password)
+        person.password = makePassword(person.username);
+}
+
 function normalizePersons(cb) {
     var store = db.store('persons');
     
@@ -170,11 +183,15 @@ function normalizePersons(cb) {
         getPersons(next);
     })
     .map(function (person, next) {
-        if (person.username)
+        if (person.username && person.password)
             next(null, person);
         else {
-            person.username = makeUserName(person.name);
-            store.update(person.id, { username: person.username }, function (err, data) {
+            if (!person.username)
+                person.username = makeUsername(person.name);
+            if (!person.password)
+                person.password = makePassword(person.username);
+            
+            store.update(person.id, { username: person.username, password: person.password }, function (err, data) {
                 if (err)
                     next(err, null);
                 else
