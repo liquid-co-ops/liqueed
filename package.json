@@ -19,13 +19,13 @@
     "simplelists": "0.0.4",
     "simpleasync": "0.0.5",
     "mongodb": "~1.4.19",
-    "bcrypt-nodejs": "0.0.3",
-    "jquery": "~2.1.1",
-    "jsdom": "~1.0.1",
-    "xmlhttprequest": "~1.6.0"
+    "bcrypt-nodejs": "0.0.3"
   },
   "devDependencies": {
     "simpleunit": "0.0.5",
-    "simplejquery": "0.0.1"
+    "simplejquery": "0.0.1",
+    "jquery": "2.1.1",
+    "jsdom": "1.0.1",
+    "xmlhttprequest": "1.6.0"
   }
 }
