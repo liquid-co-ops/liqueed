@@ -5,11 +5,23 @@ if (typeof sl == 'undefined')
     sl = require('simplelists');
 
 var clientserver = (function() {
-    if (typeof $ == 'undefined')
-        $ = require('../../testserver/utils/ajax');
+    var prefix = '';
+    
+    if (typeof $ == 'undefined') {
+        var jsdom = require("jsdom").jsdom;
+        var doc = jsdom();
+        $ = require('jquery')(doc.parentWindow);
+        
+        $.support.cors = true;
+        
+        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+        $.ajaxSettings.xhr = function () {
+            return new XMLHttpRequest();
+        }
+    }
 
     function getPersons(cb) {
-        $.get('/api/person', function (data) {
+        $.get(prefix + '/api/person', function (data) {
             cb(null, sl.sort(data, 'name'));
         }).fail(function (err) {
             cb(err, null);
@@ -18,7 +30,7 @@ var clientserver = (function() {
 
 
     function getProjectsByUser(userid, cb) {
-      $.get('/api/person/' + userid+'/project', function (data) {
+      $.get(prefix + '/api/person/' + userid+'/project', function (data) {
           cb(null, data);
       }).fail(function (err) {
           cb(err, null);
@@ -26,7 +38,7 @@ var clientserver = (function() {
     }
 
     function getMyProjects(cb) {
-        $.get('/api/project', function (data) {
+        $.get(prefix + '/api/project', function (data) {
             cb(null, sl.sort(data, 'name'));
         }).fail(function (err) {
             cb(err, null);
@@ -34,7 +46,7 @@ var clientserver = (function() {
     }
 
     function getProject(idproj, cb) {
-        $.get('/api/project/' + idproj, function (data) {
+        $.get(prefix + '/api/project/' + idproj, function (data) {
             cb(null, data);
         }).fail(function (err) {
             cb(err, null);
@@ -45,7 +57,7 @@ var clientserver = (function() {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: '/api/project/',
+            url: prefix + '/api/project/',
             data: JSON.stringify(proj),
             dataType: "json",
             success: function (msg) {
@@ -66,7 +78,7 @@ var clientserver = (function() {
         $.ajax({
             type: "PUT",
             contentType: "application/json; charset=utf-8",
-            url: '/api/person/login/',
+            url: prefix + '/api/person/login/',
             data: JSON.stringify(data),
             dataType: "json",
             success: function (msg) {
@@ -79,7 +91,7 @@ var clientserver = (function() {
     }
 
     function getEntity(idproj, cb, entityName) {
-        $.get('/api/project/' + idproj + entityName, function (data) {
+        $.get(prefix + '/api/project/' + idproj + entityName, function (data) {
             cb(null, data);
         }).fail(function (err) {
             cb(err, null);
@@ -99,7 +111,7 @@ var clientserver = (function() {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: '/api/project/' + projid + '/period',
+            url: prefix + '/api/project/' + projid + '/period',
             data: JSON.stringify(data),
             dataType: "json",
             success: function (msg) {
@@ -136,7 +148,7 @@ var clientserver = (function() {
         $.ajax({
             type: "PUT",
             contentType: "application/json; charset=utf-8",
-            url: '/api/project/' + projectid + '/period/' + periodid + '/assigns',
+            url: prefix + '/api/project/' + projectid + '/period/' + periodid + '/assigns',
             data: JSON.stringify(data),
             dataType: "json",
             success: function (msg) {
@@ -161,7 +173,8 @@ var clientserver = (function() {
         getAssignments: getAssignments,
         putAssigments: putAssignments,
         getPersons: getPersons,
-        loginPerson: loginPerson
+        loginPerson: loginPerson,
+        setPrefix: function (prf) { prefix = prf; }
     };
 })();
 

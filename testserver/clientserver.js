@@ -6,6 +6,7 @@ var async = require('simpleasync');
 ajax.setPrefix('http://localhost:3000');
 
 var client = require('../public/scripts/clientserver');
+client.setPrefix('http://localhost:3000');
 
 var projects;
 var team;
