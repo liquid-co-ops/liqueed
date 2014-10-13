@@ -7,18 +7,8 @@ if (typeof sl == 'undefined')
 var clientserver = (function() {
     var prefix = '';
     
-    if (typeof $ == 'undefined') {
-        var jsdom = require("jsdom").jsdom;
-        var doc = jsdom();
-        $ = require('jquery')(doc.parentWindow);
-        
-        $.support.cors = true;
-        
-        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-        $.ajaxSettings.xhr = function () {
-            return new XMLHttpRequest();
-        }
-    }
+     if (typeof $ == 'undefined')
+        $ = require('../../testserver/utils/ajax');
 
     function getPersons(cb) {
         $.get(prefix + '/api/person', function (data) {
@@ -27,7 +17,6 @@ var clientserver = (function() {
             cb(err, null);
         });
     }
-
 
     function getProjectsByUser(userid, cb) {
       $.get(prefix + '/api/person/' + userid+'/project', function (data) {
