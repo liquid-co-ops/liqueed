@@ -12,47 +12,82 @@ var usedb = false;
 
 function DbStore(impl) {
     this.get = function (id, cb) { 
-        impl.findById(id, function (err, item) {
-            if (item && item._id) {
-                item.id = item._id.toString();
-                delete item._id;
-            }
-            cb(err, item);
-        });
+        try {
+            impl.findById(id, function (err, item) {
+                if (item && item._id) {
+                    item.id = item._id.toString();
+                    delete item._id;
+                }
+                cb(err, item);
+            });
+        }
+        catch (err) {
+            cb(err, null);
+        }
     };
     
     this.find = function (query, projection, cb) {
-        if (!projection && !cb)
-            impl.findAll(makeTransform(query));
-        else if (!cb)
-            impl.find(query, makeTransform(projection));
-        else
-            impl.find(query, projection, makeTransform(cb));
+        try {
+            if (!projection && !cb)
+                impl.findAll(makeTransform(query));
+            else if (!cb)
+                impl.find(query, makeTransform(projection));
+            else
+                impl.find(query, projection, makeTransform(cb));
+        }
+        catch (err) {
+            cb(err, null);
+        }
     };
 
     this.add = function (data, cb) { 
-        impl.insert(data, function (err, item) {
-            if (item && item[0] && item[0]._id)
-                cb(err, item[0]._id.toString());
-            else
-                cb(err, null);
-        });
+        try {
+            impl.insert(data, function (err, item) {
+                if (item && item[0] && item[0]._id)
+                    cb(err, item[0]._id.toString());
+                else
+                    cb(err, null);
+            });
+        }
+        catch (err) {
+            cb(err, null);
+        }
     };
     
     this.put = function (id, data, cb) {
-        impl.update(id, data, cb);
+        try {
+            impl.update(id, data, cb);
+        }
+        catch (err) {
+            cb(err, null);
+        }
     };
     
     this.remove = function (id, cb) {
-        impl.remove(id, cb);
+        try {
+            impl.remove(id, cb);
+        }
+        catch (err) {
+            cb(err, null);
+        }
     };
     
     this.update = function (id, data, cb) {
-        impl.update(id, data, cb);
+        try {
+            impl.update(id, data, cb);
+        }
+        catch (err) {
+            cb(err, null);
+        }
     };
     
     this.clear = function (cb) {
-        impl.clear(cb);
+        try {
+            impl.clear(cb);
+        }
+        catch (err) {
+            cb(err, null);
+        }
     };
 }
 

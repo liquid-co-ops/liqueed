@@ -35,14 +35,8 @@ function Repository(db, name) {
         getCollection(function (err, collection) {
             if (err)
                 callback(err);
-            else {
-                collection.find(query).toArray(function (err, collection) {
-                    if (err)
-                        callback(err);
-                    else
-                        callback(null, collection);
-                });
-            }
+            else
+                collection.find(query).toArray(callback);
         });
     };
     
