@@ -15,14 +15,8 @@ function Repository(db, name) {
         getCollection(function (err, collection) {
             if (err)
                 callback(err);
-            else {
-                collection.find().toArray(function (err, collection) {
-                    if (err)
-                        callback(err);
-                    else
-                        callback(null, collection);
-                });
-            }
+            else
+                collection.find().toArray(callback);
         });
     };
     
@@ -51,28 +45,52 @@ function Repository(db, name) {
     
     this.update = function (id, item, callback) {
         getCollection(function (err, collection) {
-            if (err)
-                callback(err);
-            else
+            if (err) {
+                callback(err, null);
+                return;
+            }
+
+            try {
                 collection.update({ _id: collection.db.bson_serializer.ObjectID.createFromHexString(id) }, { $set: item }, callback);
+            }
+            catch (err) {
+                callback(err, null);
+                return;
+            }
         });
     };
     
     this.remove = function (id, callback) {
         getCollection(function (err, collection) {
-            if (err)
-                callback(err);
-            else
+            if (err) {
+                callback(err, null);
+                return;
+            }
+            
+            try {
                 collection.remove({ _id: collection.db.bson_serializer.ObjectID.createFromHexString(id) }, callback);
+            }
+            catch (err) {
+                callback(err, null);
+                return;
+            }
         });
     };
     
     this.findById = function (id, callback) {
         getCollection(function (err, collection) {
-            if (err)
-                callback(err);
-            else
+            if (err) {
+                callback(err, null);
+                return;
+            }
+            
+            try {
                 collection.findOne({ _id: collection.db.bson_serializer.ObjectID.createFromHexString(id) }, callback);
+            }
+            catch (err) {
+                callback(err, null);
+                return;
+            }
         });
     };
     

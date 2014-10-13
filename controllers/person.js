@@ -36,6 +36,9 @@ function view(req, res) {
         model.projects = data;
         res.render('personview', model);
     })
+    .fail(function (err) {
+        res.render('error', { title: 'Error', error: err });
+    })
     .run();
 }
 

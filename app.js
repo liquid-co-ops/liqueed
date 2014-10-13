@@ -35,6 +35,7 @@ var adminprefix = '/admin';
 
 app.use(function (req, res, next) {
     res.locals.adminprefix = adminprefix;
+    res.locals.title = 'Liqueed';
     next();
 });
 

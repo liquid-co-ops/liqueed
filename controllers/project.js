@@ -52,6 +52,9 @@ function view(req, res) {
         model.periods = data;
         res.render('projectview', model);
     })
+    .fail(function (err) {
+        res.render('error', { title: 'Error', error: err });
+    })
     .run();
 }
 
@@ -76,6 +79,9 @@ function viewPeriod(req, res) {
     .then(function (data, next) {
         model.assignments = data;
         res.render('periodview', model);
+    })
+    .fail(function (err) {
+        res.render('error', { title: 'Error', error: err });
     })
     .run();
 }
@@ -112,6 +118,9 @@ function newTeamMember(req, res) {
     .then(function (items, next) {
         model.persons = items;
         res.render('teammembernew', model);
+    })
+    .fail(function (err) {
+        res.render('error', { title: 'Error', error: err });
     })
     .run();
 }
