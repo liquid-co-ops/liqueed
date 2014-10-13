@@ -23,7 +23,7 @@ function getProjectByName(projectName) {
 
 exports['load test data'] = function (test) {
     test.async();
-    
+
     var loaddata = require('../utils/loaddata');
     loaddata(function (err, result) {
         test.ok(!err);
@@ -37,22 +37,22 @@ exports['start server'] = function (test) {
 
 exports['get my projects'] = function (test) {
     test.async();
-    
+
     client.getMyProjects(function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
-        
+
         projects = result;
-        
+
         test.done();
     });
 }
 
 exports['get first project'] = function (test) {
     test.async();
-    
+
     client.getProject(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -65,22 +65,22 @@ exports['get first project'] = function (test) {
 
 exports['get periods from first project'] = function (test) {
     test.async();
-    
+
     client.getPeriods(1, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
-        
+
         periods = result;
-        
+
         test.done();
     });
 }
 
 exports['get periods from second project'] = function (test) {
     test.async();
-    
+
     client.getPeriods(projects[1].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -92,163 +92,163 @@ exports['get periods from second project'] = function (test) {
 
 exports['get shareholders from first project'] = function (test) {
     test.async();
-    
+
     client.getShareholders(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
-        
+
         for (var n in result) {
             var item = result[n];
             test.ok(item.id);
             test.ok(item.name);
         }
-        
+
         test.done();
     });
 }
 
 exports['get team from first project'] = function (test) {
     test.async();
-    
+
     client.getTeam(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
-        
+
         for (var n in result) {
             var item = result[n];
             test.ok(item.id);
             test.ok(item.name);
         }
-        
+
         team = result;
-        
+
         test.done();
     });
 }
 
 exports['get assignments from first project first period'] = function (test) {
     test.async();
-    
+
     client.getAssignments(projects[0].id, periods[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
-        
+
         for (var n in result) {
             var item = result[n];
             test.ok(item.from);
             test.ok(item.to);
             test.ok(item.amount != null);
         }
-        
+
         test.done();
     });
 }
 
 exports['get shares from first project'] = function (test) {
     test.async();
-    
+
     client.getSharesByProject(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
-        
+
         for (var n in result) {
             var item = result[n];
             test.ok(item.id);
             test.ok(item.name);
             test.ok(item.shares != null);
         }
-        
+
         test.done();
     });
 }
 
 exports['put assignments to first project first period from first person'] = function (test) {
     test.async();
-    
+
     client.putAssigments(projects[0].id, periods[0].id, team[0].id, [
             { to: team[1].id, amount: 10 },
             { to: team[2].id, amount: 90 }
-        ], 
+        ],
         function (err, result) {
             test.ok(!err);
             test.ok(result);
             test.strictEqual(result, true);
-        
+
             test.done();
         });
 }
 
 exports['get persons'] = function (test) {
     test.async();
-    
+
     client.getPersons(function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.ok(result.length);
-        
+
         result.forEach(function (item) {
             test.ok(item.id);
             test.ok(item.name);
             test.ok(item.username);
         });
-        
+
         persons = result;
-        
+
         test.done();
     });
 }
 
 exports['login person'] = function (test) {
     test.async();
-    
+
     client.loginPerson(persons[0].username, persons[0].username, function (err, result) {
         test.ok(!err);
         test.ok(result);
-        
+
         test.equal(result.id, persons[0].id);
         test.equal(result.name, persons[0].name);
         test.equal(result.username, persons[0].username);
-        
+
         test.done();
     });
 }
 
 exports['login unknown person'] = function (test) {
     test.async();
-    
+
     client.loginPerson('foo', 'foo', function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.equal(result.error, 'Unknown username');
-        
+
         test.done();
     });
 }
 
 exports['login invalid password'] = function (test) {
     test.async();
-    
+
     client.loginPerson(persons[0].username, 'foo', function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.equal(result.error, 'Invalid password');
-        
+
         test.done();
     });
 }
 
 exports['add project'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) { client.addProject({ name: 'New Project' }, next); })
     .then(function (data, next) {
@@ -271,15 +271,15 @@ exports['add project'] = function (test) {
 
 exports['fails when adding a period with invalid input'] = function (test) {
 	test.async();
-	
-	var myProject;    
+
+	var myProject;
 	async()
 	.then(function (data, next) {
 		myProject = getProjectByName("My project 3");
 		test.ok(myProject);
 		test.done();
     })
-	.then(function (data, next) {		
+	.then(function (data, next) {
 
 
 
@@ -329,14 +329,14 @@ exports['fails when adding a period with invalid input'] = function (test) {
 			test.ok(result.error);
 			test.equal(result.error, 'the project id is undefined');
 			test.done();
-		});	 
-	    
+		});
+
 	}).run();
 }
 
-exports['fails when adding a period with an existing name'] = function (test) {	
+exports['fails when adding a period with an existing name'] = function (test) {
 	test.async();
-	var myProject;		
+	var myProject;
 	async()
 	.then(function (data, next) {
 		myProject = getProjectByName("My project 3");
@@ -350,7 +350,7 @@ exports['fails when adding a period with an existing name'] = function (test) {
 					test.equal(result.error, 'Already exist a period with the same name');
 					test.done();
 				});
-	}).run();	
+	}).run();
 }
 
 exports['successfully add a period to a project'] = function (test) {
@@ -387,7 +387,7 @@ exports['successfully add a period to a project'] = function (test) {
 
 exports['fails when adding a period to a project with an open periods'] = function (test) {
 	test.async();
-	var myProject;    
+	var myProject;
 	async()
 	.then(function (data, next) {
 		myProject = getProjectByName("My project 3");
@@ -395,11 +395,11 @@ exports['fails when adding a period to a project with an open periods'] = functi
 		test.done();
     })
 	.then(function (data, next) {
-		client.addPeriod(myProject.id, {name: "an other period", amount: 100},  next);		
-	})	
+		client.addPeriod(myProject.id, {name: "an other period", amount: 100},  next);
+	})
 	.then(function (data, next) {
 	        test.ok(data);
-	        test.equal(data.error, 'There is an open period, to create another all periods should be closed');	        
+	        test.equal(data.error, 'There is an open period, to create another all periods should be closed');
 	        test.done();
 	})
 	.run();

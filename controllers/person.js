@@ -17,7 +17,7 @@ function index(req, res) {
             
         res.render('personlist', { title: 'People', items: items });
     });
-};
+}
 
 function view(req, res) {
     var id = getId(req.params.id);
@@ -37,10 +37,19 @@ function view(req, res) {
         res.render('personview', model);
     })
     .run();
-};
+}
 
 function newPerson(req, res) {
     res.render('personnew', { title: 'New Person' });
+}
+
+function makePerson(req) {
+    return {
+        username: req.param('username'),
+        name: req.param('name'),
+        email: req.param('email'),
+        password: req.param('password')
+    }
 }
 
 function addPerson(req, res) {
@@ -51,15 +60,6 @@ function addPerson(req, res) {
         req.params.id = id;
         view(req, res);
     });
-}
-
-function makePerson(req) {
-    return {
-        username: req.param('username'),
-        name: req.param('name'),
-        email: req.param('email'),
-        password: req.param('password')
-    }
 }
 
 module.exports = {
