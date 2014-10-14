@@ -235,7 +235,7 @@ function getAssignments(periodid, cb) {
             }
             
             var item = data[k++];
-            var assignment = { id: item.id, amount: item.amount, feedback: item.feedback};
+            var assignment = { id: item.id, amount: item.amount, note: item.note};
 
             sperson.getPersonById(item.from, function (err, personid) {
                 if (err) {
@@ -281,7 +281,7 @@ function removeAssignments(projectid, periodid, fromid, cb) {
     .run();
 }
 
-function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) {
+function putAssignment(projectid, periodid, fromid, toid, amount, note, cb) {
     var assignmentstore = db.store('assignments');
     
     var period;
@@ -291,6 +291,14 @@ function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) 
     var totalassigned;
     
     async()
+    .then(function (data, next)  {
+        if(!note) 
+        {
+            cb(null, { error: 'Note cannot be empty' });
+            return;
+        };
+        next(null, data);
+    })
     .then(function (data, next) { getPeriodById(periodid, next) })
     .then(function (data, next) { period = data; getTotalAssignments(projectid, periodid, fromid, next); })
     .then(function (data, next) { total = data; assignmentstore.find({ project: projectid, period: periodid, from: fromid, to: toid }, next); })
@@ -298,7 +306,6 @@ function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) 
         items = data;
         var olditem = (items && items.length) ? items[0] : null;
         var oldamount = olditem ? olditem.amount : 0;
-            
         var newtotal = total - oldamount + amount;
         
         if (newtotal > period.amount) {
@@ -308,7 +315,8 @@ function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) 
 
         if (olditem) {
             olditem.amount = amount;
-            olditem.feedback = feedback;
+            olditem.note = note;
+
             assignmentstore.put(olditem.id, olditem, function(err, data) {
                 if (err)
                     next(err, null);
@@ -317,7 +325,7 @@ function putAssignment(projectid, periodid, fromid, toid, amount, feedback, cb) 
             });
         }
         else
-            assignmentstore.add({ project: projectid, period: periodid, from: fromid, to: toid, amount: amount, feedback: feedback }, function (err, id) {
+            assignmentstore.add({ project: projectid, period: periodid, from: fromid, to: toid, amount: amount, note: note }, function (err, id) {
                 if (err)
                     next(err, null);
                 else
@@ -368,7 +376,7 @@ function putAssignments(projectid, periodid, fromid, assignments, cb) {
             }
             
             var assignment = assignments[k++];
-            putAssignment(projectid, periodid, fromid, assignment.to, assignment.amount, assignment.feedback, function (err, result) {
+            putAssignment(projectid, periodid, fromid, assignment.to, assignment.amount, assignment.note, function (err, result) {
                 if (err) {
                     cb(err, null);
                     return;

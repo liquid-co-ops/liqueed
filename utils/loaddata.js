@@ -113,7 +113,7 @@ function load(filename, cb) {
                                     return;
                                 }
                                 
-                                var assignment = perioddata.assignments[ka++];                                var fromid = persons[assignment.from];                                var toid = persons[assignment.to];                                projectService.putAssignment(projid, periodid, fromid, toid, assignment.amount, assignment.feedback, function (err, id) {
+                                var assignment = perioddata.assignments[ka++];                                var fromid = persons[assignment.from];                                var toid = persons[assignment.to];                                projectService.putAssignment(projid, periodid, fromid, toid, assignment.amount, assignment.note, function (err, id) {
                                     if (err)
                                         cb(err, null);
                                     else

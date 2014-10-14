@@ -4,7 +4,7 @@ var logic = require('../public/scripts/logic');
 
 exports['accept if all shares were distributed'] = function (test) {
     var result = logic.acceptShares(100,
-        [ { amount: '50' }, { amount: '50' } ]);
+        [ { amount: '50', note:"Master" }, { amount: '50', note:"Chief" } ]);
         
     test.strictEqual(result, true);
 };

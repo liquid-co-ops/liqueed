@@ -93,7 +93,7 @@ function putAssignment(req, res) {
     var idp = getId(req.params.idp);
     var data = req.body;
     
-    service.putAssignment(id, idp, data.from, data.to, data.amount, data.feedback, function (err, id) {
+    service.putAssignment(id, idp, data.from, data.to, data.amount, data.note, function (err, id) {
         res.send({ id: id });
     });
 }

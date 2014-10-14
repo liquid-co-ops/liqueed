@@ -205,7 +205,7 @@ exports['put assignment'] = function (test) {
     })
     .then(function (id, next) {
         cymentid = id;
-        service.putAssignment(liqueedid, periodid, alanid, cymentid, 50, "The mentor", next);
+        service.putAssignment(liqueedid, periodid, alanid, cymentid, 50, "The Mentor", next);
     })
     .then(function (result, next) {
         test.ok(result);
@@ -221,6 +221,7 @@ exports['put assignment'] = function (test) {
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 50);
+        test.equal(list[0].note, 'The Mentor');
         
         test.done();
     })
@@ -469,8 +470,8 @@ exports['put assignments'] = function (test) {
     async()
     .then(function (data, next) {
         service.putAssignments(liqueedid, periodid, alanid, [
-            { to: cymentid, amount: 40, feedback: "come on" },
-            { to: cebadorid, amount: 60, feedback: "great work" }
+            { to: cymentid, amount: 40, note: "come on" },
+            { to: cebadorid, amount: 60, note: "great work" }
         ], next);
     })
     .then(function (result, next) {

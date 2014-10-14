@@ -6,12 +6,12 @@
                 { 
                     "name": "January 2014", "date": "2014-01-31", "amount": 100,
                     "assignments": [
-                        { "from": "Alice", "to": "Bob", "amount": 50, "feedback": "Arrive earlier" },
-                        { "from": "Alice", "to": "Charlie", "amount": 50 },
-                        { "from": "Bob", "to": "Alice", "amount": 60 },
-                        { "from": "Bob", "to": "Charlie", "amount": 40 },
-                        { "from": "Charlie", "to": "Alice", "amount": 35 },
-                        { "from": "Charlie", "to": "Bob", "amount": 65 }
+                        { "from": "Alice", "to": "Bob", "amount": 50, "note": "Arrive earlier" },
+                        { "from": "Alice", "to": "Charlie", "amount": 50 , "note": "Arrive earlier"},
+                        { "from": "Bob", "to": "Alice", "amount": 60 , "note": "Arrive earlier"},
+                        { "from": "Bob", "to": "Charlie", "amount": 40 , "note": "Arrive earlier"},
+                        { "from": "Charlie", "to": "Alice", "amount": 35 , "note": "Arrive earlier"},
+                        { "from": "Charlie", "to": "Bob", "amount": 65 , "note": "Arrive earlier"}
                     ]
                 },
                 { "name": "February 2014", "date": "2014-02-28", "amount": 100 }

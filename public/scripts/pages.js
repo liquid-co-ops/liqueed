@@ -306,24 +306,18 @@ var pages = (function () {
             if (shareholder.id == me)
                 return;
             var template = $("#shareTemplate").html();
-            template = template.replace("shareholder.name", shareholder.name)
-                               .replace("period.amount", period.amount)
+            template = template.replace("#shareholder.name", shareholder.name);
+                               //.replace("#period.amount", period.amount)
             var row = $(template);
             shares.append(row);
-            var input = row.find("input");
-            var slider = row.find('[role="slider"]').slider({
-                min: 0,
-                max:period.amount,
-                slide: function (event, ui) {
-                    input.val(ui.value);
-                }
-            });
+            var _ammount = row.find('[data-role="period.amount"]');
+            var _note = row.find('[data-role="period.note"]');
+            var input = {amount : _ammount, note : _note};
+			
             input.shareholder = shareholder;
-            input.change(function () {
+                input.amount.change(function () {
+
                 var value = parseInt($(this).val());
-                if (!(isNaN(value) || value < 0)) {
-                    slider.slider("value", value);
-                };
                 var total = 0;
                 $('.personal-amount').each(function(i, obj) {
                   total += +obj.value;
@@ -340,7 +334,8 @@ var pages = (function () {
                 values.push({
                     id: input.shareholder.id,
                     name: input.shareholder.name,
-                    amount: input.val()
+                    amount: input.amount.val(),
+					note: input.note.val()
                 });
             });
 
@@ -359,7 +354,7 @@ var pages = (function () {
                         if (isNaN(amount) || amount < 0)
                             amount = 0;
 
-                        assignments.push({ to: value.id, amount: amount });
+                        assignments.push({ to: value.id, amount: amount,note: value.note });
                     });
 
                     client.putAssigments(project.id, period.id, me, assignments, done);

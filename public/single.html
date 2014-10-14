@@ -15,13 +15,13 @@
         <div id="shareTemplate" style="display: none">
             <div class="row">
                 <div class=" col-sm-offset-3 col-sm-2 col-xs-4">
-                    <label class="control-label" style="width:100%;">shareholder.name</label>
+                    <label class="control-label" style="width:100%;">#shareholder.name</label>
                 </div>
                 <div class="col-sm-2 col-xs-4">
-                    <input type="number" min="0" max="period.amount" class="form-control personal-amount" />
+                    <input type="number"  data-role="period.amount" min="0" max="period.amount" class="form-control personal-amount" />
                 </div>
-                <div class="col-sm-3 col-xs-4" style="padding-left: 2em; padding-top: 0.5em;">
-                    <div role="slider"></div>
+				<div class="col-sm-3 col-xs-3">
+				    <input type="text" data-role="period.note" class="form-control" />
                 </div>
             </div>
         </div>
@@ -157,8 +157,6 @@
             client = clientlocal;
 
         pages.gotoSignIn();
-
-        $("#slider-range").slider();
     </script>
 </body>
 </html>

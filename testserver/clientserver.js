@@ -173,8 +173,8 @@ exports['put assignments to first project first period from first person'] = fun
     test.async();
 
     client.putAssigments(projects[0].id, periods[0].id, team[0].id, [
-            { to: team[1].id, amount: 10 },
-            { to: team[2].id, amount: 90 }
+            { to: team[1].id, amount: 10, note: 'first note' },
+            { to: team[2].id, amount: 90, note: 'second note'}
         ],
         function (err, result) {
             test.ok(!err);
@@ -184,6 +184,8 @@ exports['put assignments to first project first period from first person'] = fun
             test.done();
         });
 }
+
+
 
 exports['get persons'] = function (test) {
     test.async();

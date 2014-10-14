@@ -284,7 +284,8 @@ exports['get first project first period put assignment'] = function (test) {
         body: {
             from: team[0].id,
             to: team[1].id,
-            amount: 1
+            amount: 1,
+            note: 'this is a note'
         }
     };
 
@@ -298,11 +299,13 @@ exports['get first project first period put assignment'] = function (test) {
                 var assignment;
                 
                 for (var k in assignments)
-                    if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[1].id && assignments[k].amount == 1) {
+                {
+                    if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[1].id && assignments[k].amount == 1
+                        && assignments[k].note == 'this is a note') {
                         assignment = assignments[k];
                         break;
                     }
-                
+                }
                 test.ok(assignment);
                 
                 test.done();
@@ -382,8 +385,8 @@ exports['get first project first period put assignments'] = function (test) {
         body: {
             from: team[0].id,
             assignments: [
-                { to: team[1].id, amount: 10 },
-                { to: team[2].id, amount: 90 }
+                { to: team[1].id, amount: 10, note: 'first note' },
+                { to: team[2].id, amount: 90, note: 'second note' }
             ]
         }
     };
@@ -398,9 +401,9 @@ exports['get first project first period put assignments'] = function (test) {
                 var found = 0;
 
                 for (var k in assignments)
-                    if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[1].id && assignments[k].amount == 10)
+                    if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[1].id && assignments[k].amount == 10 && assignments[k].note == 'first note')
                         found++;
-                    else if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[2].id && assignments[k].amount == 90)
+                    else if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[2].id && assignments[k].amount == 90  && assignments[k].note == 'second note')
                         found++;
                 
                 test.equal(found, 2);
