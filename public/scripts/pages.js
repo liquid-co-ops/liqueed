@@ -168,7 +168,9 @@ var pages = (function () {
 
         var projname = $("#projectname");
         var chartcontainer = $('#projectshares');
-
+        var buttonStartSharing = $("#buttonStartSharing");
+        var isStartSharingVisible=true;
+        
         chartcontainer.hide();
 
         projname.html(project.name);
@@ -185,8 +187,11 @@ var pages = (function () {
                         showPeriod(project, period, shareholders);
                 });
             }));
-
             pers.append(element);
+            if(isStartSharingVisible && !period.closed) {
+            	buttonStartSharing.hide();
+            	isStartSharingVisible = false;
+            }
         });
 
         if (shares && shares.length) {
