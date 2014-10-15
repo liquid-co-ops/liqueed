@@ -55,6 +55,7 @@ The reports is at `coverage/lcov-report/index.html`.
 
 ## Resources
 
+- [Comenzando con Liqueed](https://github.com/liquid-co-ops/liqueed/wiki/Starting-With-Liqueed)
 - [Story Map](https://docs.google.com/spreadsheets/d/1QFt1WQqM65kJCIhMW2SoMhD75cvpBUZf8wTb-XB5i-Y/edit#gid=0-)
 
 ## References
