@@ -294,7 +294,7 @@ function putAssignment(projectid, periodid, fromid, toid, amount, note, cb) {
     .then(function (data, next)  {
         if(!note) 
         {
-            cb(null, { error: 'Note cannot be empty' });
+            cb('Note cannot be empty', null);
             return;
         };
         next(null, data);

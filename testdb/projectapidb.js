@@ -240,9 +240,10 @@ exports['get first project first period put assignment'] = function (test) {
             idp: period.id.toString()
         },
         body: {
-            from: team[0].id,
-            to: team[1].id,
-            amount: 1
+            from: team[0].id.toString(),
+            to: team[1].id.toString(),
+            amount: 1,
+            note: 'a note'
         }
     };
 
@@ -282,8 +283,8 @@ exports['get first project first period put assignments'] = function (test) {
         body: {
             from: team[0].id,
             assignments: [
-                { to: team[1].id, amount: 10 },
-                { to: team[2].id, amount: 90 }
+                { to: team[1].id, amount: 10, note: 'note 1' },
+                { to: team[2].id, amount: 90, note: 'note 2' }
             ]
         }
     };
