@@ -98,6 +98,15 @@ function load(filename, cb) {
                                 return;
                             }
                             
+                            if(perioddata.closed || perioddata.closed == undefined) {
+                            	projectService.closePeriod(projid, periodid, function(err,data) {
+                            		if(err) {
+                            			cb(err,null);
+                            			return;
+                            		}
+                            	});
+                            }
+                            
                             if (!perioddata.assignments) {
                                 setImmediate(doPeriodStep);
                                 return;

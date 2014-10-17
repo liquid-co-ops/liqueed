@@ -41,7 +41,7 @@ var pages = (function () {
             .addClass('period')
             .click(fnclick);
     }
-
+    
     function doSignIn() {
         var username = $("#login_username").val();
         var password = $("#login_password").val();
@@ -161,39 +161,38 @@ var pages = (function () {
             else
                 showProject(project, periods);
         });
-    }
-
+    }   
+    
     function showProject(project, periods, shares) {
         var page = $("#projectpage");
-
         var projname = $("#projectname");
         var chartcontainer = $('#projectshares');
-        var buttonStartSharing = $("#buttonStartSharing");
-        var isStartSharingVisible=true;
-        
+        var sharingButton = $('#sharingButton');
+        var openSharing;
+       
         chartcontainer.hide();
-
         projname.html(project.name);
-
-        var pers = $("#periods");
-        pers.empty();
-
-        periods.forEach(function (period) {
-            var element = $("<div>").html(makePeriodButton(period.name, function () {
+	    periods.some(function(period) {
+			if (period.closed === false) {
+				openSharing = period;
+				return true;
+			}
+			return false;
+		});        
+        
+        if(openSharing) {
+        	sharingButton.click(function () {
                 client.getShareholders(project.id, function (err, shareholders) {
-                    if (err)
+                    if (err) {
                         alert(err);
+                    }
                     else
-                        showPeriod(project, period, shareholders);
-                });
-            }));
-            pers.append(element);
-            if(isStartSharingVisible && !period.closed) {
-            	buttonStartSharing.hide();
-            	isStartSharingVisible = false;
-            }
-        });
-
+                        showPeriod(project, openSharing, shareholders);
+                });}
+        	);
+        } else {
+        	sharingButton.click(function (){gotoNewPeriod(project);});
+        }
         if (shares && shares.length) {
             showSharesChart(chartcontainer, shares);
             chartcontainer.show();
@@ -400,7 +399,6 @@ var pages = (function () {
         doSignOut: doSignOut,
         doSignIn: doSignIn,
         gotoSignIn: gotoSignIn,
-        gotoNewPeriod:  function () { gotoNewPeriod(currentproject); },
         createPeriod: function () { createPeriod(currentproject); }
     }
 
