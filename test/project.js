@@ -464,6 +464,22 @@ exports['get total shares by project period'] = function (test) {
     });
 };
 
+exports['put assignments without notes'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        service.putAssignments(liqueedid, periodid, alanid, [
+            { to: cymentid, amount: 40 },
+            { to: cebadorid, amount: 60}
+        ], next);
+    }).fail(function(err){ 
+            test.strictEqual(err, 'Note cannot be empty');
+            test.done();
+        })
+    .run();
+};
+
 exports['put assignments'] = function (test) {
     test.async();
     
