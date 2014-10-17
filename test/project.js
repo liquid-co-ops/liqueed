@@ -503,3 +503,21 @@ exports['remove person period assignment'] = function (test) {
     .run();
 };
 
+exports['remove person from team'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        service.removePersonFromTeam(liqueedid, alanid, next);
+    })
+    .then(function (data, next) {
+        service.getTeam(liqueedid, next);
+    })
+    .then(function (members, next) {
+        test.ok(members);
+        test.ok(!sl.exist(members, { id: alanid }));
+        test.done();
+    })
+    .run();
+};
+

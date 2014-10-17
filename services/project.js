@@ -29,6 +29,21 @@ function addPersonToTeam(projid, personid, cb) {
     });
 }
 
+function removePersonFromTeam(projid, personid, cb) {
+    var teamstore = db.store('teams');
+    teamstore.find({ project: projid, person: personid }, function (err, data) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        if (data.length)
+            teamstore.remove(data[0].id, cb);
+        else
+            cb(null, null);
+    });
+}
+
 function getTeam(id, cb) {
     var teamstore = db.store('teams');
 
@@ -429,6 +444,7 @@ module.exports = {
     getProjects: getProjects,
     
     addPersonToTeam: addPersonToTeam,
+    removePersonFromTeam: removePersonFromTeam,
     getTeam: getTeam,
     
     getShareholders: getShareholders,
