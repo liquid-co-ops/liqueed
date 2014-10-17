@@ -6,7 +6,7 @@ function getId(id) {
     if (id && id.length && id.length > 10)
         return id;
         
-    return parseInt(id);
+    return parseInt(id,10);
 }
 
 function list(req, res) {
@@ -75,7 +75,11 @@ function getPeriod(req, res) {
 function addPeriod(req, res) {
     var id = getId(req.params.id);    
     service.addPeriod(id, req.body.period, function (err, id) {
-        res.json(id);
+		if (err) {
+			res.send({ error : err });
+		} else {
+			res.json(id);
+		}
     });
 }
 
@@ -145,5 +149,5 @@ module.exports = {
     addPeriod: addPeriod,
     openPeriod: openPeriod,
     closePeriod: closePeriod
-}
+};
 

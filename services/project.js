@@ -166,22 +166,22 @@ function getProjects(cb) {
 }
 
 function addPeriod(projid, period, cb) {
-      
+    
 	// validation
 	if (!projid) {
-		cb(null, {error : 'the project id is undefined'})
+		cb('the project id is undefined',null);
 		return;
 	}
 	if (!period) {
-		cb(null, {error : 'the period to be created is not defined'})
+		cb('the period to be created is not defined',null);
 		return;
 	}
 	if (!period.name) {
-		cb(null, {error : "A period name is needed"});
+		cb('A period name is needed',null);
 		return;
 	}
 	if (!period.amount || isNaN(period.amount) || period.amount <= 0) {
-		cb(null, {error : "You should input an amount > 0"});
+		cb('You should input an amount > 0',null);
 		return;
 	}
 
@@ -194,11 +194,11 @@ function addPeriod(projid, period, cb) {
 		for ( var n in result) {
 			var aPeriod = result[n];
 			if (!aPeriod.closed) {
-				cb(null,{error : 'There is an open period, to create another all periods should be closed'})
+				cb('There is an open period, to create another all periods should be closed',null);
 				return;
 			}
 			if (aPeriod.name === period.name) {
-				cb(null,{error : 'Already exist a period with the same name'});
+				cb('Already exist a period with the same name',null);
 				return;
 			}
 		}
@@ -272,7 +272,7 @@ function getAssignments(periodid, cb) {
                     
                     setImmediate(doDataStep);
                 });
-            })
+            });
         }
     });
 }
@@ -311,10 +311,10 @@ function putAssignment(projectid, periodid, fromid, toid, amount, note, cb) {
         {
             cb('Note cannot be empty', null);
             return;
-        };
+        }
         next(null, data);
     })
-    .then(function (data, next) { getPeriodById(periodid, next) })
+    .then(function (data, next) { getPeriodById(periodid, next); })
     .then(function (data, next) { period = data; getTotalAssignments(projectid, periodid, fromid, next); })
     .then(function (data, next) { total = data; assignmentstore.find({ project: projectid, period: periodid, from: fromid, to: toid }, next); })
     .then(function (data, next) {
@@ -324,7 +324,7 @@ function putAssignment(projectid, periodid, fromid, toid, amount, note, cb) {
         var newtotal = total - oldamount + amount;
         
         if (newtotal > period.amount) {
-            cb(null, { error: 'You assigned too many shares' });;
+            cb(null, { error: 'You assigned too many shares' });
             return;
         }
 
@@ -463,5 +463,5 @@ module.exports = {
     
     openPeriod: openPeriod,
     closePeriod: closePeriod
-}
+};
 
