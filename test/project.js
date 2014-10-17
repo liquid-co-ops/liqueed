@@ -477,6 +477,7 @@ exports['put assignments without notes'] = function (test) {
             test.strictEqual(err, 'Note cannot be empty');
             test.done();
         })
+    .then(function (data, next){ test.ok(false);})
     .run();
 };
 
