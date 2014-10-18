@@ -14,6 +14,21 @@ function getProjectById(id, cb) {
     store.get(id, cb);
 }
 
+function getProjectByName(name, cb) {
+    var store = db.store('projects');
+    store.find({ name: name }, function (err, items) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        if (items.length)
+            cb(null, items[0]);
+        else
+            cb(null, null);
+    });
+}
+
 function addPersonToTeam(projid, personid, cb) {
     var teamstore = db.store('teams');
     teamstore.find({ project: projid, person: personid }, function (err, data) {
@@ -441,6 +456,7 @@ function closePeriod(projectid, periodid, cb) {
 module.exports = {
     addProject: addProject,
     getProjectById: getProjectById,
+    getProjectByName: getProjectByName,
     getProjects: getProjects,
     
     addPersonToTeam: addPersonToTeam,

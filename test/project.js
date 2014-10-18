@@ -38,6 +38,18 @@ exports['get project by id'] = function (test) {
     })
 };
 
+exports['get project by name'] = function (test) {
+    test.async();
+    
+    service.getProjectByName('liqueed', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.name, 'liqueed');
+        test.equal(result.id, liqueedid);
+        test.done();
+    })
+};
+
 exports['get people in empty project'] = function (test) {
     test.async();
     
