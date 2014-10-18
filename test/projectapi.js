@@ -316,6 +316,34 @@ exports['get first project first period put assignment'] = function (test) {
     controller.putAssignment(request, response);
 };
 
+exports['get first project first period put assignment without note'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        },
+        body: {
+            from: team[0].id,
+            to: team[1].id,
+            amount: 1
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.ok(model.error);
+            test.strictEqual(model.error, 'Note cannot be empty');
+                
+            test.done();
+        }
+    };
+    
+    controller.putAssignment(request, response);
+};
+
 exports['close first project first period'] = function (test) {
     test.async();
     
@@ -410,6 +438,36 @@ exports['get first project first period put assignments'] = function (test) {
                 
                 test.done();
             });
+        }
+    };
+    
+    controller.putAssignments(request, response);
+};
+
+exports['get first project first period put assignments without notes'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        },
+        body: {
+            from: team[0].id,
+            assignments: [
+                { to: team[1].id, amount: 10 },
+                { to: team[2].id, amount: 90 }
+            ]
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.ok(model.error);
+            
+            test.strictEqual(model.error, 'Note cannot be empty');                
+            test.done();
         }
     };
     
