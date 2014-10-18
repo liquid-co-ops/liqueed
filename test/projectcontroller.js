@@ -343,3 +343,50 @@ exports['add team member'] = function (test) {
     .run();
 };
 
+exports['remove team member'] = function (test) {
+    test.async();
+    
+    var personservice = require('../services/person');
+    
+    async()
+    .then(function (data, next) { personservice.getPersonByName('Daniel', next); })
+    .then(function (person, next) {
+        var form = {
+            person: person.id.toString()
+        }
+        
+        var request = {
+            params: {
+                id: project.id.toString()
+            },
+            param: function (name) {
+                return form[name];
+            }
+        };
+
+        var response = {
+            render: function (name, model) {
+                test.ok(name);
+                test.equal(name, 'projectview');
+                test.ok(model);
+                test.ok(model.item);
+                test.ok(model.item.id);
+                test.equal(model.item.id, project.id);
+                test.equal(model.title, 'Project');
+                
+                var projectService = require('../services/project');
+                
+                projectService.getTeam(project.id, next);
+            }
+        };
+        
+        controller.removeTeamMember(request, response);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(!sl.exist(data, { name: 'Daniel' }));
+        test.done();
+    })
+    .run();
+};
+

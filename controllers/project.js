@@ -134,6 +134,15 @@ function addTeamMember(req, res) {
     });
 }
 
+function removeTeamMember(req, res) {
+    var id = getId(req.params.id);
+    var pid = getId(req.param('person'));
+    
+    service.removePersonFromTeam(id, pid, function (err, data) {
+        view(req, res);
+    });
+}
+
 function makeProject(req) {
     return {
         name: req.param('name')
@@ -149,6 +158,7 @@ module.exports = {
     openPeriod: openPeriod,
     closePeriod: closePeriod,
     newTeamMember: newTeamMember,
-    addTeamMember: addTeamMember
+    addTeamMember: addTeamMember,
+    removeTeamMember: removeTeamMember
 }
 
