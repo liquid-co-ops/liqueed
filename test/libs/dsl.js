@@ -46,6 +46,16 @@ function execute(cmd, cb) {
     if (cmd.indexOf('\n') >= 0)
         return execute(cmd.split('\n'), cb);
     
+    var p = cmd.indexOf('#');
+    
+    if (p >= 0)
+        cmd = cmd.substring(0, p).trim();
+        
+    if (cmd.length == 0) {
+        cb(null, null);
+        return;
+    }
+    
     cmd = parse(cmd);
     
     if (cmd.verb == 'person_new')
