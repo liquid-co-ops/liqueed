@@ -440,6 +440,25 @@ function getTotalAssignments(projectid, periodid, fromid, cb) {
     });
 }
 
+function getTotalSharesByProject(projectid, cb) {
+    var assignmentstore = db.store('assignments');
+    
+    assignmentstore.find({ project: projectid }, function (err, items) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+    
+        var total = 0;
+        
+        items.forEach(function (item) {
+            total += item.amount;
+        });
+        
+        cb(null, total);
+    });
+}
+
 function setPeriodClosed(projectid, periodid, closed, cb) {
     var periodstore = db.store('periods');
     periodstore.update(periodid, { closed: closed }, cb);
@@ -466,6 +485,7 @@ module.exports = {
     getShareholders: getShareholders,
     getSharesByProject: getSharesByProject,
     getSharesByPeriod: getSharesByPeriod,
+    getTotalSharesByProject: getTotalSharesByProject,
     
     addPeriod: addPeriod,
     getPeriodById: getPeriodById,

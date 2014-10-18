@@ -50,6 +50,16 @@ exports['get project by name'] = function (test) {
     })
 };
 
+exports['get new project total shares'] = function (test) {
+    test.async();
+    
+    service.getTotalSharesByProject(liqueedid, function (err, result) {
+        test.ok(!err);
+        test.equal(result, 0);
+        test.done();
+    })
+};
+
 exports['get people in empty project'] = function (test) {
     test.async();
     
@@ -300,6 +310,12 @@ exports['put assignment'] = function (test) {
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 50);
         test.equal(list[0].note, 'The Mentor');
+
+        service.getTotalSharesByProject(liqueedid, next);
+    })
+    .then(function (total, next) {
+        test.ok(total);
+        test.equal(total, 50);
         
         test.done();
     })

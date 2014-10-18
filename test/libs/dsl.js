@@ -1,4 +1,5 @@
 
+var async = require('simpleasync');
 var personservice = require('../../services/person');
 var projectservice = require('../../services/project');
 
@@ -8,6 +9,27 @@ function doPersonNew(cmd, cb) {
 
 function doProjectNew(cmd, cb) {
     projectservice.addProject({ name: cmd.args[0] }, cb);
+}
+
+function doShares(cmd, cb) {
+    var projname = cmd.args[0];
+    var expected = cmd.args[1];
+    
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) {
+        projectservice.getTotalSharesByProject(data.id, next);
+    })
+    .then(function (data, next) {
+        if (data != expected)
+            cb('Project ' + projname + ' shares are ' + data + ', not ' + expected, null);
+        else
+            cb(null, null);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
 }
 
 function parse(cmdtext) {
@@ -68,6 +90,8 @@ function execute(cmd, cb) {
         doPersonNew(cmd, cb);
     else if (cmd.verb == 'project_new')
         doProjectNew(cmd, cb);
+    else if (cmd.verb == 'shares')
+        doShares(cmd, cb);
     else
         cb("Unknown verb '" + cmd.verb + "'", null);
 }

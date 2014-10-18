@@ -199,3 +199,55 @@ exports['unknown verb'] = function (test) {
     })
     .run();
 }
+
+exports['new project shares are zero'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'shares Paradise;0'], next);
+    })
+    .then(function (data, next) {
+        test.equal(data, null);
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
+exports['new project shares are not ten'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'shares Paradise;10'], next);
+    })
+    .fail(function (err) {
+        test.equal(err, "Project Paradise shares are 0, not 10");
+        test.done();
+    })
+    .run();
+}
+
+exports['unknown project shares'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'shares Paradise;0'], next);
+    })
+    .then(function (data, next) {
+        test.equal(data, null);
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
