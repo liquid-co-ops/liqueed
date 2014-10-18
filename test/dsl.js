@@ -4,6 +4,7 @@ var dsl = require('./libs/dsl');
 var async = require('simpleasync');
 var db = require('../utils/db');
 var personservice = require('../services/person');
+var projectservice = require('../services/project');
 
 exports['execute new person'] = function (test) {
     test.async();
@@ -163,3 +164,38 @@ exports['execute two new persons as line text'] = function (test) {
     .run();
 }
 
+exports['execute new project'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute('project_new Paradise', next);
+    })
+    .then(function (data, next) {
+        projectservice.getProjectByName('Paradise', next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.equal(data.name, 'Paradise');
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
+exports['unknown verb'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        dsl.execute('foo', next);
+    })
+    .fail(function (err) {
+        test.equal(err, "Unknown verb 'foo'");
+        test.done();
+    })
+    .run();
+}

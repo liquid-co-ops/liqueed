@@ -1,8 +1,13 @@
 
 var personservice = require('../../services/person');
+var projectservice = require('../../services/project');
 
 function doPersonNew(cmd, cb) {
     personservice.addPerson({ name: cmd.args[0] }, cb);
+}
+
+function doProjectNew(cmd, cb) {
+    projectservice.addProject({ name: cmd.args[0] }, cb);
 }
 
 function parse(cmdtext) {
@@ -12,10 +17,11 @@ function parse(cmdtext) {
     
     cmd.verb = words[0].trim();
     cmd.args = [];
-    
-    words[1].trim().split(';').forEach(function (arg) {
-        cmd.args.push(arg.trim());
-    });
+
+    if (words[1])
+        words[1].trim().split(';').forEach(function (arg) {
+            cmd.args.push(arg.trim());
+        });
     
     return cmd;
 }
@@ -60,6 +66,8 @@ function execute(cmd, cb) {
     
     if (cmd.verb == 'person_new')
         doPersonNew(cmd, cb);
+    else if (cmd.verb == 'project_new')
+        doProjectNew(cmd, cb);
     else
         cb("Unknown verb '" + cmd.verb + "'", null);
 }
