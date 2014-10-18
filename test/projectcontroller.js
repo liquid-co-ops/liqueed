@@ -357,10 +357,8 @@ exports['remove team member'] = function (test) {
         
         var request = {
             params: {
-                id: project.id.toString()
-            },
-            param: function (name) {
-                return form[name];
+                id: project.id.toString(),
+                pid: person.id.toString()
             }
         };
 

@@ -136,7 +136,7 @@ function addTeamMember(req, res) {
 
 function removeTeamMember(req, res) {
     var id = getId(req.params.id);
-    var pid = getId(req.param('person'));
+    var pid = getId(req.params.pid);
     
     service.removePersonFromTeam(id, pid, function (err, data) {
         view(req, res);

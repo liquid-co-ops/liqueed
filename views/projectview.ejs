@@ -29,7 +29,7 @@
         <td><a href="<%= adminprefix %>/person/<%= person.id %>">View</a></td>
         <td><%= person.name %></td>
         <td>
-        <a class="btn-danger btn-sm" href="/project/<%= item.id %>/person/<%= person.id %>/remove">Remove</a>
+        <a class="btn-danger btn-sm" href="<%= adminprefix %>/project/<%= item.id %>/person/<%= person.id %>/remove">Remove</a>
         </td>
     </tr>
 <% }); %>
