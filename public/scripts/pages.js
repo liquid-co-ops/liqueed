@@ -41,7 +41,7 @@ var pages = (function () {
             .addClass('period')
             .click(fnclick);
     }
-    
+
     function doSignIn() {
         var username = $("#login_username").val();
         var password = $("#login_password").val();
@@ -161,15 +161,15 @@ var pages = (function () {
             else
                 showProject(project, periods);
         });
-    }   
-    
+    }
+
     function showProject(project, periods, shares) {
         var page = $("#projectpage");
         var projname = $("#projectname");
         var chartcontainer = $('#projectshares');
         var sharingButton = $('#sharingButton');
         var openSharing;
-       
+
         chartcontainer.hide();
         projname.html(project.name);
 	    periods.some(function(period) {
@@ -178,16 +178,24 @@ var pages = (function () {
 				return true;
 			}
 			return false;
-		});        
-        
+		});
+
         if(openSharing) {
         	sharingButton.click(function () {
                 client.getShareholders(project.id, function (err, shareholders) {
                     if (err) {
                         alert(err);
                     }
-                    else
-                        showPeriod(project, openSharing, shareholders);
+                    else {
+                      client.getAssignments(project.id, openSharing.id, function (err, assignments) {
+                        if (err) {
+                          showPeriod(project, openSharing, shareholders);
+                        }
+                        else {
+                            showPeriod(project, openSharing, shareholders, assignments);
+                        }
+                      });
+                    }
                 });}
         	);
         } else {
@@ -268,12 +276,12 @@ var pages = (function () {
     		alert("You should input an amount > 0");
     		return;
     	}
-    	
-      	client.addPeriod(project.id, {name: name, amount: amount}, function(err,result) {    		
+
+      	client.addPeriod(project.id, {name: name, amount: amount}, function(err,result) {
     		if(err) {
     			alert(err);
     			return;
-    		}    		
+    		}
     		if(result.error) {
     			alert(result.error);
     		} else {
@@ -283,7 +291,7 @@ var pages = (function () {
     	});
     }
 
-    function showPeriod(project, period, shareholders) {
+    function showPeriod(project, period, shareholders, assignments) {
         var page = $("#periodpage");
 
         var projname = $("#periodprojectname");
@@ -295,7 +303,8 @@ var pages = (function () {
         var amount = $("#periodamount");
         amount.html(period.amount);
         var amountLeft = $("#periodamountLeft");
-        amountLeft.html(period.amount);
+        var leftAmount = period.amount;
+
         var shares = $("#shares");
         shares.empty();
 
@@ -304,15 +313,26 @@ var pages = (function () {
         shareholders.forEach(function (shareholder) {
             if (shareholder.id == me)
                 return;
+            var note = "";
+            var sharedAmount = "";
+            for(var i = 0; i < assignments.length; i++) {
+              if(assignments[i].to.id == shareholder.id) {
+                note = assignments[i].note;
+                sharedAmount = assignments[i].amount;
+                leftAmount -= +sharedAmount;
+                break;
+              }
+            }
             var template = $("#shareTemplate").html();
-            template = template.replace("#shareholder.name", shareholder.name);
-                               //.replace("#period.amount", period.amount)
+            template = template.replace("#shareholder.name", shareholder.name)
+            .replace("#period.amount", sharedAmount).replace("#period.note", note);
+
             var row = $(template);
             shares.append(row);
             var _ammount = row.find('[data-role="period.amount"]');
             var _note = row.find('[data-role="period.note"]');
             var input = {amount : _ammount, note : _note};
-			
+
             input.shareholder = shareholder;
                 input.amount.change(function () {
 
@@ -325,6 +345,8 @@ var pages = (function () {
             });
             inputs.push(input);
         });
+        
+        amountLeft.html(leftAmount);
 
         retval.sharesDone = function () {
             var values = [];

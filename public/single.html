@@ -18,10 +18,10 @@
                     <label class="control-label" style="width:100%;">#shareholder.name</label>
                 </div>
                 <div class="col-sm-2 col-xs-4">
-                    <input type="number"  data-role="period.amount" min="0" max="period.amount" class="form-control personal-amount" />
+                    <input type="number" value="#period.amount" data-role="period.amount" min="0" max="period.amount" class="form-control personal-amount" />
                 </div>
 				<div class="col-sm-3 col-xs-3">
-				    <input type="text" data-role="period.note" class="form-control" />
+				    <input type="text" data-role="period.note" class="form-control personal-note" value="#period.note"/>
                 </div>
             </div>
         </div>
@@ -85,8 +85,8 @@
     <div id="projectpage" style='display: none'>
         <h1 id="projectname"></h1>
         <div class="actions">
-            <button id="sharingButton" type="button" class="btn btn-primary">Sharing Out</button>            
-            <button type="button" class="btn btn-primary" onclick='pages.gotoProjects()'>Projects</button>            
+            <button id="sharingButton" type="button" class="btn btn-primary">Sharing Out</button>
+            <button type="button" class="btn btn-primary" onclick='pages.gotoProjects()'>Projects</button>
         </div>
         <div id="projectshares" style="width: 95%;">
         </div>
