@@ -1,9 +1,10 @@
+'use strict';
 
 var db = require('../utils/db');
 
 exports['use db'] = function (test) {
     test.async();
-    
+
     db.useDb('liqueed-test', null, function (err, data) {
         test.ok(!err);
         test.ok(data);
@@ -18,12 +19,10 @@ for (var n in person)
 
 exports['close db'] = function (test) {
     test.async();
-    
+
     db.closeDb(function (err, data) {
         test.ok(!err);
         test.ok(!data);
         test.done();
     });
 }
-
-

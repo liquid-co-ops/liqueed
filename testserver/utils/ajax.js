@@ -1,3 +1,4 @@
+'use strict';
 
 var api = require('./api');
 
@@ -5,14 +6,14 @@ var prefix = '';
 
 function get(url, fn) {
     var fnfail;
-    
+
     api.doRequest('GET', prefix + url, function (err, data) {
         if (err)
             fnfail(err);
         else
             fn(JSON.parse(data));
     });
-    
+
     return {
         fail: function (fn) {
             fnfail = fn;
@@ -22,7 +23,7 @@ function get(url, fn) {
 }
 
 function ajax(data) {
-    api.doRequest(data.type, prefix + data.url, data.data, function (err, response) {    
+    api.doRequest(data.type, prefix + data.url, data.data, function (err, response) {
         if (err)
             data.error(err);
         else

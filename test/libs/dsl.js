@@ -1,4 +1,3 @@
-
 var async = require('simpleasync');
 var personservice = require('../../services/person');
 var projectservice = require('../../services/project');
@@ -14,7 +13,7 @@ function doProjectNew(cmd, cb) {
 function doShares(cmd, cb) {
     var projname = cmd.args[0];
     var expected = cmd.args[1];
-    
+
     async()
     .then(function (data, next) { projectservice.getProjectByName(projname, next); })
     .then(function (data, next) {
@@ -34,9 +33,9 @@ function doShares(cmd, cb) {
 
 function parse(cmdtext) {
     var words = cmdtext.trim().split(' ');
-    
+
     var cmd = { };
-    
+
     cmd.verb = words[0].trim();
     cmd.args = [];
 
@@ -44,22 +43,22 @@ function parse(cmdtext) {
         words[1].trim().split(';').forEach(function (arg) {
             cmd.args.push(arg.trim());
         });
-    
+
     return cmd;
 }
 
 function execute(cmd, cb) {
     if (Array.isArray(cmd)) {
         doCommand();
-        
+
         function doCommand() {
             if (cmd.length == 0) {
                 cb(null, null);
                 return;
             }
-            
+
             var scmd = cmd.shift();
-            
+
             execute(scmd, function (err, data) {
                 if (err)
                     cb(err, null);
@@ -67,25 +66,25 @@ function execute(cmd, cb) {
                     doCommand();
             });
         }
-        
+
         return;
     }
-    
+
     if (cmd.indexOf('\n') >= 0)
         return execute(cmd.split('\n'), cb);
-    
+
     var p = cmd.indexOf('#');
-    
+
     if (p >= 0)
         cmd = cmd.substring(0, p).trim();
-        
+
     if (cmd.length == 0) {
         cb(null, null);
         return;
     }
-    
+
     cmd = parse(cmd);
-    
+
     if (cmd.verb == 'person_new')
         doPersonNew(cmd, cb);
     else if (cmd.verb == 'project_new')

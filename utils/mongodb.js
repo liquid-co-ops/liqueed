@@ -1,3 +1,4 @@
+'use strict';
 
 var mongodb = require('mongodb');
 
@@ -10,7 +11,7 @@ function Repository(db, name) {
                 callback(null, collection);
         });
     }
-    
+
     this.findAll = function (callback) {
         getCollection(function (err, collection) {
             if (err)
@@ -19,13 +20,13 @@ function Repository(db, name) {
                 collection.find().toArray(callback);
         });
     };
-    
+
     this.find = function (query, projection, callback) {
         if (!callback) {
             callback = projection;
             projection = null;
         }
-        
+
         getCollection(function (err, collection) {
             if (err)
                 callback(err);
@@ -33,7 +34,7 @@ function Repository(db, name) {
                 collection.find(query).toArray(callback);
         });
     };
-    
+
     this.insert = function (item, callback) {
         getCollection(function (err, collection) {
             if (err)
@@ -42,7 +43,7 @@ function Repository(db, name) {
                 collection.insert(item, callback);
         });
     };
-    
+
     this.update = function (id, item, callback) {
         getCollection(function (err, collection) {
             if (err) {
@@ -59,14 +60,14 @@ function Repository(db, name) {
             }
         });
     };
-    
+
     this.remove = function (id, callback) {
         getCollection(function (err, collection) {
             if (err) {
                 callback(err, null);
                 return;
             }
-            
+
             try {
                 collection.remove({ _id: collection.db.bson_serializer.ObjectID.createFromHexString(id) }, callback);
             }
@@ -76,14 +77,14 @@ function Repository(db, name) {
             }
         });
     };
-    
+
     this.findById = function (id, callback) {
         getCollection(function (err, collection) {
             if (err) {
                 callback(err, null);
                 return;
             }
-            
+
             try {
                 collection.findOne({ _id: collection.db.bson_serializer.ObjectID.createFromHexString(id) }, callback);
             }
@@ -93,7 +94,7 @@ function Repository(db, name) {
             }
         });
     };
-    
+
     this.clear = function (callback) {
         getCollection(function (err, collection) {
             if (err)
@@ -118,7 +119,7 @@ module.exports = {
                 cb(err, null);
                 return;
             }
-            
+
             if (username) {
                 db.authenticate(username, password, {authdb: "admin"}, function (err, res) {
                     if (err)
@@ -133,4 +134,3 @@ module.exports = {
         return db;
     }
 };
-

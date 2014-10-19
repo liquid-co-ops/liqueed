@@ -1,3 +1,4 @@
+'use strict';
 
 var service = require('../services/project');
 var sperson = require('../services/person');
@@ -5,7 +6,7 @@ var sperson = require('../services/person');
 function getId(id) {
     if (id && id.length && id.length > 10)
         return id;
-        
+
     return parseInt(id,10);
 }
 
@@ -73,7 +74,7 @@ function getPeriod(req, res) {
 }
 
 function addPeriod(req, res) {
-    var id = getId(req.params.id);    
+    var id = getId(req.params.id);
     service.addPeriod(id, req.body.period, function (err, id) {
 		if (err) {
 			res.send({ error : err });
@@ -96,7 +97,7 @@ function putAssignment(req, res) {
     var id = getId(req.params.id);
     var idp = getId(req.params.idp);
     var data = req.body;
-    
+
     service.putAssignment(id, idp, data.from, data.to, data.amount, data.note, function (err, id) {
         if (err)
             res.send({ error: err });
@@ -150,4 +151,3 @@ module.exports = {
     openPeriod: openPeriod,
     closePeriod: closePeriod
 };
-

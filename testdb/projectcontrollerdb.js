@@ -1,3 +1,4 @@
+'use strict';
 
 var controller = require('../controllers/project');
 var loaddata = require('../utils/loaddata');
@@ -8,7 +9,7 @@ var projects;
 
 exports['use db'] = function (test) {
     test.async();
-    
+
     db.useDb('liqueed-test', null, function (err, data) {
         test.ok(!err);
         test.ok(data);
@@ -23,7 +24,7 @@ for (var n in projectcontroller)
 
 exports['close db'] = function (test) {
     test.async();
-    
+
     db.closeDb(function (err, data) {
         test.ok(!err);
         test.ok(!data);

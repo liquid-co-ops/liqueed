@@ -1,3 +1,4 @@
+'use strict';
 
 var service = require('../services/project');
 var sperson = require('../services/person');
@@ -13,7 +14,7 @@ var lavadoid;
 
 exports['add project'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.addProject({ name: 'liqueed' }, next);
@@ -28,7 +29,7 @@ exports['add project'] = function (test) {
 
 exports['get project by id'] = function (test) {
     test.async();
-    
+
     service.getProjectById(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -40,7 +41,7 @@ exports['get project by id'] = function (test) {
 
 exports['get project by name'] = function (test) {
     test.async();
-    
+
     service.getProjectByName('liqueed', function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -52,7 +53,7 @@ exports['get project by name'] = function (test) {
 
 exports['get new project total shares'] = function (test) {
     test.async();
-    
+
     service.getTotalSharesByProject(liqueedid, function (err, result) {
         test.ok(!err);
         test.equal(result, 0);
@@ -62,19 +63,19 @@ exports['get new project total shares'] = function (test) {
 
 exports['get people in empty project'] = function (test) {
     test.async();
-    
+
     service.getTeam(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.equal(result.length, 0);
         test.done();
-    });    
+    });
 };
 
 exports['get shareholders in empty project'] = function (test) {
     test.async();
-    
+
     service.getShareholders(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -86,7 +87,7 @@ exports['get shareholders in empty project'] = function (test) {
 
 exports['add person and get people in project'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         sperson.addPerson({ name: 'Alan' }, next);
@@ -111,7 +112,7 @@ exports['add person and get people in project'] = function (test) {
 
 exports['add existing person to team'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (id, next) {
         service.addPersonToTeam(liqueedid, alanid, next);
@@ -132,7 +133,7 @@ exports['add existing person to team'] = function (test) {
 
 exports['get one shareholder'] = function (test) {
     test.async();
-    
+
     service.getShareholders(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -146,7 +147,7 @@ exports['get one shareholder'] = function (test) {
 
 exports['get projects'] = function (test) {
     test.async();
-    
+
     service.getProjects(function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -158,7 +159,7 @@ exports['get projects'] = function (test) {
 
 exports['get no periods from project'] = function (test) {
     test.async();
-    
+
     service.getPeriods(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -175,7 +176,7 @@ exports['add period to project with invalid input'] = function (test) {
 	.then(function (data, next) {
 		service.addPeriod(liqueedid, {
 			amount : 100
-		}, function(err, result) {			
+		}, function(err, result) {
 			test.ok(err);
 			test.equal(err, "A period name is needed");
 			test.done();
@@ -222,7 +223,7 @@ exports['add period to project with invalid input'] = function (test) {
 
 exports['add period to project'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.addPeriod(liqueedid, { name: 'First period', date: '2014-01-01', amount: 100 }, next);
@@ -261,7 +262,7 @@ exports['add period to project with an open period'] = function (test) {
 
 exports['get period'] = function (test) {
     test.async();
-    
+
     service.getPeriodById(periodid, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -274,19 +275,19 @@ exports['get period'] = function (test) {
 
 exports['get no assignments'] = function (test) {
     test.async();
-    
+
     service.getAssignments(periodid, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
         test.equal(result.length, 0);
         test.done();
-    });    
+    });
 };
 
 exports['put assignment'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         sperson.addPerson({ name: 'Cyment' }, next);
@@ -303,7 +304,7 @@ exports['put assignment'] = function (test) {
         test.ok(list);
         test.ok(Array.isArray(list));
         test.equal(list.length, 1);
-        
+
         test.equal(list[0].from.id, alanid);
         test.equal(list[0].from.name, 'Alan');
         test.equal(list[0].to.id, cymentid);
@@ -316,7 +317,7 @@ exports['put assignment'] = function (test) {
     .then(function (total, next) {
         test.ok(total);
         test.equal(total, 50);
-        
+
         test.done();
     })
     .run();
@@ -324,26 +325,26 @@ exports['put assignment'] = function (test) {
 
 exports['get shareholders from team and assignments'] = function (test) {
     test.async();
-    
+
     service.getShareholders(liqueedid, function (err, list) {
         test.ok(!err);
         test.ok(list);
         test.ok(Array.isArray(list));
-        
+
         test.equal(list.length, 2);
-        
+
         test.equal(list[0].id, alanid);
         test.equal(list[0].name, 'Alan');
         test.equal(list[1].id, cymentid);
         test.equal(list[1].name, 'Cyment');
-        
+
         test.done();
     });
 };
 
 exports['put assignment that close the period'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.putAssignment(liqueedid, periodid, alanid, cymentid, 100, "The mentor", next);
@@ -356,13 +357,13 @@ exports['put assignment that close the period'] = function (test) {
         test.ok(list);
         test.ok(Array.isArray(list));
         test.equal(list.length, 1);
-        
+
         test.equal(list[0].from.id, alanid);
         test.equal(list[0].from.name, 'Alan');
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 100);
-        
+
         service.getPeriodById(periodid, next);
     })
     .then(function (period, next) {
@@ -374,7 +375,7 @@ exports['put assignment that close the period'] = function (test) {
 
 exports['reopen period'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.openPeriod(liqueedid, periodid, next);
@@ -396,7 +397,7 @@ exports['reopen period'] = function (test) {
 
 exports['close period'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.closePeriod(liqueedid, periodid, next);
@@ -430,7 +431,7 @@ exports['add period to project with an existing name'] = function (test) {
 
 exports['put same assignment different amount'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.putAssignment(liqueedid, periodid, alanid, cymentid, 40, "The mentor", next);
@@ -443,13 +444,13 @@ exports['put same assignment different amount'] = function (test) {
         test.ok(list);
         test.ok(Array.isArray(list));
         test.equal(list.length, 1);
-        
+
         test.equal(list[0].from.id, alanid);
         test.equal(list[0].from.name, 'Alan');
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].amount, 40);
-        
+
         service.getPeriodById(periodid, next);
     })
     .then(function (period, next) {
@@ -461,7 +462,7 @@ exports['put same assignment different amount'] = function (test) {
 
 exports['get total assignments by period/person after one assignment only'] = function (test) {
     test.async();
-    
+
     service.getTotalAssignments(liqueedid, periodid, alanid, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -472,7 +473,7 @@ exports['get total assignments by period/person after one assignment only'] = fu
 
 exports['put and get total assignments by period/person'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         sperson.addPerson({ name: 'Cebador' }, next);
@@ -494,7 +495,7 @@ exports['put and get total assignments by period/person'] = function (test) {
 
 exports['error on assignment too many shares'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.putAssignment(liqueedid, periodid, alanid, cebadorid, 70, "The mentor", next);
@@ -515,7 +516,7 @@ exports['error on assignment too many shares'] = function (test) {
 
 exports['error on assignment too many shares using new person'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         sperson.addPerson({ name: 'Lavado' }, next);
@@ -540,7 +541,7 @@ exports['error on assignment too many shares using new person'] = function (test
 
 exports['get total shares by project'] = function (test) {
     test.async();
-    
+
     service.getSharesByProject(liqueedid, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -549,14 +550,14 @@ exports['get total shares by project'] = function (test) {
 
         test.ok(sl.exist(result, { id: cymentid, name: 'Cyment', shares: 40 }));
         test.ok(sl.exist(result, { id: cebadorid, name: 'Cebador', shares: 60 }));
-        
+
         test.done();
     });
 };
 
 exports['get total shares by project period'] = function (test) {
     test.async();
-    
+
     service.getSharesByPeriod(liqueedid, periodid, function (err, result) {
         test.ok(!err);
         test.ok(result);
@@ -565,21 +566,21 @@ exports['get total shares by project period'] = function (test) {
 
         test.ok(sl.exist(result, { id: cymentid, name: 'Cyment', shares: 40 }));
         test.ok(sl.exist(result, { id: cebadorid, name: 'Cebador', shares: 60 }));
-        
+
         test.done();
     });
 };
 
 exports['put assignments without notes'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.putAssignments(liqueedid, periodid, alanid, [
             { to: cymentid, amount: 40 },
             { to: cebadorid, amount: 60}
         ], next);
-    }).fail(function(err){ 
+    }).fail(function(err){
             test.strictEqual(err, 'Note cannot be empty');
             test.done();
         })
@@ -589,7 +590,7 @@ exports['put assignments without notes'] = function (test) {
 
 exports['put assignments'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.putAssignments(liqueedid, periodid, alanid, [
@@ -611,7 +612,7 @@ exports['put assignments'] = function (test) {
 
 exports['remove person period assignment'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.removeAssignments(liqueedid, periodid, alanid, next);
@@ -628,7 +629,7 @@ exports['remove person period assignment'] = function (test) {
 
 exports['remove person from team'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         service.removePersonFromTeam(liqueedid, alanid, next);
@@ -643,4 +644,3 @@ exports['remove person from team'] = function (test) {
     })
     .run();
 };
-

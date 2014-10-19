@@ -1,3 +1,4 @@
+'use strict';
 
 var controller = require('../controllers/projectapi');
 var loaddata = require('../utils/loaddata');
@@ -23,7 +24,7 @@ function getProjectByName(projectName) {
 
 exports['clear and load data'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) { loaddata(next); })
@@ -33,7 +34,7 @@ exports['clear and load data'] = function (test) {
         test.ok(projects);
         test.ok(projects.length);
         test.ok(sl.exist(projects, { name: 'FaceHub' }));
-    
+
         project = sl.first(projects, { name: 'FaceHub' });
         projectService.getPeriods(project.id, next);
     })
@@ -41,7 +42,7 @@ exports['clear and load data'] = function (test) {
         periods = data;
         test.ok(periods);
         test.ok(periods.length);
-        
+
         period = periods[0];
         projectService.getTeam(project.id, next);
     })
@@ -56,7 +57,7 @@ exports['clear and load data'] = function (test) {
 
 exports['get list'] = function (test) {
     test.async();
-    
+
     var request = {};
 
     var response = {
@@ -69,13 +70,13 @@ exports['get list'] = function (test) {
             test.done();
         }
     };
-    
+
     controller.list(request, response);
 };
 
 exports['get first project'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString()
@@ -87,17 +88,17 @@ exports['get first project'] = function (test) {
             test.ok(model);
             test.equal(model.id, projects[0].id);
             test.equal(model.name, projects[0].name);
-            
+
             test.done();
         }
     };
-    
+
     controller.get(request, response);
 };
 
 exports['get first project team'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString()
@@ -114,17 +115,17 @@ exports['get first project team'] = function (test) {
             test.equal(model[0].name, 'Alice');
             test.equal(model[1].name, 'Bob');
             test.equal(model[2].name, 'Charlie');
-            
+
             test.done();
         }
     };
-    
+
     controller.getTeam(request, response);
 };
 
 exports['get first project shareholders'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString()
@@ -141,17 +142,17 @@ exports['get first project shareholders'] = function (test) {
             test.equal(model[0].name, 'Alice');
             test.equal(model[1].name, 'Bob');
             test.equal(model[2].name, 'Charlie');
-            
+
             test.done();
         }
     };
-    
+
     controller.getShareholders(request, response);
 };
 
 exports['get first project periods'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString()
@@ -169,17 +170,17 @@ exports['get first project periods'] = function (test) {
             test.equal(model[0].date, '2014-01-31');
             test.equal(model[1].name, 'February 2014');
             test.equal(model[1].date, '2014-02-28');
-            
+
             test.done();
         }
     };
-    
+
     controller.getPeriods(request, response);
 };
 
 exports['add a period to a project'] = function (test) {
     test.async();
-	var myProject;    
+	var myProject;
 	async()
 	.then(function (data, next) {
 		myProject = getProjectByName("My project 3");
@@ -189,17 +190,17 @@ exports['add a period to a project'] = function (test) {
     .then(function (data, next) {
 	    var request = {
 	        params: { id:myProject.id.toString()},
-		
-	        body: { 
+
+	        body: {
 	        	    period: {
-	        	    		name: "new period", 
+	        	    		name: "new period",
 	        	    		amount: 100
 	        	    }
 	        }
-	    };	
+	    };
 	    var response = {
-	        json: function (id) {        	
-	            test.ok(id);           
+	        json: function (id) {
+	            test.ok(id);
 	            projectService.getPeriods(myProject.id, function(err,result){
 	    			test.ok(result);
 					var period = function() {
@@ -216,7 +217,7 @@ exports['add a period to a project'] = function (test) {
 	    			test.done()
 	    		});
 	        }
-	    };    
+	    };
 	    controller.addPeriod(request, response);
     }).run();
 };
@@ -224,7 +225,7 @@ exports['add a period to a project'] = function (test) {
 
 exports['get first project first period'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString(),
@@ -238,17 +239,17 @@ exports['get first project first period'] = function (test) {
 
             test.equal(model.name, 'January 2014');
             test.equal(model.date, '2014-01-31');
-            
+
             test.done();
         }
     };
-    
+
     controller.getPeriod(request, response);
 };
 
 exports['get first project first period assignments'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString(),
@@ -265,17 +266,17 @@ exports['get first project first period assignments'] = function (test) {
             test.equal(model[0].from.name, 'Alice');
             test.equal(model[0].to.name, 'Bob');
             test.equal(model[0].amount, 50);
-            
+
             test.done();
         }
     };
-    
+
     controller.getAssignments(request, response);
 };
 
 exports['get first project first period put assignment'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString(),
@@ -293,11 +294,11 @@ exports['get first project first period put assignment'] = function (test) {
         send: function (model) {
             test.ok(model);
             test.ok(model.id);
-            
+
             projectService.getAssignments(period.id, function (err, assignments) {
                 test.ok(!err);
                 var assignment;
-                
+
                 for (var k in assignments)
                 {
                     if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[1].id && assignments[k].amount == 1
@@ -307,18 +308,18 @@ exports['get first project first period put assignment'] = function (test) {
                     }
                 }
                 test.ok(assignment);
-                
+
                 test.done();
             });
         }
     };
-    
+
     controller.putAssignment(request, response);
 };
 
 exports['get first project first period put assignment without note'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString(),
@@ -336,17 +337,17 @@ exports['get first project first period put assignment without note'] = function
             test.ok(model);
             test.ok(model.error);
             test.strictEqual(model.error, 'Note cannot be empty');
-                
+
             test.done();
         }
     };
-    
+
     controller.putAssignment(request, response);
 };
 
 exports['close first project first period'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString(),
@@ -357,25 +358,25 @@ exports['close first project first period'] = function (test) {
     var response = {
         json: function (model) {
             test.ok(model);
-            
+
             projectService.getPeriodById(period.id, function (err, period) {
                 test.ok(!err);
                 test.ok(period.id);
                 test.ok(period.name);
                 test.ok(period.date);
                 test.equal(period.closed, true);
-                
+
                 test.done();
             });
         }
     };
-    
+
     controller.closePeriod(request, response);
 };
 
 exports['reopen first project first period'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString(),
@@ -386,25 +387,25 @@ exports['reopen first project first period'] = function (test) {
     var response = {
         json: function (model) {
             test.ok(model);
-            
+
             projectService.getPeriodById(period.id, function (err, period) {
                 test.ok(!err);
                 test.ok(period.id);
                 test.ok(period.name);
                 test.ok(period.date);
                 test.equal(period.closed, false);
-                
+
                 test.done();
             });
         }
     };
-    
+
     controller.openPeriod(request, response);
 };
 
 exports['get first project first period put assignments'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString(),
@@ -422,7 +423,7 @@ exports['get first project first period put assignments'] = function (test) {
     var response = {
         send: function (model) {
             test.ok(model);
-            
+
             var assignments = projectService.getAssignments(period.id, function (err, assignments) {
                 test.ok(!err);
                 var assignment;
@@ -433,20 +434,20 @@ exports['get first project first period put assignments'] = function (test) {
                         found++;
                     else if (assignments[k].from.id == team[0].id && assignments[k].to.id == team[2].id && assignments[k].amount == 90  && assignments[k].note == 'second note')
                         found++;
-                
+
                 test.equal(found, 2);
-                
+
                 test.done();
             });
         }
     };
-    
+
     controller.putAssignments(request, response);
 };
 
 exports['get first project first period put assignments without notes'] = function (test) {
     test.async();
-    
+
     var request = {
         params: {
             id: project.id.toString(),
@@ -465,18 +466,18 @@ exports['get first project first period put assignments without notes'] = functi
         send: function (model) {
             test.ok(model);
             test.ok(model.error);
-            
-            test.strictEqual(model.error, 'Note cannot be empty');                
+
+            test.strictEqual(model.error, 'Note cannot be empty');
             test.done();
         }
     };
-    
+
     controller.putAssignments(request, response);
 };
 
 exports['add new project'] = function (test) {
     test.async();
-    
+
     var request = {
         body: {
             name: 'New Project'
@@ -486,24 +487,24 @@ exports['add new project'] = function (test) {
     var response = {
         json: function (id) {
             test.ok(id);
-            
+
             projectService.getProjectById(id, function (err, project) {
                 test.ok(!err);
                 test.equal(project.id, id);
                 test.equal(project.name, 'New Project');
-                
+
                 test.done();
             });
         }
     };
-    
+
     controller.addProject(request, response);
 };
 
 
 exports['add person to first project team'] = function (test) {
     test.async();
-    
+
     async()
     .then(function (data, next) {
         personService.getPersonByName('Daniel', next);
@@ -522,7 +523,7 @@ exports['add person to first project team'] = function (test) {
                 projectService.getTeam(project.id, next);
             }
         };
-        
+
         controller.addPersonToTeam(request, response);
     })
     .then(function (data, next) {

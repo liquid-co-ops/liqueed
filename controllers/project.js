@@ -1,3 +1,4 @@
+'use strict';
 
 var service = require('../services/project');
 var sperson = require('../services/person');
@@ -7,7 +8,7 @@ var async = require('simpleasync');
 function getId(id) {
     if (id && id.length && id.length > 10)
         return id;
-        
+
     return parseInt(id);
 }
 
@@ -33,11 +34,11 @@ function addProject(req, res) {
 
 function view(req, res) {
     var id = getId(req.params.id);
-    
+
     var model = {
         title: 'Project'
     };
-    
+
     async()
     .then(function (data, next) { service.getProjectById(id, next); })
     .then(function (data, next) {
@@ -61,7 +62,7 @@ function view(req, res) {
 function viewPeriod(req, res) {
     var projectId = getId(req.params.id);
     var periodId = getId(req.params.idp);
-    
+
     var model = {
         title: 'Period'
     }
@@ -89,7 +90,7 @@ function viewPeriod(req, res) {
 function closePeriod(req, res) {
     var projectId = getId(req.params.id);
     var periodId = getId(req.params.idp);
-    
+
     service.closePeriod(projectId, periodId, function (err, result) {
         viewPeriod(req, res);
     });
@@ -98,7 +99,7 @@ function closePeriod(req, res) {
 function openPeriod(req, res) {
     var projectId = getId(req.params.id);
     var periodId = getId(req.params.idp);
-    
+
     service.openPeriod(projectId, periodId, function (err, result) {
         viewPeriod(req, res);
     });
@@ -106,9 +107,9 @@ function openPeriod(req, res) {
 
 function newTeamMember(req, res) {
     var id = getId(req.params.id);
-    
+
     var model = { title: 'Add to Team' };
-    
+
     async()
     .then(function (data, next) { service.getProjectById(id, next); })
     .then(function (data, next) {
@@ -128,7 +129,7 @@ function newTeamMember(req, res) {
 function addTeamMember(req, res) {
     var id = getId(req.params.id);
     var pid = getId(req.param('person'));
-    
+
     service.addPersonToTeam(id, pid, function (err, data) {
         view(req, res);
     });
@@ -137,7 +138,7 @@ function addTeamMember(req, res) {
 function removeTeamMember(req, res) {
     var id = getId(req.params.id);
     var pid = getId(req.params.pid);
-    
+
     service.removePersonFromTeam(id, pid, function (err, data) {
         view(req, res);
     });
@@ -161,4 +162,3 @@ module.exports = {
     addTeamMember: addTeamMember,
     removeTeamMember: removeTeamMember
 }
-
