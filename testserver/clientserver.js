@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('../app');
 var api = require('./utils/api');
 var ajax = require('./utils/ajax');
@@ -11,6 +13,7 @@ var projects;
 var team;
 var periods;
 var persons;
+var server;
 
 function getProjectByName(projectName) {
 	for ( var p in projects) {

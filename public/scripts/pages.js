@@ -1,4 +1,6 @@
 
+'use strict';
+
 var client;
 var $;
 
@@ -383,15 +385,15 @@ var pages = (function () {
                 else
                     done(null, true);
 
-                function done(err, result) {
-                    alert('Thanks for your input');
-                    gotoProject(project);
-                    return;
-                }
-
                 return;
             }
 
+            function done(err, result) {
+                alert('Thanks for your input');
+                gotoProject(project);
+                return;
+            }
+            
             alert(result);
         }
 
