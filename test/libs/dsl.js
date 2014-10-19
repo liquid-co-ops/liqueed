@@ -1,3 +1,5 @@
+'use strict';
+
 var async = require('simpleasync');
 var personservice = require('../../services/person');
 var projectservice = require('../../services/project');
@@ -48,24 +50,25 @@ function parse(cmdtext) {
 }
 
 function execute(cmd, cb) {
+    function doCommand() {
+        if (cmd.length == 0) {
+            cb(null, null);
+            return;
+        }
+
+        var scmd = cmd.shift();
+
+        execute(scmd, function (err, data) {
+            if (err)
+                cb(err, null);
+            else
+                doCommand();
+        });
+    }
+    
     if (Array.isArray(cmd)) {
         doCommand();
 
-        function doCommand() {
-            if (cmd.length == 0) {
-                cb(null, null);
-                return;
-            }
-
-            var scmd = cmd.shift();
-
-            execute(scmd, function (err, data) {
-                if (err)
-                    cb(err, null);
-                else
-                    doCommand();
-            });
-        }
 
         return;
     }

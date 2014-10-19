@@ -1,5 +1,8 @@
 
+'use strict';
+
 var sl;
+var $;
 
 if (typeof sl == 'undefined')
     sl = require('simplelists');
