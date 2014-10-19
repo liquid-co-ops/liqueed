@@ -186,6 +186,36 @@ exports['execute new project'] = function (test) {
     .run();
 }
 
+exports['execute new distribution'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'distribution_new Paradise;Genesis 1;100;2014-01-31'], next);
+    })
+    .then(function (data, next) {
+        projectservice.getProjectByName('Paradise', next);
+    })
+    .then(function (data, next) {
+        projectservice.getPeriods(data.id, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 1);
+        test.ok(data[0].id);
+        test.equal(data[0].name, 'Genesis 1');
+        test.equal(data[0].amount, 100);
+        test.equal(data[0].date, '2014-01-31');
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
 exports['unknown verb'] = function (test) {
     test.async();
     

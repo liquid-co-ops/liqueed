@@ -12,6 +12,28 @@ function doProjectNew(cmd, cb) {
     projectservice.addProject({ name: cmd.args[0] }, cb);
 }
 
+function doDistributionNew(cmd, cb) {
+    var projname = cmd.args[0];
+    var name = cmd.args[1];
+    var amount = parseInt(cmd.args[2]);
+    var date = cmd.args[3];
+    
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) {
+        var distribution = {
+            name: name,
+            amount: amount,
+            date: date
+        };
+        
+        projectservice.addPeriod(data.id, distribution, next);
+    })
+    .then(function (data, next) { cb(null, null); })
+    .fail(function (err) { cb(err, null); })
+    .run();
+}
+
 function doShares(cmd, cb) {
     var projname = cmd.args[0];
     var expected = cmd.args[1];
@@ -34,15 +56,26 @@ function doShares(cmd, cb) {
 }
 
 function parse(cmdtext) {
-    var words = cmdtext.trim().split(' ');
+    cmdtext = cmdtext.trim();
+    var p = cmdtext.indexOf(' ');
+    
+    var verb;
+    var args;
+    
+    if (p >= 0) {
+        verb = cmdtext.substring(0, p).trim();
+        args = cmdtext.substring(p + 1).trim();
+    }
+    else
+        verb = cmdtext.trim();
 
     var cmd = { };
 
-    cmd.verb = words[0].trim();
+    cmd.verb = verb;
     cmd.args = [];
 
-    if (words[1])
-        words[1].trim().split(';').forEach(function (arg) {
+    if (args)
+        args.trim().split(';').forEach(function (arg) {
             cmd.args.push(arg.trim());
         });
 
@@ -92,6 +125,8 @@ function execute(cmd, cb) {
         doPersonNew(cmd, cb);
     else if (cmd.verb == 'project_new')
         doProjectNew(cmd, cb);
+    else if (cmd.verb == 'distribution_new')
+        doDistributionNew(cmd, cb);
     else if (cmd.verb == 'shares')
         doShares(cmd, cb);
     else
