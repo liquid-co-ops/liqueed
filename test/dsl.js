@@ -216,6 +216,59 @@ exports['execute new distribution'] = function (test) {
     .run();
 }
 
+exports['execute assign'] = function (test) {
+    test.async();
+    
+    var projectid;
+    var periodid;
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute([
+            'person_new Adam',
+            'person_new Eve',
+            'project_new Paradise', 
+            'distribution_new Paradise;Genesis 1;100;2014-01-31',
+            'assign Paradise;Genesis 1;Adam;Eve;50;Note'
+        ], next);
+    })
+    .then(function (data, next) {
+        projectservice.getProjectByName('Paradise', next);
+    })
+    .then(function (data, next) {
+        projectid = data.id;
+        projectservice.getPeriods(projectid, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 1);
+        periodid = data[0].id;
+        projectservice.getAssignments(periodid, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 1);
+        
+        test.equal(data[0].project, projectid);
+        test.equal(data[0].period, periodid);
+        test.ok(data[0].from);
+        test.equal(data[0].from.name, 'Adam');
+        test.ok(data[0].to);
+        test.equal(data[0].to.name, 'Eve');
+        test.equal(data[0].amount, 50);
+        test.equal(data[0].note, 'Note');
+        
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
 exports['unknown verb'] = function (test) {
     test.async();
     

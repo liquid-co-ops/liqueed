@@ -4,6 +4,46 @@ var async = require('simpleasync');
 var personservice = require('../../services/person');
 var projectservice = require('../../services/project');
 
+function doAssign(cmd, cb) {
+    var projectname = cmd.args[0];
+    var periodname = cmd.args[1];
+    var fromname = cmd.args[2];
+    var toname = cmd.args[3];
+    var amount = parseInt(cmd.args[4]);
+    var note = cmd.args[5];
+    
+    var project;
+    var period;
+    var from;
+    var to;
+    
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projectname, next); })
+    .then(function (data, next) {
+        project = data;
+        projectservice.getPeriodByName(project.id, periodname, next);
+    })
+    .then(function (data, next) {
+        period = data;
+        personservice.getPersonByName(fromname, next);
+    })
+    .then(function (data, next) {
+        from = data;
+        personservice.getPersonByName(toname, next);
+    })
+    .then(function (data, next) {
+        to = data;
+        projectservice.putAssignment(project.id, period.id, from.id, to.id, amount, note, next);
+    })
+    .then(function (data, next) {
+        cb(null, null);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
+}
+
 function doPersonNew(cmd, cb) {
     personservice.addPerson({ name: cmd.args[0] }, cb);
 }
@@ -129,6 +169,8 @@ function execute(cmd, cb) {
         doDistributionNew(cmd, cb);
     else if (cmd.verb == 'shares')
         doShares(cmd, cb);
+    else if (cmd.verb == 'assign')
+        doAssign(cmd, cb);
     else
         cb("Unknown verb '" + cmd.verb + "'", null);
 }

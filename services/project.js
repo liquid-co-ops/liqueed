@@ -237,6 +237,18 @@ function getPeriodById(periodid, cb) {
     periodstore.get(periodid, cb);
 }
 
+function getPeriodByName(projectid, periodname, cb) {
+    var periodstore = db.store('periods');
+    periodstore.find({ project: projectid, name: periodname }, function (err, items) {
+        if (err)
+            cb(err, null);
+        else if (items.length)
+            cb(null, items[0]);
+        else
+            cb(null, null);
+    });
+}
+
 function getPeriods(projid, cb) {
     var periodstore = db.store('periods');
     periodstore.find({ project: projid }, cb);
@@ -265,7 +277,7 @@ function getAssignments(periodid, cb) {
             }
             
             var item = data[k++];
-            var assignment = { id: item.id, amount: item.amount, note: item.note};
+            var assignment = { id: item.id, project: item.project, period: item.period, amount: item.amount, note: item.note};
 
             sperson.getPersonById(item.from, function (err, personid) {
                 if (err) {
@@ -273,7 +285,11 @@ function getAssignments(periodid, cb) {
                     return;
                 }
                 
-                assignment.from = personid;
+                assignment.from = {
+                    id: personid.id,
+                    username: personid.username,
+                    name: personid.name
+                };
                 
                 sperson.getPersonById(item.to, function (err, personid) {
                     if (err) {
@@ -281,7 +297,11 @@ function getAssignments(periodid, cb) {
                         return;
                     }
                     
-                    assignment.to = personid;
+                    assignment.to = {
+                        id: personid.id,
+                        username: personid.username,
+                        name: personid.name
+                    };
                     
                     list.push(assignment);
                     
@@ -489,6 +509,7 @@ module.exports = {
     
     addPeriod: addPeriod,
     getPeriodById: getPeriodById,
+    getPeriodByName: getPeriodByName,
     getPeriods: getPeriods,
     
     getAssignments: getAssignments,
