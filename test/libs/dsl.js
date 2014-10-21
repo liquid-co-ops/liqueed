@@ -1,5 +1,6 @@
 'use strict';
 
+var fs = require('fs');
 var async = require('simpleasync');
 var personservice = require('../../services/person');
 var projectservice = require('../../services/project');
@@ -122,7 +123,14 @@ function parse(cmdtext) {
     return cmd;
 }
 
-function execute(cmd, cb) {
+function execute(cmd, options, cb) {
+    if (!cb) {
+        cb = options;
+        options = null;
+    }
+    
+    options = options || {};
+    
     function doCommand() {
         if (cmd.length == 0) {
             cb(null, null);
@@ -131,7 +139,7 @@ function execute(cmd, cb) {
 
         var scmd = cmd.shift();
 
-        execute(scmd, function (err, data) {
+        execute(scmd, options, function (err, data) {
             if (err)
                 cb(err, null);
             else
@@ -142,22 +150,26 @@ function execute(cmd, cb) {
     if (Array.isArray(cmd)) {
         doCommand();
 
-
         return;
     }
 
     if (cmd.indexOf('\n') >= 0)
-        return execute(cmd.split('\n'), cb);
+        return execute(cmd.split('\n'), options, cb);
 
     var p = cmd.indexOf('#');
 
     if (p >= 0)
         cmd = cmd.substring(0, p).trim();
+        
+    cmd = cmd.trim();
 
     if (cmd.length == 0) {
         cb(null, null);
         return;
     }
+
+    if (options.verbose)
+        console.log(cmd);
 
     cmd = parse(cmd);
 
@@ -175,6 +187,11 @@ function execute(cmd, cb) {
         cb("Unknown verb '" + cmd.verb + "'", null);
 }
 
+function executeFile(filename, options, cb) {
+    return execute(fs.readFileSync(filename).toString(), options, cb);
+}
+
 module.exports = {
-    execute: execute
+    execute: execute,
+    executeFile: executeFile
 }

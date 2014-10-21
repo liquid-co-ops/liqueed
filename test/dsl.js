@@ -12,7 +12,7 @@ exports['execute new person'] = function (test) {
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
-        dsl.execute('person_new Adam', next);
+        dsl.execute('person_new Adam', { verbose: true }, next);
     })
     .then(function (data, next) {
         personservice.getPersonByName('Adam', next);
@@ -59,27 +59,6 @@ exports['skip comment'] = function (test) {
     })
     .then(function (data, next) {
         test.equal(data, null);
-        test.done();
-    })
-    .fail(function (err) {
-        throw err;
-    })
-    .run();
-}
-exports['execute new person'] = function (test) {
-    test.async();
-    
-    async()
-    .then(function (data, next) { db.clear(next); })
-    .then(function (data, next) {
-        dsl.execute('person_new Adam', next);
-    })
-    .then(function (data, next) {
-        personservice.getPersonByName('Adam', next);
-    })
-    .then(function (data, next) {
-        test.ok(data);
-        test.equal(data.name, 'Adam');
         test.done();
     })
     .fail(function (err) {
