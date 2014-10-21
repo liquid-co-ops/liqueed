@@ -172,54 +172,49 @@ exports['get no periods from project'] = function (test) {
 exports['add period to project with invalid input'] = function (test) {
 	test.async();
 
-    async()
-	.then(function (data, next) {
-		service.addPeriod(liqueedid, {
-			amount : 100
-		}, function(err, result) {
-			test.ok(err);
-			test.equal(err, "A period name is needed");
-			test.done();
-		});
+	service.addPeriod(liqueedid, {
+		amount : 100
+	}, function(err, result) {
+		test.ok(err);
+		test.equal(err, "A period name is needed");
+		test.done();
+	});
 
-		service.addPeriod(liqueedid, {
-			name : 'A period',
-			amount : 0
-		}, function(err, result) {
-			test.ok(err);
-			test.equal(err, 'You should input an amount > 0');
-			test.done();
-		});
+	service.addPeriod(liqueedid, {
+		name : 'A period',
+		amount : 0
+	}, function(err, result) {
+		test.ok(err);
+		test.equal(err, 'You should input an amount > 0');
+		test.done();
+	});
 
-		service.addPeriod(liqueedid, {
-			name : 'A period'
-		}, function(err, result) {
-			test.ok(err);
-			test.equal(err, 'You should input an amount > 0');
-			test.done();
-		});
+	service.addPeriod(liqueedid, {
+		name : 'A period'
+	}, function(err, result) {
+		test.ok(err);
+		test.equal(err, 'You should input an amount > 0');
+		test.done();
+	});
 
-		service.addPeriod(liqueedid, {
-			name : 'A period',
-			amount : 'foo'
-		}, function(err, result) {
-			test.ok(err);
-			test.equal(err, 'You should input an amount > 0');
-			test.done();
-		});
+	service.addPeriod(liqueedid, {
+		name : 'A period',
+		amount : 'foo'
+	}, function(err, result) {
+		test.ok(err);
+		test.equal(err, 'You should input an amount > 0');
+		test.done();
+	});
 
-		service.addPeriod(undefined, {
-			name : 'A period',
-			amount : '100'
-		}, function(err, result) {
-			test.ok(err);
-			test.equal(err, 'the project id is undefined');
-			test.done();
-		});
-
-	}).run();
+	service.addPeriod(undefined, {
+		name : 'A period',
+		amount : '100'
+	}, function(err, result) {
+		test.ok(err);
+		test.equal(err, 'the project id is undefined');
+		test.done();
+	});
 };
-
 
 exports['add period to project'] = function (test) {
     test.async();
@@ -248,16 +243,15 @@ exports['add period to project'] = function (test) {
 
 exports['add period to project with an open period'] = function (test) {
 	test.async();
-	var myProject;
-	async()
-    .then(function (data, next) {
-				service.addPeriod(liqueedid, { name : 'new period', amount : 100 }, function(err, result) {
-					test.ok(err);
-					test.equal(err, 'There is an open period, to create another all periods should be closed');
-					test.done();
-				});
-	})
-	.run();
+
+	service.addPeriod(liqueedid, {
+			name : 'new period',
+			amount : 100
+	}, function(err, result) {
+			test.ok(err);
+			test.equal(err,	'There is an open period, to create another all periods should be closed');
+			test.done();
+	});
 };
 
 exports['get period'] = function (test) {

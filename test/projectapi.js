@@ -14,14 +14,6 @@ var team;
 var periods;
 var period;
 
-function getProjectByName(projectName) {
-	for ( var p in projects) {
-			if (projects[p].name === projectName) {
-				return projects[p];
-			}
-	}
-}
-
 exports['clear and load data'] = function (test) {
     test.async();
 
@@ -179,47 +171,55 @@ exports['get first project periods'] = function (test) {
 };
 
 exports['add a period to a project'] = function (test) {
-    test.async();
+	test.async();
 	var myProject;
-	async()
-	.then(function (data, next) {
-		myProject = getProjectByName("My project 3");
+	var myProjectName = "My project 3";
+	async().then(function(data, next) {
+		projectService.getProjectByName(myProjectName, function(err, data) {
+			test.ok(!err);
+			test.ok(data);
+			myProject = data;
+			test.done();
+		});
+	}).then(function(data, next) {
 		test.ok(myProject);
+		test.equal(myProjectName, myProject.name);
 		test.done();
-    })
-    .then(function (data, next) {
-	    var request = {
-	        params: { id:myProject.id.toString()},
+	}).then(function(data, next) {
+		var request = {
+			params : {
+				id : myProject.id.toString()
+			},
 
-	        body: {
-	        	    period: {
-	        	    		name: "new period",
-	        	    		amount: 100
-	        	    }
-	        }
-	    };
-	    var response = {
-	        json: function (id) {
-	            test.ok(id);
-	            projectService.getPeriods(myProject.id, function(err,result){
-	    			test.ok(result);
-					var period = function() {
+			body : {
+				period : {
+					name : "new period",
+					amount : 100
+				}
+			}
+		};
+		var response = {
+			json : function(id) {
+				test.ok(id);
+				projectService.getPeriods(myProject.id, function(err, result) {
+					test.ok(result);
+					var period = (function() {
 						for ( var n in result) {
 							if (result[n].name === "new period") {
 								return result[n]
 							}
 						}
-					}();
-	    			test.ok(period);
-	    			test.equal(period.name, "new period");
-	    			test.equal(period.amount, 100);
-	    			test.ok(period.date);
-	    			test.done()
-	    		});
-	        }
-	    };
-	    controller.addPeriod(request, response);
-    }).run();
+					})();
+					test.ok(period);
+					test.equal(period.name, "new period");
+					test.equal(period.amount, 100);
+					test.ok(period.date);
+					test.done()
+				});
+			}
+		};
+		controller.addPeriod(request, response);
+	}).run();
 };
 
 
