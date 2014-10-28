@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var async = require('simpleasync');
+var sl = require('simplelists');
 var personservice = require('../../services/person');
 var projectservice = require('../../services/project');
 
@@ -96,6 +97,34 @@ function doShares(cmd, cb) {
     .run();
 }
 
+function doPersonShares(cmd, cb) {
+    var projname = cmd.args[0];
+    var personname = cmd.args[1];
+    var expected = cmd.args[2];
+
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) {
+        projectservice.getSharesByProject(data.id, next);
+    })
+    .then(function (data, next) {
+        if (expected == 0)
+            if (sl.exist(data, { name: personname }))
+                cb('Person ' + personname + ' shares are not ' + expected, null);
+            else
+                cb(null, null);
+        else
+            if (!sl.exist(data, { name: personname, shares: expected }))
+                cb('Person ' + personname + ' shares are not ' + expected, null);
+            else
+                cb(null, null);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
+}
+
 function parse(cmdtext) {
     cmdtext = cmdtext.trim();
     var p = cmdtext.indexOf(' ');
@@ -180,7 +209,10 @@ function execute(cmd, options, cb) {
     else if (cmd.verb == 'distribution_new')
         doDistributionNew(cmd, cb);
     else if (cmd.verb == 'shares')
-        doShares(cmd, cb);
+        if (cmd.args.length == 2)
+            doShares(cmd, cb);
+        else
+            doPersonShares(cmd, cb);
     else if (cmd.verb == 'assign')
         doAssign(cmd, cb);
     else

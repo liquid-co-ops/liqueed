@@ -209,7 +209,9 @@ exports['execute assign'] = function (test) {
             'person_new Eve',
             'project_new Paradise', 
             'distribution_new Paradise;Genesis 1;100;2014-01-31',
-            'assign Paradise;Genesis 1;Adam;Eve;50;Note'
+            'assign Paradise;Genesis 1;Adam;Eve;50;Note',
+            'shares Paradise;Adam;0',
+            'shares Paradise;Eve;50'
         ], next);
     })
     .then(function (data, next) {
