@@ -3,7 +3,7 @@ liquid-co-ops/liqueed](https://www.codeship.io/projects/ae5e9a00-2f8a-0132-1216-
 
 # Liqueed
 
-Application for Liquid Cooperatives, using Node.js/Express/MongoDB.
+Application for Liquid Organizations, using Node.js/Express/MongoDB.
 
 ## Setup
 
@@ -56,12 +56,9 @@ The reports is at `coverage/lcov-report/index.html`.
 ## Resources
 
 - [Comenzando con Liqueed](https://github.com/liquid-co-ops/liqueed/wiki/Starting-With-Liqueed)
-- [Story Map](https://docs.google.com/spreadsheets/d/1QFt1WQqM65kJCIhMW2SoMhD75cvpBUZf8wTb-XB5i-Y/edit#gid=0-)
+- [Backlog](https://trello.com/b/mXIVvFaL/liqueed)
 
 ## References
 
 - [LeanCoops – first draft](http://blog.agilar.org/index.php/2014/04/30/leancoops-first-draft/)
-- [The new user story backlog is a map](http://www.agileproductdesign.com/blog/the_new_backlog.html)
-- [Firebase](https://www.firebase.com/)
-- [InVision](http://www.invisionapp.com/)
 
