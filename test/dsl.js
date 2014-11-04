@@ -5,6 +5,7 @@ var async = require('simpleasync');
 var db = require('../utils/db');
 var personservice = require('../services/person');
 var projectservice = require('../services/project');
+var sl = require('simplelists');
 
 exports['execute new person'] = function (test) {
     test.async();
@@ -314,4 +315,35 @@ exports['unknown project shares'] = function (test) {
     })
     .run();
 }
+
+exports['add person to team'] = function (test) {
+    test.async();
+    
+    var projectid;
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'person_new Adam', 'add_to_team Paradise;Adam'], next);
+    })
+    .then(function (data, next) {
+        test.equal(data, null);
+        projectservice.getProjectByName('Paradise', next);
+    })
+    .then(function (data, next) {
+        projectid = data.id;
+        projectservice.getTeam(projectid, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.ok(sl.exist(data, { name: 'Adam' }));
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
 

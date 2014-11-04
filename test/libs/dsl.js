@@ -125,6 +125,31 @@ function doPersonShares(cmd, cb) {
     .run();
 }
 
+function doAddToTeam(cmd, cb) {
+    var projname = cmd.args[0];
+    var personname = cmd.args[1];
+    var project;
+    var person;
+
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) {
+        project = data;
+        personservice.getPersonByName(personname, next);
+    })
+    .then(function (data, next) {
+        person = data;
+        projectservice.addPersonToTeam(project.id, person.id, next);
+    })
+    .then(function (data, next) {
+        cb(null, null);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
+}
+
 function parse(cmdtext) {
     cmdtext = cmdtext.trim();
     var p = cmdtext.indexOf(' ');
@@ -208,6 +233,8 @@ function execute(cmd, options, cb) {
         doProjectNew(cmd, cb);
     else if (cmd.verb == 'distribution_new')
         doDistributionNew(cmd, cb);
+    else if (cmd.verb == 'add_to_team')
+        doAddToTeam(cmd, cb);
     else if (cmd.verb == 'shares')
         if (cmd.args.length == 2)
             doShares(cmd, cb);
