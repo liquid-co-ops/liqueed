@@ -29,6 +29,18 @@ function getProjects(req, res) {
     });
 }
 
+function getPendingShareProjects(req, res) {
+    var id = getId(req.params.id);
+    service.getPendingShareProjects(id, function (err, items) {
+        if (err) {
+            res.send({ error: err });
+        }  else {
+            res.send(items);
+        }
+    });
+}
+
+
 function loginPerson(req, res) {
     var username = req.body.username;
     var password = req.body.password;
@@ -44,5 +56,6 @@ module.exports = {
     list: list,
     get: get,
     getProjects: getProjects,
-    loginPerson: loginPerson
+    loginPerson: loginPerson,
+    getPendingShareProjects:getPendingShareProjects
 }

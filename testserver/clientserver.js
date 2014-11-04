@@ -9,6 +9,7 @@ ajax.setPrefix('http://localhost:3000');
 
 var client = require('../public/scripts/clientserver');
 
+
 var projects;
 var team;
 var periods;
@@ -25,11 +26,13 @@ function getProjectByName(projectName) {
 
 exports['load test data'] = function (test) {
     test.async();
-
-    var loaddata = require('../utils/loaddata');
-    loaddata(function (err, result) {
-        test.ok(!err);
-        test.done();
+    var db = require('../utils/db');
+    db.clear(function(err,result) {
+	    var loaddata = require('../utils/loaddata');
+	    loaddata(function (err, result) {
+	        test.ok(!err);
+	        test.done();
+	    });
     });
 }
 
@@ -373,13 +376,13 @@ exports['successfully add a period to a project'] = function (test) {
 		test.ok(data)
 		client.getPeriods(myProject.id, function(err, result) {
 				test.ok(result);
-				var period = function() {
+				var period = (function() {
 					for ( var n in result) {
 						if (result[n].name === "new period") {
 							return result[n]
 						}
 					}
-				}();
+				})();
 				test.ok(period);
 				test.equal(period.name, "new period");
 				test.equal(period.amount, 100);
@@ -407,6 +410,29 @@ exports['fails when adding a period to a project with an open periods'] = functi
 	        test.done();
 	})
 	.run();
+}
+
+exports['get a pending share project'] = function (test) {
+    test.async();
+    client.getPendingShareProjects(persons[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.equal(result.length,1)
+        test.equal(result[0].name,"N-GAME");
+        test.done();
+    });
+}
+
+exports['get none pending share project'] = function (test) {
+    test.async();
+    client.getPendingShareProjects(persons[1].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+		test.equal(result.length, 0);
+        test.done();
+    });
 }
 
 exports['stop server'] = function (test) {

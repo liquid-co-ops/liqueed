@@ -135,7 +135,7 @@ exports['add project'] = function (test) {
     test.async();
 
     async()
-    .then(function (data, next) { client.addProject({ name: 'New Project' }, next); })
+    .then(function (data, next) { client.addProject({ name: 'New Project', shareholders: [] }, next); })
     .then(function (data, next) {
         test.ok(data);
         client.getProject(data, next);
@@ -228,4 +228,27 @@ exports['fails when adding a period to a project with an open periods'] = functi
 	        test.equal(data.error, 'There is an open period, to create another all periods should be closed');
 	        test.done();
 	});
+}
+
+exports['get projects by user'] = function (test) {
+    test.async();
+    client.getProjectsByUser(persons[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        test.done();
+    });
+}
+
+exports['get my pending to share projects'] = function (test) {
+    test.async();
+    client.getPendingShareProjects(persons[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.equal(result.length,1)
+        test.equal(result[0].name,"My project 3");
+        test.done();
+    });
 }

@@ -197,3 +197,153 @@ exports['add and get projects'] = function (test) {
         });
     });
 }
+
+exports['get a pending share project'] = function (test) {
+	var projectid;
+
+	test.async();
+	async()
+	.then(function(data, next) {
+		 pservice.addProject({ name: 'N-GAME-1' }, next);
+	})
+	.then(function(projid, next) {
+		projectid = projid
+		pservice.addPersonToTeam(projectid, annaid, next);
+	})
+	.then(function(pid, next) {
+		pservice.addPersonToTeam(projectid, lauraid, next);
+	})
+	.then(function(pid, next) {
+		pservice.addPeriod(projectid, { name: 'First Share Round', date: '2014-01-01', amount: 100 }, next);
+	})
+	.then(function(periods, next) {
+		service.getPendingShareProjects(annaid, next);
+	})
+	.then(function(result, next) {
+		test.ok(result);
+		test.equal(result.length,1);
+		test.equal(result[0].id,projectid);
+		test.done();
+	})
+	.run();
+	
+}
+
+exports['get some pending share projects'] = function (test) {
+	var projectid;
+
+	test.async();
+	async()
+	.then(function(data, next) {
+		 pservice.addProject({ name: 'N-GAME-2' }, next);
+	})
+	.then(function(projid, next) {
+		projectid = projid
+		pservice.addPersonToTeam(projectid, annaid, next);
+	})
+	.then(function(pid, next) {
+		pservice.addPersonToTeam(projectid, lauraid, next);
+	})
+	.then(function(pid, next) {
+		pservice.addPeriod(projectid, { name: 'First Share Round', date: '2014-01-01', amount: 100 }, next);
+	})
+	.then(function(periods, next) {
+		service.getPendingShareProjects(lauraid, next);
+	})
+	.then(function(result, next) {
+		test.ok(result);
+		test.equal(result.length,2);
+		test.equal(result[0].name,'N-GAME-1');
+		test.equal(result[1].id,projectid);
+		test.done();
+	})
+	.run();	
+}
+
+exports['get pending share with an assignment done project'] = function (test) {
+	var projectid;
+
+	test.async();
+	async()
+	.then(function(data, next) {
+		 pservice.getProjectByName('N-GAME-1', next);		 
+	})
+	.then(function(project, next) {
+		projectid = project.id
+		pservice.getPeriodByName(projectid,'First Share Round',next);		
+	})
+	.then(function(period, next) {
+		pservice.putAssignments(projectid, period.id, annaid, [ {
+			to : lauraid,
+			amount : 100,
+			note : "great work"
+		} ], next);
+	})
+	.then(function(periods, next) {
+		service.getPendingShareProjects(annaid, next);
+	})
+	.then(function(result, next) {		
+		test.ok(result);
+		test.equal(result.length,1);
+		test.equal(result[0].name,'N-GAME-2');
+		test.done();
+	})
+	.run();	
+}
+
+exports['get pending share with an closed sharing project'] = function (test) {
+	var projectid;
+
+	test.async();
+	async()
+	.then(function(data, next) {
+		 pservice.getProjectByName('N-GAME-1', next);		 
+	})
+	.then(function(project, next) {
+		projectid = project.id
+		pservice.getPeriodByName(projectid,'First Share Round',next);		
+	})
+	.then(function(period, next) {
+		pservice.closePeriod(projectid, period.id,next);
+	})
+	.then(function(periodid, next) {
+		service.getPendingShareProjects(annaid, next);
+	})
+	.then(function(result, next) {		
+		test.ok(result);
+		test.equal(result.length,1);
+		test.equal(result[0].name,'N-GAME-2');
+		test.done();
+	})
+	.run();	
+}
+
+exports['get none pending share projects'] = function (test) {
+	var projectid;
+
+	test.async();
+	async()
+	.then(function(data, next) {
+		 pservice.getProjectByName('N-GAME-2', next);		 
+	})
+	.then(function(project, next) {
+		projectid = project.id
+		pservice.getPeriodByName(projectid,'First Share Round',next);		
+	})
+	.then(function(period, next) {
+		pservice.putAssignments(projectid, period.id, lauraid, [ {
+			to : annaid,
+			amount : 100,
+			note : "great work"
+		} ], next);
+	})
+	.then(function(periods, next) {
+		service.getPendingShareProjects(lauraid, next);
+	})
+	.then(function(result, next) {		
+		test.ok(result);
+		test.equal(result.length,0);
+		test.done();
+	})
+	.run();
+}

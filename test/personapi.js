@@ -159,3 +159,42 @@ exports['login invalid password'] = function (test) {
     
     controller.loginPerson(request, response);
 };
+
+exports['get a pending share project'] = function (test) {
+	test.async();
+	var request = {
+		params : {
+			id : persons[0].id.toString()
+		}
+	};
+
+	var response = {
+		send : function(model) {
+			test.ok(model);
+			test.equal(model.length, 1);
+			test.equal(model[0].name, 'N-GAME');
+			test.done();
+		}
+	};
+
+	controller.getPendingShareProjects(request, response);
+}
+
+exports['get none pending share project'] = function (test) {
+	test.async();
+	var request = {
+		params : {
+			id : persons[1].id.toString()
+		}
+	};
+
+	var response = {
+		send : function(model) {
+			test.ok(model);
+			test.equal(model.length, 0);
+			test.done();
+		}
+	};
+
+	controller.getPendingShareProjects(request, response);
+}

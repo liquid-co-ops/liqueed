@@ -43,6 +43,13 @@ var pages = (function () {
             .addClass('period')
             .click(fnclick);
     }
+    
+
+	function makeAnAlert(text) {
+		return $("<div>")
+				.html("<strong>Warning!</strong> " + text)
+				.addClass('alert').addClass('alert-warning')
+	}
 
     function doSignIn() {
         var username = $("#login_username").val();
@@ -113,6 +120,22 @@ var pages = (function () {
             else
                 pages.showProjects(projects);
         });
+        
+        showAlerts("alerts");
+    }
+    
+    function showAlerts(id) {    	
+        var alerts = $("#" + id);
+        alerts.empty();
+        client.getPendingShareProjects(me, function(err, projects) {
+			if (err) {
+				alert(err);
+			} else {
+				projects.forEach(function(project) {
+					alerts.append(makeAnAlert("Pending to share point for "	+ project.name + " project."))
+				});
+			}
+		});        
     }
 
     function showProjects(projects) {
@@ -137,7 +160,7 @@ var pages = (function () {
 
         var page = $("#projectnewpage");
 
-        activatePage(page);
+        activatePage(page);        
 
         if (cb)
             cb(null, null);
@@ -163,6 +186,8 @@ var pages = (function () {
             else
                 showProject(project, periods);
         });
+        
+        showAlerts("projectalerts");
     }
 
     function showProject(project, periods, shares) {
@@ -171,7 +196,7 @@ var pages = (function () {
         var chartcontainer = $('#projectshares');
         var sharingButton = $('#sharingButton');
         var openSharing;
-
+        
         chartcontainer.hide();
         projname.html(project.name);
 	    periods.some(function(period) {
@@ -181,7 +206,7 @@ var pages = (function () {
 			}
 			return false;
 		});
-
+        sharingButton.off("click");
         if(openSharing) {
         	sharingButton.click(function () {
                 client.getShareholders(project.id, function (err, shareholders) {

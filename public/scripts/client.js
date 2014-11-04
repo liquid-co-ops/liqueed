@@ -8,9 +8,9 @@ if (typeof sl == 'undefined')
 var projects = [
     { id: 1, name: 'My project 1',
         periods: [
-            { id: 1, name: 'January 2014', amount: 100, "date": "2014-01-31" },
-            { id: 2, name: 'February 2014', amount: 100, "date": "2014-02-28" },
-            { id: 3, name: 'March 2014', amount: 100, "date": "2014-03-31" }
+            { id: 1, name: 'January 2014', amount: 100, "date": "2014-01-31", closed: true  },
+            { id: 2, name: 'February 2014', amount: 100, "date": "2014-02-28", closed: true  },
+            { id: 3, name: 'March 2014', amount: 100, "date": "2014-03-31", closed: true  }
         ],
         shareholders: [
             { id: 1, name: 'Alan', username: 'alan' },
@@ -40,8 +40,8 @@ var projects = [
             shareholders: [
                 { id: 1, name: 'Alan', username: 'alan' },
                 { id: 2, name: 'Fabricio', username: 'fabricio' },
-                { id: 2, name: 'Martin', username: 'martin' },
-                { id: 7, name: 'Laura Fraile', username: 'laura' }
+                { id: 7, name: 'Laura Fraile', username: 'laura' },
+                { id: 8, name: 'Martin', username: 'martin' }
             ]
     }
 
@@ -87,30 +87,65 @@ var clientlocal = (function() {
 
     function getProjectsByUser(userid, cb) {
       var result = [];
-      projects.forEach(function (item) {
+      projects.forEach(function (item) {    	  
         item.shareholders.forEach(function (person) {
           if(person.id == userid)
             result.push(item);
         });
+        
       });
-
       cb(null, sl.sort(result, 'name'));
     }
-
-    function getMyProjects(cb) {
-        cb(null, sl.sort(projects, 'name'));
+    
+    function isBelongTo(userid, project) {    	
+		for (var j = 0; j < project.shareholders.length; j++) {
+			if(project.shareholders[j].id === userid) {
+				return true;
+			}
+		}
+		return false;
     }
 
-    function addProject(project, cb) {
-        project.id = ++maxprojid;
-        projects.push(project);
+	function getPendingShareProjects(userid, cb) {
+		var result = [];
+		var myProject;
+		for (var i = 0; i < projects.length; i++) {
+			myProject = projects[i];			
+			if(isBelongTo(userid,myProject)) {
+				var openPeriod = myProject.periods.filter(function(period) {
+					if (period.closed) {
+						return false;
+					}
+					if (period.assignments) {
+						return !period.assignments.some(function(assigment) {
+							return assigment.from === me[0].name;
+						});
+					} else {
+						return true;
+					}
+				});
+				if (openPeriod.length > 0) {
+					result.push(myProject);
+				}				
+			}
+		}	
+		cb(null, sl.sort(result, 'name'));
+	}
 
-        cb(null, project.id);
-    }
+	function getMyProjects(cb) {
+		cb(null, sl.sort(projects, 'name'));
+	}
 
-    function getProject(idproj, cb) {
-        for (var k = 0; k < projects.length; k++)
-            if (projects[k].id == idproj) {
+	function addProject(project, cb) {
+		project.id = ++maxprojid;
+		projects.push(project);
+
+		cb(null, project.id);
+	}
+
+	function getProject(idproj, cb) {
+		for (var k = 0; k < projects.length; k++)
+			if (projects[k].id == idproj) {
                 cb(null, projects[k]);
                 return;
             }
@@ -187,6 +222,7 @@ var clientlocal = (function() {
 
     return {
         getProjectsByUser: getProjectsByUser,
+        getPendingShareProjects: getPendingShareProjects,
         getMyProjects: getMyProjects,
         getProject: getProject,
         addProject: addProject,

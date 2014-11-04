@@ -213,6 +213,68 @@ function normalizePersons(cb) {
     })
     .run();
 }
+function getPendingShareProjects(userid, cb) {
+	var result = [];
+	var projects = [];
+	var projectsopen = [];
+    async()
+    .then(function(data, next) {
+		getProjects(userid, next);
+	})
+	.then(function(fprojects, next) {
+		var periodstore = db.store('periods');
+		if (fprojects.length > 0) {
+			projects = fprojects;
+			periodstore.find({closed : false }, next);
+		} else {
+			cb(null, result);
+		}
+	})
+	.then(function(periods, next) {
+		if (periods.length > 0) {
+			for (var h = 0; h < periods.length; h++) {
+				for (var i = 0; i < projects.length; i++) {
+					if (periods[h].project === projects[i].id) {
+						projectsopen.push(projects[i]);
+					}
+				}
+			}
+			next(null, projectsopen);
+		} else {
+			cb(null, result);
+		}
+    })
+    .then(function(fprojects, next) {
+		var assignmentstore = db.store('assignments');
+		assignmentstore.find({from : userid}, next);
+	})
+	.then(function(assignments, next) {
+		if (assignments.length > 0) {
+			for (var i = 0; i < projectsopen.length; i++) {
+				var hasAssignment = false;
+				for (var j = 0; j < assignments.length; j++) {
+						if (assignments[j].project === projectsopen[i].id) {
+							hasAssignment = true;
+							break;
+						}
+					}
+				if (!hasAssignment) {
+					result.push(projectsopen[i]);
+				}
+			}
+			next(null, result);
+		} else {
+			next(null, projectsopen);
+		}
+    })
+    .then(function (data, next) {
+        cb(null, data);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
+}
 
 module.exports = {
     addPerson: addPerson,
@@ -222,6 +284,7 @@ module.exports = {
     getPersons: getPersons,
     getProjects: getProjects,
     loginPerson: loginPerson,
-    normalizePersons: normalizePersons
+    normalizePersons: normalizePersons,
+    getPendingShareProjects: getPendingShareProjects
 };
 

@@ -58,7 +58,12 @@
         </div>
         <div id="projects">
         </div>
-    </div>
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-4">
+				<div id="alerts" style="margin-top: 10px;"></div>
+			</div>
+		</div>
+	</div>
 
     <div id="projectnewpage" style='display: none'>
         <h1>New Project</h1>
@@ -88,7 +93,12 @@
             <button id="sharingButton" type="button" class="btn btn-primary">Sharing Out</button>
             <button type="button" class="btn btn-primary" onclick='pages.gotoProjects()'>Projects</button>
         </div>
-        <div id="projectshares" style="width: 95%;">
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-4">
+				<div id="projectalerts" style="margin-top: 10px;"></div>
+			</div>
+		</div>
+		<div id="projectshares" style="width: 95%;">
         </div>
     </div>
 
@@ -96,8 +106,8 @@
         <h1 id="periodprojectname"></h1>
         <h2 id="periodname"></h2>
         <h2 id="perioddate"></h2>
-        <h3>Shares <span id='periodamount' /></h3>
-        <h3>Left <span id='periodamountLeft' /></h3>
+        <h3>Shares <span id='periodamount'></span></h3>
+        <h3>Left <span id='periodamountLeft'></span></h3>
         <div class="actions">
             <button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Project</button>
         </div>
@@ -133,9 +143,7 @@
 			<button type="button" class="btn btn-success" onclick='pages.createPeriod()'>Create New Sharing</button>
 		</div>
 	</div>
-
-
-	</div>
+	
     <script src='scripts/jquery-2.1.1.min.js' type='text/javascript'></script>
     <script src="scripts/jquery-ui-1.11.1/jquery-ui.js" type='text/javascript'></script>
     <script src='scripts/simplelists.js' type='text/javascript'></script>

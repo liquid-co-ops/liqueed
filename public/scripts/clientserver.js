@@ -1,4 +1,3 @@
-
 'use strict';
 
 var sl;
@@ -97,8 +96,8 @@ var clientserver = (function() {
     
     function addPeriod(projid, period, cb) {
         var data = {
-        		projid: projid,
-        		period: period
+			projid: projid,
+			period: period
          };
         $.ajax({
             type: "POST",
@@ -113,7 +112,7 @@ var clientserver = (function() {
                 cb(err, null);
             }
         });
-    }    
+    }
 
     function getShareholders(idproj, cb) {
         getEntity(idproj, cb, "/shareholder");
@@ -151,6 +150,14 @@ var clientserver = (function() {
             }
         });
     }
+    
+    function getPendingShareProjects(userid, cb) {
+	    $.get(prefix + '/api/person/' + userid+'/pendigshares', function (data) {
+	        cb(null, data);
+	    }).fail(function (err) {
+	        cb(err, null);
+	    });
+    }
 
     return {
         getProjectsByUser: getProjectsByUser,
@@ -162,6 +169,7 @@ var clientserver = (function() {
         getTeam: getTeam,
         getShareholders: getShareholders,
         getSharesByProject: getSharesByProject,
+        getPendingShareProjects: getPendingShareProjects,
         getAssignments: getAssignments,
         putAssigments: putAssignments,
         getPersons: getPersons,
