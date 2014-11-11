@@ -46,6 +46,29 @@ function newPerson(req, res) {
     res.render('personnew', { title: 'New Person' });
 }
 
+function editPerson(req, res) {
+    var id = getId(req.params.id);
+    
+    var model = {
+        title: 'Edit Person'
+    };
+    
+    async()
+    .then(function (data, next) { service.getPersonById(id, next); })
+    .then(function (data, next) {
+        model.item = {
+            id: data.id,
+            name: data.name,
+            email: data.email
+        };
+        res.render('personedit', model);
+    })
+    .fail(function (err) {
+        res.render('error', { title: 'Error', error: err });
+    })
+    .run();
+}
+
 function makePerson(req) {
     return {
         username: req.param('username'),
@@ -69,5 +92,6 @@ module.exports = {
     index: index,
     view: view,
     newPerson: newPerson,
-    addPerson: addPerson
+    addPerson: addPerson,
+    editPerson: editPerson
 };

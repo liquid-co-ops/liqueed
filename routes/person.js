@@ -8,5 +8,6 @@ router.get('/', controller.index);
 router.get('/new', controller.newPerson);
 router.post('/new', controller.addPerson);
 router.get('/:id', controller.view);
+router.get('/:id/edit', controller.editPerson);
 
 module.exports = router;

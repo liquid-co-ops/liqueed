@@ -130,3 +130,31 @@ exports['get view first person'] = function (test) {
     
     controller.view(request, response);
 };
+
+exports['get edit first person'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            id: persons[0].id
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'personedit');
+            test.ok(model);
+            test.equal(model.title, 'Edit Person');
+            test.ok(model.item);
+            test.equal(model.item.id, persons[0].id);
+            test.equal(model.item.name, persons[0].name);
+            test.equal(model.item.email, persons[0].email);
+            test.ok(!model.item.password);
+            test.ok(!model.projects);
+            test.done();
+        }
+    };
+    
+    controller.editPerson(request, response);
+};
