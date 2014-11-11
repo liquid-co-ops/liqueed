@@ -1,0 +1,15 @@
+
+project_new Paradise
+
+person_new Adam
+person_new Eve
+
+team_add Paradise;Adam
+team_add Paradise;Eve
+
+team_member Paradise;Adam
+team_member Paradise;Eve
+
+shares Paradise;Adam;0
+shares Paradise;Eve;0
+
