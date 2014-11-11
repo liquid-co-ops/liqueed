@@ -38,6 +38,12 @@ function addPerson(data, cb) {
     store.add(data, cb);
 }
 
+function updatePerson(id, data, cb) {
+    var store = db.store('persons');
+        
+    store.update(id, data, cb);
+}
+
 function getPersonById(id, cb) {
     var store = db.store('persons');
     store.get(id, cb);
@@ -213,6 +219,7 @@ function normalizePersons(cb) {
     })
     .run();
 }
+
 function getPendingShareProjects(userid, cb) {
 	var result = [];
 	var projects = [];
@@ -278,6 +285,7 @@ function getPendingShareProjects(userid, cb) {
 
 module.exports = {
     addPerson: addPerson,
+    updatePerson: updatePerson,
     getPersonById: getPersonById,
     getPersonByName: getPersonByName,
     getPersonByUserName: getPersonByUserName,

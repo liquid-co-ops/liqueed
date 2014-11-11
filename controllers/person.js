@@ -58,6 +58,7 @@ function editPerson(req, res) {
     .then(function (data, next) {
         model.item = {
             id: data.id,
+            username: data.username,
             name: data.name,
             email: data.email
         };
@@ -88,10 +89,27 @@ function addPerson(req, res) {
     });
 }
 
+function updatePerson(req, res) {
+    var id = getId(req.params.id);
+    
+    var persona = {
+        username: req.param('username'),
+        name: req.param('name'),
+        email: req.param('email')
+    };
+    
+    service.updatePerson(id, persona, function (err, id) {
+        if (!req.params)
+            req.params = { };
+        view(req, res);
+    });
+}
+
 module.exports = {
     index: index,
     view: view,
     newPerson: newPerson,
     addPerson: addPerson,
-    editPerson: editPerson
+    editPerson: editPerson,
+    updatePerson: updatePerson
 };

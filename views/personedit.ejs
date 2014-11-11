@@ -1,0 +1,24 @@
+<div class="row actions">
+<a class="btn btn-info" href="<%= adminprefix %>/person">People</a>
+<a class="btn btn-info" href="<%= adminprefix %>/person/<%= item.id %>">View Person</a>
+</div>
+
+<div class='row'>
+<form method="post" role="form" class="form">
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" id="username" value="<%= item.username %>">
+    </div>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name" value="<%= item.name %>">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" name="email" id="email" value="<%= item.email %>">
+    </div>
+    
+    <input class="btn btn-success" type="submit" value="Update" />
+</form>
+</div>
+
