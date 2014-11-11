@@ -125,7 +125,7 @@ function doPersonShares(cmd, cb) {
     .run();
 }
 
-function doAddToTeam(cmd, cb) {
+function doTeamAdd(cmd, cb) {
     var projname = cmd.args[0];
     var personname = cmd.args[1];
     var project;
@@ -233,8 +233,8 @@ function execute(cmd, options, cb) {
         doProjectNew(cmd, cb);
     else if (cmd.verb == 'distribution_new')
         doDistributionNew(cmd, cb);
-    else if (cmd.verb == 'add_to_team')
-        doAddToTeam(cmd, cb);
+    else if (cmd.verb == 'team_add')
+        doTeamAdd(cmd, cb);
     else if (cmd.verb == 'shares')
         if (cmd.args.length == 2)
             doShares(cmd, cb);

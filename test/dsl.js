@@ -324,7 +324,7 @@ exports['add person to team'] = function (test) {
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
-        dsl.execute(['project_new Paradise', 'person_new Adam', 'add_to_team Paradise;Adam'], next);
+        dsl.execute(['project_new Paradise', 'person_new Adam', 'team_add Paradise;Adam'], next);
     })
     .then(function (data, next) {
         test.equal(data, null);
