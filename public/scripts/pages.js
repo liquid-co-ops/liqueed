@@ -14,7 +14,7 @@ var pages = (function () {
     var active;
     var me;
     var currentproject = null;
-
+    var breadcrumb = null;
 
     function activatePage(page) {
         if (active)
@@ -43,7 +43,6 @@ var pages = (function () {
             .addClass('period')
             .click(fnclick);
     }
-    
 
 	function makeAnAlert(text) {
 		return $("<div>")
@@ -72,13 +71,14 @@ var pages = (function () {
                 me = parseInt(userid);
             else
                 me = userid;
-
+            breadcrumb = $('#my-breadcrumb').breadcrumb();
             gotoProjects();
         });
     }
 
     function doSignOut() {
         me = null;
+        breadcrumb.reset();
         gotoSignIn();
     }
 
@@ -112,65 +112,86 @@ var pages = (function () {
             cb(null, persons);
     }
 
-    function gotoProjects() {
-        currentproject = null;
-        client.getProjectsByUser(me, function (err, projects) {
-            if (err)
-                alert(err);
-            else
-                pages.showProjects(projects);
-        });
-        
-        showAlerts("alerts");
-    }
-    
-    function showAlerts(id) {    	
-        var alerts = $("#" + id);
-        alerts.empty();
-        client.getPendingShareProjects(me, function(err, projects) {
+	function gotoProjects() {
+		if (currentproject) {
+			breadcrumb.pop();
+		} else {
+			breadcrumb.push('Home', function() {
+				console.log("Home");
+				innerGotoProjects();
+			});
+		}
+		innerGotoProjects();
+	}
+
+	function innerGotoProjects() {
+		currentproject = null;
+		client.getProjectsByUser(me, function(err, projects) {
+			if (err)
+				alert(err);
+			else
+				pages.showProjects(projects);
+		});
+		showAlerts("alerts");
+	}
+
+	function showAlerts(id) {
+		var alerts = $("#" + id);
+		alerts.empty();
+		client.getPendingShareProjects(me, function(err, projects) {
 			if (err) {
 				alert(err);
 			} else {
 				projects.forEach(function(project) {
-					alerts.append(makeAnAlert("Pending to share point for "	+ project.name + " project."))
+					alerts.append(makeAnAlert("Pending to share point for "
+							+ project.name + " project."))
 				});
 			}
-		});        
-    }
+		});
+	}
 
-    function showProjects(projects) {
-        var page = $("#projectspage");
+	function showProjects(projects) {
+		var page = $("#projectspage");
 
-        var projs = $("#projects");
-        projs.empty();
+		var projs = $("#projects");
+		projs.empty();
 
-        projects.forEach(function (project) {
-            var element = $("<div>").html(makeProjectButton(project.name, function () {
-                gotoProject(project);
-            }));
+		projects.forEach(function(project) {
+			var element = $("<div>").html(
+					makeProjectButton(project.name, function() {
+						gotoProject(project);
+					}));
 
-            projs.append(element);
-        });
-
-        activatePage(page);
-    }
+			projs.append(element);
+		});
+		activatePage(page);
+	}
 
     function gotoNewProject(cb) {
         currentproject = null;
-
         var page = $("#projectnewpage");
-
-        activatePage(page);        
-
+        activatePage(page);
         if (cb)
             cb(null, null);
-    }
+	}
 
-    function gotoProject(project, cb) {
+	function gotoProject(project, cb) {
+		if (currentproject) {
+			breadcrumb.pop();
+		} else {
+			breadcrumb.push(project.name, function() {
+				console.log(project.name);
+				innerGotoProject(project, cb);
+			});
+		}
+		innerGotoProject(project, cb);
+	}
+	
+    function innerGotoProject(project, cb) {
         currentproject = project;
         client.getPeriods(project.id, function (err, periods) {
             if (err) {
-                alert(err);
+            	alert(err);
                 return;
             }
 
@@ -208,7 +229,7 @@ var pages = (function () {
 		});
         sharingButton.off("click");
         if(openSharing) {
-        	sharingButton.click(function () {
+               sharingButton.click(function () {
                 client.getShareholders(project.id, function (err, shareholders) {
                     if (err) {
                         alert(err);
@@ -224,9 +245,9 @@ var pages = (function () {
                       });
                     }
                 });}
-        	);
+               );
         } else {
-        	sharingButton.click(function (){gotoNewPeriod(project);});
+          sharingButton.click(function (){gotoNewPeriod(project);});
         }
         if (shares && shares.length) {
             showSharesChart(chartcontainer, shares);
@@ -288,35 +309,37 @@ var pages = (function () {
     }
 
     function createPeriod(project) {
+		if (!project) {
+			alert("You should select a project");
+			return;
+		}
+		var name = $("#periodnewname").val();
+		if (!name) {
+			alert("A period name is needed");
+			return;
+		}
+		var amount = $("#periodnewamount").val();
+		if (!amount || isNaN(amount) || amount <= 0) {
+			alert("You should input an amount > 0");
+			return;
+		}
 
-    	if(!project) {
-    		alert("You should select a project");
-    		return;
-    	}
-    	var name = $("#periodnewname").val();
-    	if(!name) {
-    		alert("A period name is needed");
-    		return;
-    	}
-    	var amount = $("#periodnewamount").val();
-    	if(!amount || isNaN(amount) || amount <= 0) {
-    		alert("You should input an amount > 0");
-    		return;
-    	}
-
-      	client.addPeriod(project.id, {name: name, amount: amount}, function(err,result) {
-    		if(err) {
-    			alert(err);
-    			return;
-    		}
-    		if(result.error) {
-    			alert(result.error);
-    		} else {
-    			alert("A new period was created");
-    			gotoProject(project);
-    		}
-    	});
-    }
+		client.addPeriod(project.id, {
+			name : name,
+			amount : amount
+		}, function(err, result) {
+			if (err) {
+				alert(err);
+				return;
+			}
+			if (result.error) {
+				alert(result.error);
+			} else {
+				alert("A new period was created");
+				gotoProject(project);
+			}
+		});
+	}
 
     function showPeriod(project, period, shareholders, assignments) {
         var page = $("#periodpage");
@@ -337,6 +360,8 @@ var pages = (function () {
 
         var inputs = [];
 
+        breadcrumb.push(period.name);
+        
         shareholders.forEach(function (shareholder) {
             if (shareholder.id == me)
                 return;
@@ -426,14 +451,15 @@ var pages = (function () {
     }
 
     function gotoNewPeriod(project, cb) {
-    	if(project==null) {
-    		alert("you must select a project");
-    		return;
-    	}
+        if (project == null) {
+			alert("you must select a project");
+			return;
+		}
         var page = $("#createperiodpage");
         var projname = $("#newperiodprojectname");
         projname.html(project.name);
         activatePage(page);
+        breadcrumb.push("New Sharing");
         if (cb)
             cb(null, null);
     }

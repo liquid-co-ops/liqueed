@@ -7,26 +7,32 @@
     <link href="bootstrap-3.2.0-dist/css/bootstrap.css" rel="stylesheet">
     <!--    <link href="css/bootstrap-responsive.css" rel="stylesheet">-->
     <link href="css/single.css" rel="stylesheet">
-    <link href="scripts/jquery-ui-1.11.1/jquery-ui.css" rel="stylesheet" />
+    <link href="scripts/jquery-ui-1.11.1/jquery-ui.css" rel="stylesheet" />    
 </head>
 
 <body>
-    <div class="container-fluid well center-block" style="margin-top:1em;margin-bottom:1em;">
-        <div id="shareTemplate" style="display: none">
-            <div class="row">
-                <div class=" col-sm-offset-3 col-sm-2 col-xs-4">
-                    <label class="control-label" style="width:100%;">#shareholder.name</label>
-                </div>
-                <div class="col-sm-2 col-xs-4">
-                    <input type="number" value="#period.amount" data-role="period.amount" min="0" max="period.amount" class="form-control personal-amount" />
-                </div>
+
+	<div class="container-fluid center-block"
+		style="margin-top: 1em; margin-bottom: 1em;">
+		<ol id="my-breadcrumb" class="breadcrumb"></ol>
+		<div id="shareTemplate" style="display: none">
+			<div class="row">
+				<div class=" col-sm-offset-3 col-sm-2 col-xs-4">
+					<label class="control-label" style="width: 100%;">#shareholder.name</label>
+				</div>
+				<div class="col-sm-2 col-xs-4">
+					<input type="number" value="#period.amount"
+						data-role="period.amount" min="0" max="period.amount"
+						class="form-control personal-amount" />
+				</div>
 				<div class="col-sm-3 col-xs-3">
-				    <input type="text" data-role="period.note" class="form-control personal-note" value="#period.note"/>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="signinpage" style='display: none'>
+					<input type="text" data-role="period.note"
+						class="form-control personal-note" value="#period.note" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="signinpage" style='display: none'>
         <h1>Sign In</h1>
         <div id="signin">
             <form id="loginform" class="form-horizontal" role="form">
@@ -152,6 +158,7 @@
     <script src='scripts/clientserver.js' type='text/javascript'></script>
     <script src='scripts/pages.js' type='text/javascript'></script>
     <script src='scripts/highcharts.js' type='text/javascript'></script>
+    <script src='scripts/bootstrap-breadcrumb.js' type='text/javascript'></script>
 
     <script>
         var client;
