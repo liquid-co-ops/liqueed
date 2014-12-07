@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/', staticRoutes);
+//app.use('/', staticRoutes);
 app.use(adminprefix + '/', staticRoutes);
 app.use(adminprefix + '/notes', noteRoutes);
 app.use(adminprefix + '/person', personRoutes);

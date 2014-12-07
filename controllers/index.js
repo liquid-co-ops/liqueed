@@ -5,5 +5,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Liqueed', layout: 'angularLayout' });
+  res.render('index', { title: 'Liqueed' });
 };
