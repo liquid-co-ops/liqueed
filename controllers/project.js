@@ -144,6 +144,10 @@ function removeTeamMember(req, res) {
     });
 }
 
+function newPeriod(req, res) {
+    res.render('periodnew', { title: 'New Period' });
+}
+
 function makeProject(req) {
     return {
         name: req.param('name')
@@ -160,5 +164,6 @@ module.exports = {
     closePeriod: closePeriod,
     newTeamMember: newTeamMember,
     addTeamMember: addTeamMember,
-    removeTeamMember: removeTeamMember
+    removeTeamMember: removeTeamMember,
+    newPeriod: newPeriod
 }

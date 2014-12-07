@@ -388,3 +388,25 @@ exports['remove team member'] = function (test) {
     })
     .run();
 };
+
+exports['get new periods'] = function (test) {
+    test.async();
+
+    var request = {
+        params: {
+            id: project.id.toString()
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'periodnew');
+            test.ok(model);
+            test.equal(model.title, 'New Period');
+            test.done();
+        }
+    };
+
+    controller.newPeriod(request, response);
+};
