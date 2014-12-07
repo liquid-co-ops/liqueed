@@ -1,5 +1,4 @@
 <div class="row actions">
-<a class="btn btn-info" href="<%= adminprefix %>/project">Projects</a>
 <a class="btn btn-info" href="<%= adminprefix %>/project/<%= project.id %>">Project</a>
 </div>
 
@@ -8,6 +7,10 @@
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" name="name" id="name">
+    </div>
+    <div class="form-group">
+        <label for="email">Amount</label>
+        <input type="text" class="form-control" name="amount" id="amount">
     </div>
     
     <input class="btn btn-success" type="submit" value="Create" />

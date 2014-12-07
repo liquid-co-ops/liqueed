@@ -404,6 +404,9 @@ exports['get new periods'] = function (test) {
             test.equal(name, 'periodnew');
             test.ok(model);
             test.equal(model.title, 'New Period');
+            test.ok(model.project);
+            test.ok(model.project.id);
+            test.equal(model.project.id, project.id);
             test.done();
         }
     };

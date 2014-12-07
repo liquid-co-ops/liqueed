@@ -145,7 +145,8 @@ function removeTeamMember(req, res) {
 }
 
 function newPeriod(req, res) {
-    res.render('periodnew', { title: 'New Period' });
+    var id = getId(req.params.id);
+    res.render('periodnew', { title: 'New Period', project: { id: id } });
 }
 
 function makeProject(req) {
