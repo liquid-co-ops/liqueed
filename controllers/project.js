@@ -149,6 +149,25 @@ function newPeriod(req, res) {
     res.render('periodnew', { title: 'New Period', project: { id: id } });
 }
 
+function addPeriod(req, res) {
+    var id = getId(req.params.id);
+    var name = req.param('name');
+    var amount = req.param('amount');
+    
+    try {
+        amount = parseInt(amount);
+    }
+    catch (ex) {
+        amount = 0;
+    }
+    
+    var period = { name: name, amount: amount };
+
+    service.addPeriod(id, period, function (err, data) {
+        view(req, res);
+    });
+}
+
 function makeProject(req) {
     return {
         name: req.param('name')
@@ -166,5 +185,6 @@ module.exports = {
     newTeamMember: newTeamMember,
     addTeamMember: addTeamMember,
     removeTeamMember: removeTeamMember,
-    newPeriod: newPeriod
+    newPeriod: newPeriod,
+    addPeriod: addPeriod
 }

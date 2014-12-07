@@ -389,7 +389,7 @@ exports['remove team member'] = function (test) {
     .run();
 };
 
-exports['get new periods'] = function (test) {
+exports['get new period'] = function (test) {
     test.async();
 
     var request = {
@@ -413,3 +413,51 @@ exports['get new periods'] = function (test) {
 
     controller.newPeriod(request, response);
 };
+
+exports['add period'] = function (test) {
+    test.async();
+
+    async()
+    .then(function (person, next) {
+        var form = {
+            name: 'New Period',
+            amount: '100'
+        }
+
+        var request = {
+            params: {
+                id: projects[1].id.toString()
+            },
+            param: function (name) {
+                return form[name];
+            }
+        };
+
+        var response = {
+            render: function (name, model) {
+                test.ok(name);
+                test.equal(name, 'projectview');
+                test.ok(model);
+                test.ok(model.item);
+                test.ok(model.item.id);
+                test.equal(model.item.id, projects[1].id);
+                test.equal(model.title, 'Project');
+
+                var projectService = require('../services/project');
+
+                projectService.getPeriodByName(projects[1].id, 'New Period', next);
+            }
+        };
+
+        controller.addPeriod(request, response);
+    })
+    .then(function (period, next) {
+        test.ok(period);
+        test.ok(period.id);
+        test.equal(period.name, 'New Period');
+        test.equal(period.amount, 100);
+        test.done();
+    })
+    .run();
+};
+
