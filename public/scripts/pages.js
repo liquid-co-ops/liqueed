@@ -221,7 +221,7 @@ var pages = (function () {
         chartcontainer.hide();
         projname.html(project.name);
 	    periods.some(function(period) {
-			if (period.closed === false) {
+			if (!period.closed) {
 				openSharing = period;
 				return true;
 			}
@@ -368,7 +368,7 @@ var pages = (function () {
             var note = "";
             var sharedAmount = "";
             for(var i = 0; i < assignments.length; i++) {
-              if(assignments[i].to.id == shareholder.id) {
+              if(assignments[i].from.id == me && assignments[i].to.id == shareholder.id) {
                 note = assignments[i].note;
                 sharedAmount = assignments[i].amount;
                 leftAmount -= +sharedAmount;
