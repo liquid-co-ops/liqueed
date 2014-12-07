@@ -164,7 +164,10 @@ function addPeriod(req, res) {
     var period = { name: name, amount: amount };
 
     service.addPeriod(id, period, function (err, data) {
-        view(req, res);
+        if (err)
+            res.render('error', { error: err });
+        else
+            view(req, res);
     });
 }
 

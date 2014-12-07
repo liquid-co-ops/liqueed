@@ -14,6 +14,7 @@ router.post('/:id/person/new', controller.addTeamMember);
 router.get('/:id/person/:pid/remove', controller.removeTeamMember);
 
 router.get('/:id/period/new', controller.newPeriod);
+router.post('/:id/period/new', controller.addPeriod);
 router.get('/:id/period/:idp', controller.viewPeriod);
 router.get('/:id/period/:idp/open', controller.openPeriod);
 router.get('/:id/period/:idp/close', controller.closePeriod);
