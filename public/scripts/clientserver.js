@@ -155,6 +155,14 @@ var clientserver = (function() {
         });
     }
     
+    function getGivenAssignmentsByProjectPerson(projectid, personid, cb) {
+        getEntity(projectid, cb, "/person/" + personid + "/givenassign");
+    }
+    
+    function getReceivedAssignmentsByProjectPerson(projectid, personid, cb) {
+        getEntity(projectid, cb, "/person/" + personid + "/receivedassign");
+    }
+
     function getPendingShareProjects(userid, cb) {
 	    $.get(prefix + '/api/person/' + userid+'/pendigshares', function (data) {
 	        cb(null, data);
@@ -172,11 +180,16 @@ var clientserver = (function() {
         addPeriod: addPeriod,
         getTeam: getTeam,
         getShareholders: getShareholders,
+
         getSharesByProject: getSharesByProject,
         getClosedSharesByProject: getClosedSharesByProject,
         getPendingShareProjects: getPendingShareProjects,
+        
         getAssignments: getAssignments,
         putAssigments: putAssignments,
+        getGivenAssignmentsByProjectPerson: getGivenAssignmentsByProjectPerson,
+        getReceivedAssignmentsByProjectPerson: getReceivedAssignmentsByProjectPerson,
+
         getPersons: getPersons,
         loginPerson: loginPerson,
         setPrefix: function (prf) { prefix = prf; }

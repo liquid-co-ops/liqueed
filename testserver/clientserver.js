@@ -208,7 +208,33 @@ exports['put assignments to first project first period from first person'] = fun
         });
 }
 
+exports['get given assignments first project from person'] = function (test) {
+    test.async();
 
+    client.getGivenAssignmentsByProjectPerson(projects[0].id, team[1].id, 
+        function (err, result) {
+            test.ok(!err);
+            test.ok(result);
+            test.ok(Array.isArray(result));
+            test.ok(result.length);
+
+            test.done();
+        });
+}
+
+exports['get received assignments first project from person'] = function (test) {
+    test.async();
+
+    client.getReceivedAssignmentsByProjectPerson(projects[0].id, team[2].id, 
+        function (err, result) {
+            test.ok(!err);
+            test.ok(result);
+            test.ok(Array.isArray(result));
+            test.ok(result.length);
+
+            test.done();
+        });
+}
 
 exports['get persons'] = function (test) {
     test.async();
