@@ -306,6 +306,13 @@ exports['put assignment'] = function (test) {
         test.equal(list[0].amount, 50);
         test.equal(list[0].note, 'The Mentor');
 
+        service.getGivenAssignmentsByProjectPerson(liqueedid, alanid, next);
+    })
+    .then(function (list, next) {
+        test.ok(list);
+        test.equal(list.length, 1);
+        test.equal(list[0].amount, 50);
+
         service.getTotalSharesByProject(liqueedid, next);
     })
     .then(function (total, next) {

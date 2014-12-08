@@ -132,6 +132,41 @@ function getShareholders(id, cb) {
     .run();
 }
 
+function getReceivedAssignmentsByProjectPerson(projectid, personid, cb) {
+    getAssignmentList({ project: projectid, to: personid }, cb);
+}
+
+function getGivenAssignmentsByProjectPerson(projectid, personid, cb) {
+    getAssignmentList({ project: projectid, from: personid }, cb);
+}
+
+function getAssignmentList(filter, cb) {
+    var assignmentstore = db.store('assignments');
+    var personstore = db.store('persons');
+    var periodstore = db.store('periods');
+    
+    var periods;
+    
+    async()
+    .then(function (data, next) {
+        if (filter && filter.project)
+            periodstore.find({ project: filter.project }, next);
+        else
+            periodstore.find(next);  
+    })
+    .then(function (data, next) {
+        periods = data;
+        assignmentstore.find(filter, next);  
+    })
+    .then(function (data, next) {
+        cb(null, data);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
+}
+
 function getSharesByProject(projectid, options, cb) {
     if (!cb && typeof options == 'function') {
         cb = options;
@@ -560,6 +595,9 @@ module.exports = {
     getSharesByProject: getSharesByProject,
     getSharesByPeriod: getSharesByPeriod,
     getTotalSharesByProject: getTotalSharesByProject,
+    
+    getGivenAssignmentsByProjectPerson: getGivenAssignmentsByProjectPerson,
+    getReceivedAssignmentsByProjectPerson: getReceivedAssignmentsByProjectPerson,
     
     addPeriod: addPeriod,
     getPeriodById: getPeriodById,
