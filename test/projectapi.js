@@ -317,6 +317,34 @@ exports['get first project first period put assignment'] = function (test) {
     controller.putAssignment(request, response);
 };
 
+exports['get first project given assignments by person'] = function (test) {
+    test.async();
+
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: team[0].id.toString()
+        }
+    };
+
+    var response = {
+        send: function (items) {
+            test.ok(items);
+            test.ok(Array.isArray(items));
+            test.ok(items.length);
+            test.equal(items.length, 2);
+            test.equal(items[0].amount, 1);
+            test.ok(items[0].to);
+            test.equal(items[0].to.id, team[1].id);
+            test.equal(items[0].to.name, team[1].name);
+
+            test.done();
+        }
+    };
+
+    controller.getGivenAssignmentsByProjectPerson(request, response);
+};
+
 exports['get first project first period put assignment without note'] = function (test) {
     test.async();
 

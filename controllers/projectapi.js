@@ -100,6 +100,22 @@ function getAssignments(req, res) {
     });
 }
 
+function getReceivedAssignmentsByProjectPerson(req, res) {
+    var id = getId(req.params.id);
+    var idp = getId(req.params.idp);
+    service.getReceivedAssignmentsByProjectPerson(id, idp, function (err, items) {
+        res.send(items);
+    });
+}
+
+function getGivenAssignmentsByProjectPerson(req, res) {
+    var id = getId(req.params.id);
+    var idp = getId(req.params.idp);
+    service.getGivenAssignmentsByProjectPerson(id, idp, function (err, items) {
+        res.send(items);
+    });
+}
+
 function putAssignment(req, res) {
     var id = getId(req.params.id);
     var idp = getId(req.params.idp);
@@ -147,9 +163,15 @@ module.exports = {
     addProject: addProject,
     getTeam: getTeam,
     addPersonToTeam: addPersonToTeam,
+
     getShareholders: getShareholders,
+
     getSharesByProject: getSharesByProject,
     getClosedSharesByProject: getClosedSharesByProject,
+
+    getGivenAssignmentsByProjectPerson: getGivenAssignmentsByProjectPerson,
+    getReceivedAssignmentsByProjectPerson: getReceivedAssignmentsByProjectPerson,
+    
     getPeriods: getPeriods,
     getPeriod: getPeriod,
     getAssignments: getAssignments,
