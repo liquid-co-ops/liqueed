@@ -312,6 +312,23 @@ exports['put assignment'] = function (test) {
         test.ok(list);
         test.equal(list.length, 1);
         test.equal(list[0].amount, 50);
+        test.ok(list[0].note);
+        test.equal(list[0].note, 'The Mentor');
+        test.ok(list[0].to);
+        test.equal(list[0].to.id, cymentid);
+        test.equal(list[0].to.name, 'Cyment');
+
+        service.getReceivedAssignmentsByProjectPerson(liqueedid, cymentid, next);
+    })
+    .then(function (list, next) {
+        test.ok(list);
+        test.equal(list.length, 1);
+        test.equal(list[0].amount, 50);
+        test.ok(list[0].note);
+        test.equal(list[0].note, 'The Mentor');
+        test.ok(list[0].from);
+        test.equal(list[0].from.id, alanid);
+        test.equal(list[0].from.name, 'Alan');
 
         service.getTotalSharesByProject(liqueedid, next);
     })

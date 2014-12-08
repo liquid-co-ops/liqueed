@@ -147,6 +147,8 @@ function getAssignmentList(filter, cb) {
     
     var periods;
     
+    var pers = { };
+    
     async()
     .then(function (data, next) {
         if (filter && filter.project)
@@ -157,6 +159,64 @@ function getAssignmentList(filter, cb) {
     .then(function (data, next) {
         periods = data;
         assignmentstore.find(filter, next);  
+    })
+    .map(function (data, next) {
+        if (filter.to) {
+            next(null, data);
+            return;
+        }
+        
+        if (pers[data.to]) {
+            data.to = pers[data.to];
+            next(null, data);
+            return;
+        }
+        
+        personstore.get(data.to, function (err, person) {
+            if (err) {
+                next(err, null);
+                return;
+            }
+            
+            var per = {
+                id: person.id,
+                name: person.name                
+            }
+            
+            pers[data.to] = per;
+            data.to = per;
+            
+            next(null, data);
+        });
+    })
+    .map(function (data, next) {
+        if (filter.from) {
+            next(null, data);
+            return;
+        }
+        
+        if (pers[data.from]) {
+            data.to = pers[data.to];
+            next(null, data);
+            return;
+        }
+        
+        personstore.get(data.from, function (err, person) {
+            if (err) {
+                next(err, null);
+                return;
+            }
+            
+            var per = {
+                id: person.id,
+                name: person.name                
+            }
+            
+            pers[data.from] = per;
+            data.from = per;
+            
+            next(null, data);
+        });
     })
     .then(function (data, next) {
         cb(null, data);
