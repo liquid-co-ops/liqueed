@@ -317,6 +317,10 @@ exports['put assignment'] = function (test) {
         test.ok(list[0].to);
         test.equal(list[0].to.id, cymentid);
         test.equal(list[0].to.name, 'Cyment');
+        test.equal(list[0].date, '2014-01-01');
+        test.equal(list[0].period.id, periodid);
+        test.equal(list[0].period.name, 'First period');
+        test.ok(!list[0].period.closed);
 
         service.getReceivedAssignmentsByProjectPerson(liqueedid, cymentid, next);
     })
@@ -329,6 +333,11 @@ exports['put assignment'] = function (test) {
         test.ok(list[0].from);
         test.equal(list[0].from.id, alanid);
         test.equal(list[0].from.name, 'Alan');
+        test.ok(list[0].period);
+        test.equal(list[0].date, '2014-01-01');
+        test.equal(list[0].period.id, periodid);
+        test.equal(list[0].period.name, 'First period');
+        test.ok(!list[0].period.closed);
 
         service.getTotalSharesByProject(liqueedid, next);
     })

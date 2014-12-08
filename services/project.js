@@ -148,6 +148,7 @@ function getAssignmentList(filter, cb) {
     var periods;
     
     var pers = { };
+    var prds = { };
     
     async()
     .then(function (data, next) {
@@ -185,6 +186,39 @@ function getAssignmentList(filter, cb) {
             
             pers[data.to] = per;
             data.to = per;
+            
+            next(null, data);
+        });
+    })
+    .map(function (data, next) {        
+        if (prds[data.period]) {
+            data.period = prds[data.period];
+            
+            if (!data.date && data.period.date)
+                data.date = data.period.date;
+                
+            next(null, data);
+            return;
+        }
+        
+        periodstore.get(data.period, function (err, period) {
+            if (err) {
+                next(err, null);
+                return;
+            }
+            
+            var prd = {
+                id: period.id,
+                name: period.name,
+                date: period.date,
+                closed: period.closed
+            }
+            
+            prds[data.period] = prd;
+            data.period = prd;
+            
+            if (!data.date && data.period.date)
+                data.date = data.period.date;
             
             next(null, data);
         });

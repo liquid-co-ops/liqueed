@@ -4,11 +4,11 @@ var app = require('../app');
 var api = require('./utils/api');
 var ajax = require('./utils/ajax');
 var async = require('simpleasync');
+var sl = require('simplelists');
 
 ajax.setPrefix('http://localhost:3000');
 
 var client = require('../public/scripts/clientserver');
-
 
 var projects;
 var team;
@@ -17,11 +17,7 @@ var persons;
 var server;
 
 function getProjectByName(projectName) {
-	for ( var p in projects) {
-			if (projects[p].name === projectName) {
-				return projects[p];
-			}
-	}
+    return sl.first(projects, { name: projectName });
 }
 
 exports['load test data'] = function (test) {
@@ -38,6 +34,7 @@ exports['load test data'] = function (test) {
 
 exports['start server'] = function (test) {
     server = app.listen(3000);
+    test.ok(server);
 }
 
 exports['get my projects'] = function (test) {
@@ -71,7 +68,7 @@ exports['get first project'] = function (test) {
 exports['get periods from first project'] = function (test) {
     test.async();
 
-    client.getPeriods(1, function (err, result) {
+    client.getPeriods(projects[0].id, function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.ok(Array.isArray(result));
@@ -299,17 +296,8 @@ exports['add project'] = function (test) {
 exports['fails when adding a period with invalid input'] = function (test) {
 	test.async();
 
-	var myProject;
 	async()
 	.then(function (data, next) {
-		myProject = getProjectByName("My project 3");
-		test.ok(myProject);
-		test.done();
-    })
-	.then(function (data, next) {
-
-
-
 				client.addPeriod(projects[2].id, {
 			amount : 100
 		}, function(err, result) {
