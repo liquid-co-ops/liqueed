@@ -11,6 +11,7 @@ router.get('/:id/team', controller.getTeam);
 router.put('/:id/team/:pid', controller.addPersonToTeam);
 router.get('/:id/shareholder', controller.getShareholders);
 router.get('/:id/share', controller.getSharesByProject);
+router.get('/:id/closedshare', controller.getClosedSharesByProject);
 router.get('/:id/period', controller.getPeriods);
 router.get('/:id/period/:idp', controller.getPeriod);
 router.get('/:id/period/:idp/assign', controller.getAssignments);

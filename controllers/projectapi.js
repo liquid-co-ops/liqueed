@@ -58,6 +58,13 @@ function getSharesByProject(req, res) {
     });
 }
 
+function getClosedSharesByProject(req, res) {
+    var id = getId(req.params.id);
+    service.getSharesByProject(id, { closed: true }, function (err, items) {
+        res.send(items);
+    });
+}
+
 function getPeriods(req, res) {
     var id = getId(req.params.id);
     service.getPeriods(id, function (err, items) {
@@ -142,6 +149,7 @@ module.exports = {
     addPersonToTeam: addPersonToTeam,
     getShareholders: getShareholders,
     getSharesByProject: getSharesByProject,
+    getClosedSharesByProject: getClosedSharesByProject,
     getPeriods: getPeriods,
     getPeriod: getPeriod,
     getAssignments: getAssignments,

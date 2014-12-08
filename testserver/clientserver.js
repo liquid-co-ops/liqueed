@@ -175,6 +175,26 @@ exports['get shares from first project'] = function (test) {
     });
 }
 
+exports['get closed shares from first project'] = function (test) {
+    test.async();
+
+    client.getClosedSharesByProject(projects[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+
+        for (var n in result) {
+            var item = result[n];
+            test.ok(item.id);
+            test.ok(item.name);
+            test.ok(item.shares != null);
+        }
+
+        test.done();
+    });
+}
+
 exports['put assignments to first project first period from first person'] = function (test) {
     test.async();
 
