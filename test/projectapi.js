@@ -333,10 +333,14 @@ exports['get first project given assignments by person'] = function (test) {
             test.ok(Array.isArray(items));
             test.ok(items.length);
             test.equal(items.length, 2);
-            test.equal(items[0].amount, 1);
-            test.ok(items[0].to);
-            test.equal(items[0].to.id, team[1].id);
-            test.equal(items[0].to.name, team[1].name);
+            
+            var item = sl.first(items, { amount: 1 });
+            
+            test.ok(item);
+            test.equal(item.amount, 1);
+            test.ok(item.to);
+            test.equal(item.to.id, team[1].id);
+            test.equal(item.to.name, team[1].name);
 
             test.done();
         }
