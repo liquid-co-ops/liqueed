@@ -254,6 +254,19 @@ var pages = (function () {
             chartcontainer.show();
         }
 
+		var pers = $("#projectperiods");
+		pers.empty();
+
+		periods.forEach(function(period) {
+			var element = $("<div>").html(
+					makePeriodButton(period.name, function() {
+                        alert('Work in Progress');
+						//gotoProject(project);
+					}));
+
+			pers.append(element);
+		});
+
         activatePage(page);
     }
 
