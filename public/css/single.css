@@ -13,6 +13,11 @@ h1, h2, h3 {
     max-width: 400px;
 }
 
+.btn.share {
+    width: 95%;
+    max-width: 400px;
+}
+
 #signin {
     text-align: center;
 }
@@ -23,6 +28,12 @@ h1, h2, h3 {
 
 #projectsactions {
     text-align: center;
+}
+
+#projectsharesnotes {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #projectperiods {
