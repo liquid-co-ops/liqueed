@@ -151,17 +151,35 @@ function getSharesByPeriod(projectid, periodid, options, cb) {
 }
 
 function getShares(filter, options, cb) {
+    options = options || { };
+    
     var sharedata;
 
     var assignmentstore = db.store('assignments');
     var personstore = db.store('persons');
+    var periodstore = db.store('periods');
+    
+    var periods;
     
     async()
     .then(function (data, next) {
+        periodstore.find(next);  
+    })
+    .then(function (data, next) {
+        periods = data;
         assignmentstore.find(filter, next);  
     })
     .then(function (data, next) {
         sharedata = data;
+        
+        if (options.closed)
+            sharedata = sl.where(sharedata, function (item) {
+                var period = sl.first(periods, { id: item.period });
+                if (!period)
+                    return false;
+                return period.closed;
+            });
+        
         var total = sl.aggr(sharedata, 'to', 'amount');
         total = sl.project(total, { to: 'id', amount: 'shares' });
         next(null, total);
