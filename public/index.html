@@ -109,7 +109,7 @@
             </div>
         </div>
 		<div class="row" id="projectsharesnotes">
-            <button type="button" class="btn btn-success share">My Shares and Notes</button>
+            <button type="button" class="btn btn-success share" id="mysharesbutton" onclick="pages.gotoMyShares()">My Shares and Notes</button>
 		</div>
 		<div class="row">
             <h2>Periods</h2>
@@ -160,6 +160,25 @@
 		</div>
 	</div>
 	
+    <div id="mysharespage" style='display: none'>
+        <h1 id="mysharesprojectname"></h1>
+        <div class="actions">
+            <button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Project</button>
+        </div>
+
+        <div class="row">
+            <h2>Received Shares</h2>
+            <pre id="myreceivedshares">
+            </pre>
+        </div>
+
+        <div class="row">
+            <h2>Given Shares</h2>
+            <pre id="mygivenshares">
+            </pre>
+        </div>
+    </div>
+    
     <script src='scripts/jquery-2.1.1.min.js' type='text/javascript'></script>
     <script src="scripts/jquery-ui-1.11.1/jquery-ui.js" type='text/javascript'></script>
     <script src='scripts/simplelists.js' type='text/javascript'></script>

@@ -269,6 +269,42 @@ var pages = (function () {
 
         activatePage(page);
     }
+    
+    function gotoMyShares() {
+        if (!currentproject || !currentproject.id || !me)
+            return;
+            
+        var page = $("#mysharespage");
+
+        var projname = $("#mysharesprojectname");
+        projname.html(currentproject.name);
+        
+        var myreceived = $("#myreceivedshares");
+        var mygiven = $("#mygivenshares");
+
+        client.getGivenAssignmentsByProjectPerson(currentproject.id, me, function (err, received) {
+            if (err) {
+                alert(err);
+                return;
+            }
+
+            client.getGivenAssignmentsByProjectPerson(currentproject.id, me, function (err, given) {
+                if (err) {
+                    alert(err);
+                    return;
+                }
+                
+                myreceived.empty();
+                mygiven.empty();
+                
+                myreceived.text(JSON.stringify(received));
+                mygiven.text(JSON.stringify(given));
+                
+                activatePage(page);
+                breadcrumb.push("My Shares and Notes");
+            });
+        });
+    }
 
     function showSharesChart(container, shares) {
         var data = [];
@@ -482,6 +518,7 @@ var pages = (function () {
         gotoProjects: gotoProjects,
         gotoProject: function () { gotoProject(currentproject); },
         gotoNewProject: gotoNewProject,
+        gotoMyShares: gotoMyShares,
         createProject: createProject,
         showProjects: showProjects,
         doSignOut: doSignOut,
