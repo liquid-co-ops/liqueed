@@ -132,15 +132,25 @@ function getShareholders(id, cb) {
     .run();
 }
 
-function getSharesByProject(projectid, cb) {
-    getShares({ project: projectid }, cb);
+function getSharesByProject(projectid, options, cb) {
+    if (!cb && typeof options == 'function') {
+        cb = options;
+        options = null;
+    }
+    
+    getShares({ project: projectid }, options, cb);
 }
 
-function getSharesByPeriod(projectid, periodid, cb) {
-    getShares({ project: projectid, period: periodid }, cb);
+function getSharesByPeriod(projectid, periodid, options, cb) {
+    if (!cb && typeof options == 'function') {
+        cb = options;
+        options = null;
+    }
+    
+    getShares({ project: projectid, period: periodid }, options, cb);
 }
 
-function getShares(filter, cb) {
+function getShares(filter, options, cb) {
     var sharedata;
 
     var assignmentstore = db.store('assignments');
