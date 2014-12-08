@@ -209,10 +209,14 @@ exports['execute assign'] = function (test) {
             'person_new Adam',
             'person_new Eve',
             'project_new Paradise', 
+            'team_add Paradise;Adam',
+            'team_add Paradise;Eve',
             'distribution_new Paradise;Genesis 1;100;2014-01-31',
             'assign Paradise;Genesis 1;Adam;Eve;50;Note',
             'shares Paradise;Adam;0',
-            'shares Paradise;Eve;50'
+            'shares Paradise;Eve;50',
+            'closedshares Paradise;Adam;0',
+            'closedshares Paradise;Eve;0'
         ], next);
     })
     .then(function (data, next) {
@@ -271,7 +275,7 @@ exports['new project shares are zero'] = function (test) {
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
-        dsl.execute(['project_new Paradise', 'shares Paradise;0'], next);
+        dsl.execute(['project_new Paradise', 'shares Paradise;0', 'closedshares Paradise;0'], next);
     })
     .then(function (data, next) {
         test.equal(data, null);
@@ -304,7 +308,7 @@ exports['unknown project shares'] = function (test) {
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
-        dsl.execute(['project_new Paradise', 'shares Paradise;0'], next);
+        dsl.execute(['project_new Paradise', 'shares Paradise;0', 'closedshares Paradise;0'], next);
     })
     .then(function (data, next) {
         test.equal(data, null);

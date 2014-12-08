@@ -76,14 +76,14 @@ function doDistributionNew(cmd, cb) {
     .run();
 }
 
-function doShares(cmd, cb) {
+function doShares(cmd, options, cb) {
     var projname = cmd.args[0];
     var expected = cmd.args[1];
 
     async()
     .then(function (data, next) { projectservice.getProjectByName(projname, next); })
     .then(function (data, next) {
-        projectservice.getTotalSharesByProject(data.id, next);
+        projectservice.getTotalSharesByProject(data.id, options, next);
     })
     .then(function (data, next) {
         if (data != expected)
@@ -97,7 +97,7 @@ function doShares(cmd, cb) {
     .run();
 }
 
-function doPersonShares(cmd, cb) {
+function doPersonShares(cmd, options, cb) {
     var projname = cmd.args[0];
     var personname = cmd.args[1];
     var expected = cmd.args[2];
@@ -105,7 +105,7 @@ function doPersonShares(cmd, cb) {
     async()
     .then(function (data, next) { projectservice.getProjectByName(projname, next); })
     .then(function (data, next) {
-        projectservice.getSharesByProject(data.id, next);
+        projectservice.getSharesByProject(data.id, options, next);
     })
     .then(function (data, next) {
         if (expected == 0)
@@ -262,9 +262,14 @@ function execute(cmd, options, cb) {
         doTeamMember(cmd, cb);
     else if (cmd.verb == 'shares')
         if (cmd.args.length == 2)
-            doShares(cmd, cb);
+            doShares(cmd, { }, cb);
         else
-            doPersonShares(cmd, cb);
+            doPersonShares(cmd, { }, cb);
+    else if (cmd.verb == 'closedshares')
+        if (cmd.args.length == 2)
+            doShares(cmd, { closed: true }, cb);
+        else
+            doPersonShares(cmd, { closed: true }, cb);
     else if (cmd.verb == 'assign')
         doAssign(cmd, cb);
     else
