@@ -163,7 +163,10 @@ function getShares(filter, options, cb) {
     
     async()
     .then(function (data, next) {
-        periodstore.find(next);  
+        if (filter && filter.project)
+            periodstore.find({ project: filter.project }, next);
+        else
+            periodstore.find(next);  
     })
     .then(function (data, next) {
         periods = data;
@@ -488,22 +491,45 @@ function getTotalAssignments(projectid, periodid, fromid, cb) {
     });
 }
 
-function getTotalSharesByProject(projectid, cb) {
-    var assignmentstore = db.store('assignments');
+function getTotalSharesByProject(projectid, options, cb) {
+    if (!cb && typeof options == 'function') {
+        cb = options;
+        options = null;
+    }
     
-    assignmentstore.find({ project: projectid }, function (err, items) {
+    options = options || { };
+    
+    var assignmentstore = db.store('assignments');
+    var periodstore = db.store('periods');
+
+    periodstore.find({ project: projectid }, function (err, periods) {    
         if (err) {
             cb(err, null);
             return;
         }
-    
-        var total = 0;
         
-        items.forEach(function (item) {
-            total += item.amount;
+        assignmentstore.find({ project: projectid }, function (err, items) {
+            if (err) {
+                cb(err, null);
+                return;
+            }
+        
+            var total = 0;
+            
+            items.forEach(function (item) {
+                if (options.closed) {
+                    if (!item.period)
+                        return;
+                    var period = sl.first(periods, { id: item.period });
+                    if (!period || !period.closed)
+                        return;
+                }
+                
+                total += item.amount;
+            });
+            
+            cb(null, total);
         });
-        
-        cb(null, total);
     });
 }
 
