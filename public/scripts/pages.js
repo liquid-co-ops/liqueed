@@ -282,7 +282,7 @@ var pages = (function () {
         var myreceived = $("#myreceivedshares");
         var mygiven = $("#mygivenshares");
 
-        client.getGivenAssignmentsByProjectPerson(currentproject.id, me, function (err, received) {
+        client.getReceivedAssignmentsByProjectPerson(currentproject.id, me, function (err, received) {
             if (err) {
                 alert(err);
                 return;
@@ -296,9 +296,28 @@ var pages = (function () {
                 
                 myreceived.empty();
                 mygiven.empty();
+
+                received.forEach(function (item) {
+                    var row = $("<tr>");
+                    row.append($("<td>").text(item.period.name));
+                    row.append($("<td>").text(item.from.name));
+                    row.append($("<td>").text(item.amount));
+                    row.append($("<td>").text(item.note));
+                    myreceived.append(row);
+                });
+
+                given.forEach(function (item) {
+                    var row = $("<tr>");
+                    row.append($("<td>").text(item.period.name));
+                    row.append($("<td>").text(item.to.name));
+                    row.append($("<td>").text(item.amount));
+                    row.append($("<td>").text(item.note));
+                    mygiven.append(row);
+                });
                 
-                myreceived.text(JSON.stringify(received));
-                mygiven.text(JSON.stringify(given));
+                //myreceived.text(JSON.stringify(received));
+                //mygiven.text(JSON.stringify(given));
+                //alert(JSON.stringify(received));
                 
                 activatePage(page);
                 breadcrumb.push("My Shares and Notes");
