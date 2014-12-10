@@ -527,7 +527,7 @@ var pages = (function () {
         var projname = $("#newperiodprojectname");
         projname.html(project.name);
         activatePage(page);
-        breadcrumb.push("New Sharing");
+        breadcrumb.push("Share Points");
         if (cb)
             cb(null, null);
     }
