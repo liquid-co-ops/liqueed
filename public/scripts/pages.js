@@ -274,10 +274,10 @@ var pages = (function () {
         if (!currentproject || !currentproject.id || !me)
             return;
             
-        gotoShares(me, null);
+        gotoShares(me, null, 'Points and Notes');
     }
     
-    function gotoShares(personid, personname) {
+    function gotoShares(personid, personname, breadlabel) {
         if (!currentproject || !currentproject.id || !personid)
             return;
             
@@ -285,6 +285,12 @@ var pages = (function () {
 
         var projname = $("#sharesprojectname");
         projname.html(currentproject.name);
+        var pername = $("#sharespersonname");
+        
+        if (personname && personid != me)
+            pername.html(personname);
+        else
+            pername.html('Me');
         
         var myreceived = $("#receivedshares");
         var mygiven = $("#givenshares");
@@ -307,7 +313,11 @@ var pages = (function () {
                 received.forEach(function (item) {
                     var row = $("<tr>");
                     row.append($("<td>").text(item.period.name));
-                    row.append($("<td>").text(item.from.name));
+                    var aperson = $("<a>").text(item.from.name);
+                    aperson.click(function () {
+                        gotoShares(item.from.id, item.from.name);
+                    });
+                    row.append($("<td>").append(aperson));
                     row.append($("<td>").text(item.amount));
                     row.append($("<td>").text(item.note));
                     myreceived.append(row);
@@ -316,7 +326,11 @@ var pages = (function () {
                 given.forEach(function (item) {
                     var row = $("<tr>");
                     row.append($("<td>").text(item.period.name));
-                    row.append($("<td>").text(item.to.name));
+                    var aperson = $("<a>").text(item.to.name);
+                    aperson.click(function () {
+                        gotoShares(item.to.id, item.to.name);
+                    });
+                    row.append($("<td>").append(aperson));
                     row.append($("<td>").text(item.amount));
                     row.append($("<td>").text(item.note));
                     mygiven.append(row);
@@ -324,8 +338,8 @@ var pages = (function () {
                 
                 activatePage(page);
                 
-                if (me == personid)
-                    breadcrumb.push("My Points and Notes");
+                if (breadlabel)
+                    breadcrumb.push(breadlabel);
             });
         });
     }
