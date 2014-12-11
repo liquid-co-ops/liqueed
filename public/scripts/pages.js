@@ -274,21 +274,28 @@ var pages = (function () {
         if (!currentproject || !currentproject.id || !me)
             return;
             
-        var page = $("#mysharespage");
+        gotoShares(me, null);
+    }
+    
+    function gotoShares(personid, personname) {
+        if (!currentproject || !currentproject.id || !personid)
+            return;
+            
+        var page = $("#sharespage");
 
-        var projname = $("#mysharesprojectname");
+        var projname = $("#sharesprojectname");
         projname.html(currentproject.name);
         
-        var myreceived = $("#myreceivedshares");
-        var mygiven = $("#mygivenshares");
+        var myreceived = $("#receivedshares");
+        var mygiven = $("#givenshares");
 
-        client.getReceivedAssignmentsByProjectPerson(currentproject.id, me, function (err, received) {
+        client.getReceivedAssignmentsByProjectPerson(currentproject.id, personid, function (err, received) {
             if (err) {
                 alert(err);
                 return;
             }
 
-            client.getGivenAssignmentsByProjectPerson(currentproject.id, me, function (err, given) {
+            client.getGivenAssignmentsByProjectPerson(currentproject.id, personid, function (err, given) {
                 if (err) {
                     alert(err);
                     return;
@@ -315,12 +322,10 @@ var pages = (function () {
                     mygiven.append(row);
                 });
                 
-                //myreceived.text(JSON.stringify(received));
-                //mygiven.text(JSON.stringify(given));
-                //alert(JSON.stringify(received));
-                
                 activatePage(page);
-                breadcrumb.push("My Shares and Notes");
+                
+                if (me == personid)
+                    breadcrumb.push("My Points and Notes");
             });
         });
     }
