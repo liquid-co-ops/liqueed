@@ -80,6 +80,20 @@ exports['get periods from first project'] = function (test) {
     });
 }
 
+exports['get first period from first project'] = function (test) {
+    test.async();
+
+    client.getPeriod(projects[0].id, periods[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(result.name);
+        test.ok(result.date);
+        test.ok(result.amount);
+
+        test.done();
+    });
+}
+
 exports['get periods from second project'] = function (test) {
     test.async();
 

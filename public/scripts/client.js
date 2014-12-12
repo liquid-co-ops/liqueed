@@ -163,8 +163,17 @@ var clientlocal = (function() {
         }
     }
 
-	    function getPeriods(idproj, cb) {
+	function getPeriods(idproj, cb) {
 		getProject(idproj, getViaCallback("periods", cb));
+	}
+
+	function getPeriod(idproj, idper, cb) {
+        getPeriods(idproj, function (err, periods) {
+            if (err)
+                cb(err, null);
+            else
+                cb(null, sl.first(periods, { id: idper }));
+        });
 	}
 
 	function addPeriod(projid, period, cb) {
@@ -227,6 +236,7 @@ var clientlocal = (function() {
         getProject: getProject,
         addProject: addProject,
         getPeriods: getPeriods,
+        getPeriod: getPeriod,
         addPeriod: addPeriod,
         getShareholders: getShareholders,
         getPersons: getPersons,

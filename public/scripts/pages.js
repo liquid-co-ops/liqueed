@@ -281,9 +281,10 @@ var pages = (function () {
             return;
             
         var page = $("#sharespage");
+        var project = currentproject;
 
         var projname = $("#sharesprojectname");
-        projname.html(currentproject.name);
+        projname.html(project.name);
         var pername = $("#sharespersonname");
         
         if (personname && personid != me)
@@ -294,13 +295,13 @@ var pages = (function () {
         var myreceived = $("#receivedshares");
         var mygiven = $("#givenshares");
 
-        client.getReceivedAssignmentsByProjectPerson(currentproject.id, personid, function (err, received) {
+        client.getReceivedAssignmentsByProjectPerson(project.id, personid, function (err, received) {
             if (err) {
                 alert(err);
                 return;
             }
 
-            client.getGivenAssignmentsByProjectPerson(currentproject.id, personid, function (err, given) {
+            client.getGivenAssignmentsByProjectPerson(project.id, personid, function (err, given) {
                 if (err) {
                     alert(err);
                     return;

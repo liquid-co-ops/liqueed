@@ -92,8 +92,15 @@ var clientserver = (function() {
     function getPeriods(idproj, cb) {
         getEntity(idproj, cb, "/period");
     }
-    
-    
+
+    function getPeriod(idproj, idper, cb) {
+        $.get(prefix + '/api/project/' + idproj + '/period/' + idper, function (data) {
+            cb(null, data);
+        }).fail(function (err) {
+            cb(err, null);
+        });
+    }
+        
     function addPeriod(projid, period, cb) {
         var data = {
 			projid: projid,
@@ -177,6 +184,7 @@ var clientserver = (function() {
         getProject: getProject,
         addProject: addProject,
         getPeriods: getPeriods,
+        getPeriod: getPeriod,
         addPeriod: addPeriod,
         getTeam: getTeam,
         getShareholders: getShareholders,
