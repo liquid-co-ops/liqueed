@@ -311,8 +311,20 @@ var pages = (function () {
                 mygiven.empty();
 
                 received.forEach(function (item) {
+                    if (!item.period.closed)
+                        return;
+                        
                     var row = $("<tr>");
-                    row.append($("<td>").text(item.period.name));
+                    var aperiod = $("<a>").text(item.period.name);
+                    aperiod.click(function () {
+                        client.getPeriod(project.id, item.period.id, function (err, period) {
+                            if (err)
+                                alert(err);
+                            else
+                                showViewPeriod(project, period);
+                        });
+                    });
+                    row.append($("<td>").append(aperiod));
                     var aperson = $("<a>").text(item.from.name);
                     aperson.click(function () {
                         gotoShares(item.from.id, item.from.name);
@@ -324,8 +336,20 @@ var pages = (function () {
                 });
 
                 given.forEach(function (item) {
+                    if (!item.period.closed)
+                        return;
+                        
                     var row = $("<tr>");
-                    row.append($("<td>").text(item.period.name));
+                    var aperiod = $("<a>").text(item.period.name);
+                    aperiod.click(function () {
+                        client.getPeriod(project.id, item.period.id, function (err, period) {
+                            if (err)
+                                alert(err);
+                            else
+                                showViewPeriod(project, period);
+                        });
+                    });
+                    row.append($("<td>").append(aperiod));
                     var aperson = $("<a>").text(item.to.name);
                     aperson.click(function () {
                         gotoShares(item.to.id, item.to.name);
