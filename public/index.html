@@ -118,12 +118,23 @@
 		</div>
     </div>
 
+    <div id="viewperiodpage" style='display: none'>
+        <h1 id="viewperiodprojectname"></h1>
+        <h2 id="viewperiodname"></h2>
+        <h2 id="viewperioddate"></h2>
+        <h3>Points <span id='viewperiodamount'></span></h3>
+        <h3>Work in Progress</h3>
+        <div class="actions">
+            <button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Project</button>
+        </div>
+    </div>
+    
     <div id="periodpage" style='display: none'>
         <h1 id="periodprojectname"></h1>
         <h2 id="periodname"></h2>
         <h2 id="perioddate"></h2>
         <h3>Points <span id='periodamount'></span></h3>
-        <h3>Left <span id='periodamountLeft'></span></h3>
+        <h3>Left <span id='periodamountLeft'></span></h3>        
         <div class="actions">
             <button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Project</button>
         </div>

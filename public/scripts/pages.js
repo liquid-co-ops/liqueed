@@ -260,8 +260,7 @@ var pages = (function () {
 		periods.forEach(function(period) {
 			var element = $("<div>").html(
 					makePeriodButton(period.name, function() {
-                        alert('Work in Progress');
-						//gotoProject(project);
+                        showViewPeriod(project, period);
 					}));
 
 			pers.append(element);
@@ -428,6 +427,23 @@ var pages = (function () {
 		});
 	}
 
+    function showViewPeriod(project, period) {
+        var page = $("#viewperiodpage");
+
+        var projname = $("#viewperiodprojectname");
+        projname.html(project.name);
+        var pername = $("#viewperiodname");
+        pername.html(period.name);
+        var perdate = $("#viewperioddate");
+        perdate.html(period.date);
+        var amount = $("#viewperiodamount");
+        amount.html(period.amount);
+
+        breadcrumb.push(period.name);
+        
+        activatePage(page);
+    }
+    
     function showPeriod(project, period, shareholders, assignments) {
         var page = $("#periodpage");
 
