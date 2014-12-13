@@ -250,7 +250,7 @@ var pages = (function () {
           sharingButton.click(function (){gotoNewPeriod(project);});
         }
         if (shares && shares.length) {
-            showSharesChart(chartcontainer, shares);
+            showSharesChart(chartcontainer, shares, 'Project Points');
             chartcontainer.show();
         }
 
@@ -368,7 +368,7 @@ var pages = (function () {
         });
     }
 
-    function showSharesChart(container, shares) {
+    function showSharesChart(container, shares, title) {
         var data = [];
 
         shares.forEach(function (share) {
@@ -382,7 +382,7 @@ var pages = (function () {
                 plotShadow: false
             },
             title: {
-                text: 'Project Shares'
+                text: title
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -463,6 +463,22 @@ var pages = (function () {
         perdate.html(period.date);
         var amount = $("#viewperiodamount");
         amount.html(period.amount);
+
+        var chartcontainer = $('#viewperiodshares');
+        chartcontainer.hide();
+        
+        if (period.closed)
+            client.getClosedSharesByPeriod(project.id, period.id, function (err, shares) {
+                if (err) {
+                    alert(err);
+                    return;
+                }
+                
+                if (shares && shares.length) {
+                    showSharesChart(chartcontainer, shares, 'Period Points');
+                    chartcontainer.show();
+                }
+            });
 
         breadcrumb.push(period.name);
         

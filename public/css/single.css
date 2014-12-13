@@ -68,3 +68,7 @@ h1, h2, h3 {
     margin-bottom:1em;
 }
 
+#viewperiodshares {
+    width: 100%;
+    height: 50%;
+}
