@@ -72,12 +72,16 @@ var pages = (function () {
             else
                 me = userid;
             breadcrumb = $('#my-breadcrumb').breadcrumb();
+            $('#username').text(username);
+            $('#usercontext').show();
             gotoProjects();
         });
     }
 
     function doSignOut() {
         me = null;
+        currentproject = null;
+        $('#usercontext').hide();
         breadcrumb.reset();
         gotoSignIn();
     }
