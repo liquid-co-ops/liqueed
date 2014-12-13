@@ -206,6 +206,46 @@ exports['get closed shares from first project'] = function (test) {
     });
 }
 
+exports['get shares from first project first period'] = function (test) {
+    test.async();
+
+    client.getSharesByPeriod(projects[0].id, periods[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+
+        for (var n in result) {
+            var item = result[n];
+            test.ok(item.id);
+            test.ok(item.name);
+            test.ok(item.shares != null);
+        }
+
+        test.done();
+    });
+}
+
+exports['get closed shares from first project first period'] = function (test) {
+    test.async();
+
+    client.getClosedSharesByPeriod(projects[0].id, periods[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+
+        for (var n in result) {
+            var item = result[n];
+            test.ok(item.id);
+            test.ok(item.name);
+            test.ok(item.shares != null);
+        }
+
+        test.done();
+    });
+}
+
 exports['put assignments to first project first period from first person'] = function (test) {
     test.async();
 

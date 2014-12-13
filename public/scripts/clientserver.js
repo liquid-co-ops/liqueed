@@ -137,6 +137,14 @@ var clientserver = (function() {
         getEntity(idproj, cb, "/closedshare");
     }
 
+    function getSharesByPeriod(idproj, idper, cb) {
+        getEntity(idproj, cb, "/period/" + idper + "/share");
+    }
+
+    function getClosedSharesByPeriod(idproj, idper, cb) {
+        getEntity(idproj, cb, "/period/" + idper + "/closedshare");
+    }
+
     function getAssignments(projectid, periodid, cb) {
         getEntity(projectid, cb, "/period/" + periodid + "/assign");
     }
@@ -191,6 +199,8 @@ var clientserver = (function() {
 
         getSharesByProject: getSharesByProject,
         getClosedSharesByProject: getClosedSharesByProject,
+        getSharesByPeriod: getSharesByPeriod,
+        getClosedSharesByPeriod: getClosedSharesByPeriod,
         getPendingShareProjects: getPendingShareProjects,
         
         getAssignments: getAssignments,
