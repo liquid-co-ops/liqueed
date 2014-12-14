@@ -13,6 +13,11 @@ h1, h2, h3 {
     max-width: 400px;
 }
 
+.btn.person {
+    width: 95%;
+    max-width: 400px;
+}
+
 .btn.share {
     width: 95%;
     max-width: 400px;
@@ -37,6 +42,10 @@ h1, h2, h3 {
 }
 
 #projectperiods {
+    text-align: center;
+}
+
+#projectpersons {
     text-align: center;
 }
 

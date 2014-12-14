@@ -32,7 +32,7 @@ var pages = (function () {
         });
         breadcrumb.push(project.name, function() {
             console.log(project.name);
-            innerGotoProject(project, cb);
+            innerGotoProject(project, function() {});
         });
         breadcrumb.push(title);
     }
@@ -54,6 +54,16 @@ var pages = (function () {
             .addClass('btn')
             .addClass('btn-success')
             .addClass('period')
+            .click(fnclick);
+    }
+
+    function makePersonButton(text, fnclick) {
+        return $("<button>")
+            .html(text)
+            .attr("type", "button")
+            .addClass('btn')
+            .addClass('btn-success')
+            .addClass('person')
             .click(fnclick);
     }
 
@@ -282,6 +292,28 @@ var pages = (function () {
 
 			pers.append(element);
 		});
+        
+        var people = $("#projectpersons");
+        people.empty();
+        
+        client.getShareholders(project.id, function (err, shareholders) {
+            if (err) {
+                alert(err);
+                return;
+            }
+            
+            if (!shareholders || !shareholders.length)
+                return;
+                
+            shareholders.forEach(function (person) {
+                var element = $("<div>").html(
+                        makePersonButton(person.name, function() {
+                            gotoShares(person.id, person.name);
+                        }));
+
+                people.append(element);
+            });
+        });
 
         activatePage(page);
     }
@@ -304,11 +336,11 @@ var pages = (function () {
         projname.html(project.name);
         var pername = $("#sharespersonname");
         
-        var title = 'My Points and Notes';
+        var title = 'Me';
         
         if (personname && personid != me) {
             pername.html(personname);
-            title = personname + "'s Points and Notes";
+            title = personname  ;
         }
         else
             pername.html('Me');
