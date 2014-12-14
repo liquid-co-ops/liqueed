@@ -124,12 +124,26 @@
         <h2 id="viewperiodname"></h2>
         <h2 id="viewperioddate"></h2>
         <h3>Points <span id='viewperiodamount'></span></h3>
-        <h3>Work in Progress</h3>
         <div class="actions">
             <button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Project</button>
         </div>
 		<div class="row">
             <div id="viewperiodshares">
+            </div>
+        </div>
+		<div class="row" id="viewperiodshared">
+            <h2>Shared Points</h2>
+            <div>
+            <table class="table table-bordered" style="width: 75%; margin: auto;">
+                <thead>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Points</th>
+                    <th>Notes</th>
+                </thead>
+                <tbody id="viewperiodassignments">
+                </tbody>
+            </table>
             </div>
         </div>
     </div>

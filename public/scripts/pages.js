@@ -470,8 +470,10 @@ var pages = (function () {
 
         var chartcontainer = $('#viewperiodshares');
         chartcontainer.hide();
+        var sharescontainer = $('#viewperiodshared');
+        sharescontainer.hide();
         
-        if (period.closed)
+        if (period.closed) {
             client.getClosedSharesByPeriod(project.id, period.id, function (err, shares) {
                 if (err) {
                     alert(err);
@@ -483,6 +485,43 @@ var pages = (function () {
                     chartcontainer.show();
                 }
             });
+            
+            client.getAssignments(project.id, period.id, function (err, assignments) {
+                if (err) {
+                    alert(err);
+                    return;
+                }
+                
+                if (!assignments || !assignments.length)
+                    return;
+                    
+                var assigntable = $('#viewperiodassignments');
+                assigntable.empty();
+                
+                assignments.forEach(function (assignment) {
+                    var row = $("<tr>");
+                    
+                    var aperson = $("<a>").text(assignment.from.name);
+                    aperson.click(function () {
+                        gotoShares(assignment.from.id, assignment.from.name);
+                    });
+                    row.append($("<td>").append(aperson));
+                    
+                    var aperson = $("<a>").text(assignment.to.name);
+                    aperson.click(function () {
+                        gotoShares(assignment.to.id, assignment.to.name);
+                    });
+                    row.append($("<td>").append(aperson));
+
+                    row.append($("<td>").text(assignment.amount));
+                    row.append($("<td>").text(assignment.note));
+                    
+                    assigntable.append(row);
+                });
+                    
+                sharescontainer.show();
+            });
+        }
 
         breadcrumb.push(period.name);
         
