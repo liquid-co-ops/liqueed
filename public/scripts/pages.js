@@ -23,6 +23,19 @@ var pages = (function () {
         active = page;
         active.show();
     }
+    
+    function breadcrumbGoto(project, title) {
+        breadcrumb.reset();
+        breadcrumb.push('Home', function() {
+            console.log("Home");
+            innerGotoProjects();
+        });
+        breadcrumb.push(project.name, function() {
+            console.log(project.name);
+            innerGotoProject(project, cb);
+        });
+        breadcrumb.push(title);
+    }
 
     function makeProjectButton(text, fnclick) {
         return $("<button>")
@@ -277,10 +290,10 @@ var pages = (function () {
         if (!currentproject || !currentproject.id || !me)
             return;
             
-        gotoShares(me, null, 'Points and Notes');
+        gotoShares(me, null);
     }
     
-    function gotoShares(personid, personname, breadlabel) {
+    function gotoShares(personid, personname) {
         if (!currentproject || !currentproject.id || !personid)
             return;
             
@@ -291,8 +304,12 @@ var pages = (function () {
         projname.html(project.name);
         var pername = $("#sharespersonname");
         
-        if (personname && personid != me)
+        var title = 'My Points and Notes';
+        
+        if (personname && personid != me) {
             pername.html(personname);
+            title = personname + "'s Points and Notes";
+        }
         else
             pername.html('Me');
         
@@ -366,8 +383,7 @@ var pages = (function () {
                 
                 activatePage(page);
                 
-                if (breadlabel)
-                    breadcrumb.push(breadlabel);
+                breadcrumbGoto(project, title);
             });
         });
     }
@@ -523,7 +539,7 @@ var pages = (function () {
             });
         }
 
-        breadcrumb.push(period.name);
+        breadcrumbGoto(project, period.name);
         
         activatePage(page);
     }
