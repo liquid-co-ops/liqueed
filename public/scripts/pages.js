@@ -24,7 +24,21 @@ var pages = (function () {
         active.show();
     }
     
-    function breadcrumbGoto(project, title) {
+    function breadcrumbGotoHome(title) {
+        breadcrumb.reset();
+        
+        if (title) {
+            breadcrumb.push('Home', function() {
+                console.log("Home");
+                innerGotoProjects();
+            });
+            breadcrumb.push(title);
+        }
+        else
+            breadcrumb.push('Home');
+    }
+    
+    function breadcrumbGotoProject(project, title) {
         breadcrumb.reset();
         breadcrumb.push('Home', function() {
             console.log("Home");
@@ -140,14 +154,7 @@ var pages = (function () {
     }
 
 	function gotoProjects() {
-		if (currentproject) {
-			breadcrumb.pop();
-		} else {
-			breadcrumb.push('Home', function() {
-				console.log("Home");
-				innerGotoProjects();
-			});
-		}
+        breadcrumbGotoHome();
 		innerGotoProjects();
 	}
 
@@ -203,14 +210,7 @@ var pages = (function () {
 	}
 
 	function gotoProject(project, cb) {
-		if (currentproject) {
-			breadcrumb.pop();
-		} else {
-			breadcrumb.push(project.name, function() {
-				console.log(project.name);
-				innerGotoProject(project, cb);
-			});
-		}
+        breadcrumbGotoHome(project.name);
 		innerGotoProject(project, cb);
 	}
 	
@@ -415,7 +415,7 @@ var pages = (function () {
                 
                 activatePage(page);
                 
-                breadcrumbGoto(project, title);
+                breadcrumbGotoProject(project, title);
             });
         });
     }
@@ -571,7 +571,7 @@ var pages = (function () {
             });
         }
 
-        breadcrumbGoto(project, period.name);
+        breadcrumbGotoProject(project, period.name);
         
         activatePage(page);
     }
@@ -595,7 +595,7 @@ var pages = (function () {
 
         var inputs = [];
 
-        breadcrumb.push(period.name);
+        breadcrumbGotoProject(project, period.name);
         
         shareholders.forEach(function (shareholder) {
             if (shareholder.id == me)
@@ -694,7 +694,7 @@ var pages = (function () {
         var projname = $("#newperiodprojectname");
         projname.html(project.name);
         activatePage(page);
-        breadcrumb.push("Share Points");
+        breadcrumbGotoProject(project, "Share Points");
         if (cb)
             cb(null, null);
     }
