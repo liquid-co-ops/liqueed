@@ -7,6 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
+var pack = require('./package.json');
 
 var staticRoutes = require('./routes/index');
 var noteRoutes = require('./routes/note');
@@ -36,6 +37,7 @@ var adminprefix = '/admin';
 app.use(function (req, res, next) {
     res.locals.adminprefix = adminprefix;
     res.locals.title = 'Liqueed';
+    res.locals.version = pack.version;
     next();
 });
 

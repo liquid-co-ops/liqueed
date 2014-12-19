@@ -1,6 +1,6 @@
 {
   "name": "liqueed",
-  "version": "0.0.1",
+  "version": "0.0.2alpha",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
