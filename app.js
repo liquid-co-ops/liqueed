@@ -20,6 +20,14 @@ var noteApiRoutes = require('./routes/noteapi');
 
 var app = express();
 
+var session = require('express-session');
+
+app.use(session({
+    secret: 'cat and dog',
+    resave: false,
+    saveUninitialized: true
+}))
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
