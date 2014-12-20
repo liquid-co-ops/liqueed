@@ -13,6 +13,7 @@ var staticRoutes = require('./routes/index');
 var noteRoutes = require('./routes/note');
 var personRoutes = require('./routes/person');
 var projectRoutes = require('./routes/project');
+var authRoutes = require('./routes/auth');
 
 var personApiRoutes = require('./routes/personapi');
 var projectApiRoutes = require('./routes/projectapi');
@@ -58,6 +59,8 @@ app.use(adminprefix + '/project', projectRoutes);
 app.use('/api/person', personApiRoutes);
 app.use('/api/project', projectApiRoutes);
 app.use('/api/notes', noteApiRoutes);
+
+app.use('/auth', authRoutes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
