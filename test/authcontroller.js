@@ -43,8 +43,8 @@ exports['add new project'] = function (test) {
             test.ok(model);
             test.equal(model.title, 'Liqueed');
             
-            test.ok(response.session.user);
-            test.equal(response.session.user.username, 'admin');
+            test.ok(request.session.user);
+            test.equal(request.session.user.username, 'admin');
             
             test.done();
         }

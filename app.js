@@ -9,15 +9,14 @@ var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 var pack = require('./package.json');
 
-var staticRoutes = require('./routes/index');
-var noteRoutes = require('./routes/note');
+var homeRoutes = require('./routes/home');
+var adminRoutes = require('./routes/admin');
 var personRoutes = require('./routes/person');
 var projectRoutes = require('./routes/project');
 var authRoutes = require('./routes/auth');
 
 var personApiRoutes = require('./routes/personapi');
 var projectApiRoutes = require('./routes/projectapi');
-var noteApiRoutes = require('./routes/noteapi');
 
 var app = express();
 
@@ -50,18 +49,17 @@ app.use(function (req, res, next) {
     next();
 });
 
-//app.use('/', staticRoutes);
+//app.use('/', adminRoutes);
 app.all(adminprefix, requiredAuthentication);
-app.use(adminprefix + '/', staticRoutes);
-app.use(adminprefix + '/notes', noteRoutes);
+app.use(adminprefix + '/', adminRoutes);
 app.use(adminprefix + '/person', personRoutes);
 app.use(adminprefix + '/project', projectRoutes);
 
 app.use('/api/person', personApiRoutes);
 app.use('/api/project', projectApiRoutes);
-app.use('/api/notes', noteApiRoutes);
 
 app.use('/auth', authRoutes);
+app.use('/home', homeRoutes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
