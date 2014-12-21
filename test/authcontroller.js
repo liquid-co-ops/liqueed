@@ -32,7 +32,8 @@ exports['add new project'] = function (test) {
     var request = {
         param: function (name) {
             return formdata[name];
-        }
+        },
+        session: { }
     };
 
     var response = {
@@ -46,8 +47,7 @@ exports['add new project'] = function (test) {
             test.equal(response.session.user.username, 'admin');
             
             test.done();
-        },
-        session: { }
+        }
     };
 
     controller.signIn(request, response);

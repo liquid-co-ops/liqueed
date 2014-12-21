@@ -12,7 +12,7 @@ function signIn(req, res) {
     var password = req.param('password');
     
     if (username == 'admin' && password == 'admin') {
-        res.session.user = { username: username };
+        req.session.user = { username: username };
         res.render('home', { title: 'Liqueed' });
     }
     else

@@ -51,6 +51,7 @@ app.use(function (req, res, next) {
 });
 
 //app.use('/', staticRoutes);
+app.all(adminprefix, requiredAuthentication);
 app.use(adminprefix + '/', staticRoutes);
 app.use(adminprefix + '/notes', noteRoutes);
 app.use(adminprefix + '/person', personRoutes);
@@ -93,6 +94,15 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+function requiredAuthentication(req, res, next) {
+    if (req.session.user) {
+        next();
+    } else {
+        req.session.error = 'Access denied!';
+        res.redirect('/auth/signin');
+    }
+}
 
 
 module.exports = app;
