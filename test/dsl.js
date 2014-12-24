@@ -213,10 +213,10 @@ exports['execute assign'] = function (test) {
             'team_add Paradise;Eve',
             'distribution_new Paradise;Genesis 1;100;2014-01-31',
             'assign Paradise;Genesis 1;Adam;Eve;50;Note',
-            'shares Paradise;Adam;0',
-            'shares Paradise;Eve;50',
-            'closedshares Paradise;Adam;0',
-            'closedshares Paradise;Eve;0'
+            'points Paradise;Adam;0',
+            'points Paradise;Eve;50',
+            'closedpoints Paradise;Adam;0',
+            'closedpoints Paradise;Eve;0'
         ], next);
     })
     .then(function (data, next) {
@@ -269,13 +269,13 @@ exports['unknown verb'] = function (test) {
     .run();
 }
 
-exports['new project shares are zero'] = function (test) {
+exports['new project points are zero'] = function (test) {
     test.async();
     
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
-        dsl.execute(['project_new Paradise', 'shares Paradise;0', 'closedshares Paradise;0'], next);
+        dsl.execute(['project_new Paradise', 'points Paradise;0', 'closedpoints Paradise;0'], next);
     })
     .then(function (data, next) {
         test.equal(data, null);
@@ -287,28 +287,28 @@ exports['new project shares are zero'] = function (test) {
     .run();
 }
 
-exports['new project shares are not ten'] = function (test) {
+exports['new project points are not ten'] = function (test) {
     test.async();
     
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
-        dsl.execute(['project_new Paradise', 'shares Paradise;10'], next);
+        dsl.execute(['project_new Paradise', 'points Paradise;10'], next);
     })
     .fail(function (err) {
-        test.equal(err, "Project Paradise shares are 0, not 10");
+        test.equal(err, "Project Paradise points are 0, not 10");
         test.done();
     })
     .run();
 }
 
-exports['unknown project shares'] = function (test) {
+exports['unknown project points'] = function (test) {
     test.async();
     
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
-        dsl.execute(['project_new Paradise', 'shares Paradise;0', 'closedshares Paradise;0'], next);
+        dsl.execute(['project_new Paradise', 'points Paradise;0', 'closedpoints Paradise;0'], next);
     })
     .then(function (data, next) {
         test.equal(data, null);

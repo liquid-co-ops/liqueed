@@ -76,7 +76,7 @@ function doDistributionNew(cmd, cb) {
     .run();
 }
 
-function doShares(cmd, options, cb) {
+function doPoints(cmd, options, cb) {
     var projname = cmd.args[0];
     var expected = cmd.args[1];
 
@@ -87,7 +87,7 @@ function doShares(cmd, options, cb) {
     })
     .then(function (data, next) {
         if (data != expected)
-            cb('Project ' + projname + ' shares are ' + data + ', not ' + expected, null);
+            cb('Project ' + projname + ' points are ' + data + ', not ' + expected, null);
         else
             cb(null, null);
     })
@@ -97,7 +97,7 @@ function doShares(cmd, options, cb) {
     .run();
 }
 
-function doPersonShares(cmd, options, cb) {
+function doPersonPoints(cmd, options, cb) {
     var projname = cmd.args[0];
     var personname = cmd.args[1];
     var expected = cmd.args[2];
@@ -110,12 +110,12 @@ function doPersonShares(cmd, options, cb) {
     .then(function (data, next) {
         if (expected == 0)
             if (sl.exist(data, { name: personname }))
-                cb('Person ' + personname + ' shares are not ' + expected, null);
+                cb('Person ' + personname + ' points are not ' + expected, null);
             else
                 cb(null, null);
         else
             if (!sl.exist(data, { name: personname, shares: expected }))
-                cb('Person ' + personname + ' shares are not ' + expected, null);
+                cb('Person ' + personname + ' points are not ' + expected, null);
             else
                 cb(null, null);
     })
@@ -260,16 +260,16 @@ function execute(cmd, options, cb) {
         doTeamAdd(cmd, cb);
     else if (cmd.verb == 'team_member')
         doTeamMember(cmd, cb);
-    else if (cmd.verb == 'shares')
+    else if (cmd.verb == 'points')
         if (cmd.args.length == 2)
-            doShares(cmd, { }, cb);
+            doPoints(cmd, { }, cb);
         else
-            doPersonShares(cmd, { }, cb);
-    else if (cmd.verb == 'closedshares')
+            doPersonPoints(cmd, { }, cb);
+    else if (cmd.verb == 'closedpoints')
         if (cmd.args.length == 2)
-            doShares(cmd, { closed: true }, cb);
+            doPoints(cmd, { closed: true }, cb);
         else
-            doPersonShares(cmd, { closed: true }, cb);
+            doPersonPoints(cmd, { closed: true }, cb);
     else if (cmd.verb == 'assign')
         doAssign(cmd, cb);
     else
