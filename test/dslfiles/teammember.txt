@@ -10,6 +10,6 @@ team_add Paradise;Eve
 team_member Paradise;Adam
 team_member Paradise;Eve
 
-shares Paradise;Adam;0
-shares Paradise;Eve;0
+points Paradise;Adam;0
+points Paradise;Eve;0
 
