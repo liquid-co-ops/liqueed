@@ -1,0 +1,24 @@
+
+project_new Paradise
+
+person_new Adam
+person_new Eve
+
+team_add Paradise;Adam
+team_add Paradise;Eve
+
+team_member Paradise;Adam
+team_member Paradise;Eve
+
+distribution_new Paradise;Genesis 1;100;2014-01-31
+
+assign Paradise;Genesis 1;Adam;Eve;100;Note
+assign Paradise;Genesis 1;Eve;Adam;100;Note
+
+points Paradise;Adam;100
+points Paradise;Eve;100
+
+closedpoints Paradise;Adam;100
+closedpoints Paradise;Eve;100
+
+distribution_closed Paradise;Genesis 1
