@@ -188,6 +188,24 @@ exports['execute new distribution'] = function (test) {
         test.equal(data[0].name, 'Genesis 1');
         test.equal(data[0].amount, 100);
         test.equal(data[0].date, '2014-01-31');
+        test.ok(!data.closed);
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
+exports['execute new distribution is opened'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'distribution_new Paradise;Genesis 1;100;2014-01-31', 'distribution_opened Paradise;Genesis 1'], next);
+    })
+    .then(function (data, next) {
         test.done();
     })
     .fail(function (err) {

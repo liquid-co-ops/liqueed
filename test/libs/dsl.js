@@ -76,6 +76,35 @@ function doDistributionNew(cmd, cb) {
     .run();
 }
 
+function doDistributionOpened(cmd, cb) {
+    var projname = cmd.args[0];
+    var name = cmd.args[1];
+    var project;
+    
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) {
+        project = data;
+        
+        projectservice.getPeriodByName(project.id, name, next);
+    })
+    .then(function (data, next) {
+        if (!data) {
+            cb('Period ' + name + " does not exist", null);
+            return;
+        }
+        
+        if (data.closed) {
+            cb('Period ' + name + " is closed", null);
+            return;
+        }
+        
+        cb(null, null); 
+    })
+    .fail(function (err) { cb(err, null); })
+    .run();
+}
+
 function doPoints(cmd, options, cb) {
     var projname = cmd.args[0];
     var expected = cmd.args[1];
@@ -256,6 +285,8 @@ function execute(cmd, options, cb) {
         doProjectNew(cmd, cb);
     else if (cmd.verb == 'distribution_new')
         doDistributionNew(cmd, cb);
+    else if (cmd.verb == 'distribution_opened')
+        doDistributionOpened(cmd, cb);
     else if (cmd.verb == 'team_add')
         doTeamAdd(cmd, cb);
     else if (cmd.verb == 'team_member')
