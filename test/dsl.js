@@ -229,6 +229,21 @@ exports['execute unknown distribution is opened'] = function (test) {
     .run();
 }
 
+exports['execute new distribution is closed'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'distribution_new Paradise;Genesis 1;100;2014-01-31', 'distribution_closed Paradise;Genesis 1'], next);
+    })
+    .fail(function (err) {
+        test.equal(err, 'Distribution Genesis 1 is still opened');
+        test.done();
+    })
+    .run();
+}
+
 exports['execute assign'] = function (test) {
     test.async();
     
