@@ -90,7 +90,7 @@ function doDistributionOpened(cmd, cb) {
     })
     .then(function (data, next) {
         if (!data) {
-            cb('Period ' + name + " does not exist", null);
+            cb('Distribution ' + name + " does not exist", null);
             return;
         }
         

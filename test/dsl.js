@@ -214,6 +214,21 @@ exports['execute new distribution is opened'] = function (test) {
     .run();
 }
 
+exports['execute unknown distribution is opened'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'distribution_opened Paradise;Genesis 1'], next);
+    })
+    .fail(function (err) {
+        test.equal(err, 'Distribution Genesis 1 does not exist');
+        test.done();
+    })
+    .run();
+}
+
 exports['execute assign'] = function (test) {
     test.async();
     
