@@ -160,6 +160,35 @@ exports['get edit first person'] = function (test) {
     controller.editPerson(request, response);
 };
 
+exports['get change password first person'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            id: persons[0].id
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'personchpwd');
+            test.ok(model);
+            test.equal(model.title, 'Change Person Password');
+            test.ok(model.item);
+            test.equal(model.item.id, persons[0].id);
+            test.equal(model.item.username, persons[0].username);
+            test.equal(model.item.name, persons[0].name);
+            test.equal(model.item.email, persons[0].email);
+            test.ok(!model.item.password);
+            test.ok(!model.projects);
+            test.done();
+        }
+    };
+    
+    controller.changePassword(request, response);
+};
+
 exports['update first person'] = function (test) {
     test.async();
     

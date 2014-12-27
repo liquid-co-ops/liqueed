@@ -10,5 +10,6 @@ router.post('/new', controller.addPerson);
 router.get('/:id', controller.view);
 router.get('/:id/edit', controller.editPerson);
 router.post('/:id/edit', controller.updatePerson);
+router.get('/:id/chpwd', controller.changePassword);
 
 module.exports = router;

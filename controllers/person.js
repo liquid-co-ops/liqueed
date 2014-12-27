@@ -70,6 +70,30 @@ function editPerson(req, res) {
     .run();
 }
 
+function changePassword(req, res) {
+    var id = getId(req.params.id);
+    
+    var model = {
+        title: 'Change Person Password'
+    };
+    
+    async()
+    .then(function (data, next) { service.getPersonById(id, next); })
+    .then(function (data, next) {
+        model.item = {
+            id: data.id,
+            username: data.username,
+            name: data.name,
+            email: data.email
+        };
+        res.render('personchpwd', model);
+    })
+    .fail(function (err) {
+        res.render('error', { title: 'Error', error: err });
+    })
+    .run();
+}
+
 function makePerson(req) {
     return {
         username: req.param('username'),
@@ -111,5 +135,6 @@ module.exports = {
     newPerson: newPerson,
     addPerson: addPerson,
     editPerson: editPerson,
-    updatePerson: updatePerson
+    updatePerson: updatePerson,
+    changePassword: changePassword
 };
