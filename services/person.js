@@ -40,6 +40,9 @@ function addPerson(data, cb) {
 
 function updatePerson(id, data, cb) {
     var store = db.store('persons');
+    
+    if (data.password && data.password.length < 20)
+        data.password = makePassword(data.password);
         
     store.update(id, data, cb);
 }

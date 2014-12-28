@@ -129,6 +129,20 @@ function updatePerson(req, res) {
     });
 }
 
+function updatePassword(req, res) {
+    var id = getId(req.params.id);
+    
+    var persona = {
+        password: req.param('password')
+    };
+    
+    service.updatePerson(id, persona, function (err, id) {
+        if (!req.params)
+            req.params = { };
+        view(req, res);
+    });
+}
+
 module.exports = {
     index: index,
     view: view,
@@ -136,5 +150,6 @@ module.exports = {
     addPerson: addPerson,
     editPerson: editPerson,
     updatePerson: updatePerson,
-    changePassword: changePassword
+    changePassword: changePassword,
+    updatePassword: updatePassword
 };

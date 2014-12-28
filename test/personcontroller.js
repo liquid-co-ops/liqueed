@@ -1,6 +1,7 @@
 'use strict';
 
 var controller = require('../controllers/person');
+var apicontroller = require('../controllers/personapi');
 
 var loaddata = require('../utils/loaddata');
 var db = require('../utils/db');
@@ -182,11 +183,65 @@ exports['get change password first person'] = function (test) {
             test.equal(model.item.email, persons[0].email);
             test.ok(!model.item.password);
             test.ok(!model.projects);
+            
             test.done();
         }
     };
     
     controller.changePassword(request, response);
+};
+
+exports['post update password first person'] = function (test) {
+    test.async();
+
+    var formdata = {
+        password: 'newpassword'
+    }
+    
+    var request = {
+        params: {
+            id: persons[0].id
+        },
+        param: function (name) {
+            return formdata[name];
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'personview');
+            test.ok(model);
+            test.equal(model.title, 'Person');
+            test.ok(model.item);
+            test.equal(model.item.id, persons[0].id);
+            test.equal(model.item.username, persons[0].username);
+            test.equal(model.item.name, persons[0].name);
+            test.equal(model.item.email, persons[0].email);
+
+            var request = {
+                body: {
+                    username: persons[0].username,
+                    password: "newpassword"
+                }
+            };
+
+            var response = {
+                send: function (model) {
+                    test.ok(model);
+                    test.equal(model.id, persons[0].id);
+                    test.equal(model.name, persons[0].name);
+                    test.equal(model.username, persons[0].username);
+                    
+                    test.done();
+                }
+            };
+            
+            apicontroller.loginPerson(request, response);
+        }
+    };
+    
+    controller.updatePassword(request, response);
 };
 
 exports['update first person'] = function (test) {
@@ -218,7 +273,6 @@ exports['update first person'] = function (test) {
             test.equal(model.item.username, 'new' + persons[0].username);
             test.equal(model.item.name, 'New ' + persons[0].name);
             test.equal(model.item.email, 'new' + persons[0].email);
-            test.equal(model.item.password, persons[0].password);
             test.done();
         }
     };
