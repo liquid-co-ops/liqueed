@@ -11,5 +11,6 @@ router.get('/:id', controller.view);
 router.get('/:id/edit', controller.editPerson);
 router.post('/:id/edit', controller.updatePerson);
 router.get('/:id/chpwd', controller.changePassword);
+router.post('/:id/chpwd', controller.updatePassword);
 
 module.exports = router;
