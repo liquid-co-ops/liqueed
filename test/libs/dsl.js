@@ -231,6 +231,29 @@ function doTeamMember(cmd, cb) {
     .run();
 }
 
+function doShareholder(cmd, cb) {
+    var projname = cmd.args[0];
+    var personname = cmd.args[1];
+    var project;
+
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) {
+        project = data;
+        projectservice.getShareholders(project.id, next);
+    })
+    .then(function (data, next) {
+        if (!sl.exist(data, { name: personname }))
+            cb('Person ' + personname + ' is not a ' + projname + ' shareholder', null);
+        else
+            cb(null, null);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
+}
+
 function parse(cmdtext) {
     cmdtext = cmdtext.trim();
     var p = cmdtext.indexOf(' ');
@@ -322,6 +345,8 @@ function execute(cmd, options, cb) {
         doTeamAdd(cmd, cb);
     else if (cmd.verb == 'team_member')
         doTeamMember(cmd, cb);
+    else if (cmd.verb == 'shareholder')
+        doShareholder(cmd, cb);
     else if (cmd.verb == 'points')
         if (cmd.args.length == 2)
             doPoints(cmd, { }, cb);
