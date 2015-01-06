@@ -102,5 +102,4 @@ function requiredAuthentication(req, res, next) {
     }
 }
 
-
 module.exports = app;
