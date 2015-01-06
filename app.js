@@ -51,6 +51,7 @@ app.use(function (req, res, next) {
 
 //app.use('/', adminRoutes);
 app.all(adminprefix, requiredAuthentication);
+app.all(adminprefix + '/*', requiredAuthentication);
 app.use(adminprefix + '/', adminRoutes);
 app.use(adminprefix + '/person', personRoutes);
 app.use(adminprefix + '/project', projectRoutes);
