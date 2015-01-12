@@ -208,6 +208,31 @@ function doTeamAdd(cmd, cb) {
     .run();
 }
 
+function doTeamRemove(cmd, cb) {
+    var projname = cmd.args[0];
+    var personname = cmd.args[1];
+    var project;
+    var person;
+
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) {
+        project = data;
+        personservice.getPersonByName(personname, next);
+    })
+    .then(function (data, next) {
+        person = data;
+        projectservice.removePersonFromTeam(project.id, person.id, next);
+    })
+    .then(function (data, next) {
+        cb(null, null);
+    })
+    .fail(function (err) {
+        cb(err, null);
+    })
+    .run();
+}
+
 function doTeamMember(cmd, cb) {
     var projname = cmd.args[0];
     var personname = cmd.args[1];
@@ -343,6 +368,8 @@ function execute(cmd, options, cb) {
         doDistributionClosed(cmd, cb);
     else if (cmd.verb == 'team_add')
         doTeamAdd(cmd, cb);
+    else if (cmd.verb == 'team_remove')
+        doTeamRemove(cmd, cb);
     else if (cmd.verb == 'team_member')
         doTeamMember(cmd, cb);
     else if (cmd.verb == 'shareholder')

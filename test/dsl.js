@@ -398,6 +398,36 @@ exports['add person to team'] = function (test) {
     .run();
 }
 
+exports['remove person from team'] = function (test) {
+    test.async();
+    
+    var projectid;
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'person_new Adam', 'team_add Paradise;Adam', 'team_remove Paradise;Adam'], next);
+    })
+    .then(function (data, next) {
+        test.equal(data, null);
+        projectservice.getProjectByName('Paradise', next);
+    })
+    .then(function (data, next) {
+        projectid = data.id;
+        projectservice.getTeam(projectid, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.ok(!sl.exist(data, { name: 'Adam' }));
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
 exports['team member'] = function (test) {
     test.async();
     
