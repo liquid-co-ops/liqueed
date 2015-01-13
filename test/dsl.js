@@ -406,7 +406,7 @@ exports['remove person from team'] = function (test) {
     async()
     .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
-        dsl.execute(['project_new Paradise', 'person_new Adam', 'team_add Paradise;Adam', 'team_remove Paradise;Adam'], next);
+        dsl.execute(['project_new Paradise', 'person_new Adam', 'team_add Paradise;Adam', 'team_remove Paradise;Adam', '!team_member Paradise;Adam'], next);
     })
     .then(function (data, next) {
         test.equal(data, null);

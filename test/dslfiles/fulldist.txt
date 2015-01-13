@@ -1,0 +1,40 @@
+
+project_new Paradise
+
+person_new Adam
+person_new Eve
+person_new Abel
+person_new Caine
+
+team_add Paradise;Adam
+team_add Paradise;Eve
+team_add Paradise;Abel
+team_add Paradise;Caine
+
+team_member Paradise;Adam
+team_member Paradise;Eve
+team_member Paradise;Abel
+team_member Paradise;Caine
+
+distribution_new Paradise;Genesis 1;100;2015-01-31
+
+assign Paradise;Genesis 1;Adam;Eve;50;Note
+assign Paradise;Genesis 1;Adam;Abel;50;Note
+assign Paradise;Genesis 1;Eve;Adam;50;Note
+assign Paradise;Genesis 1;Eve;Abel;50;Note
+assign Paradise;Genesis 1;Abel;Adam;50;Note
+assign Paradise;Genesis 1;Abel;Eve;50;Note
+assign Paradise;Genesis 1;Caine;Adam;50;Note
+assign Paradise;Genesis 1;Caine;Eve;50;Note
+
+points Paradise;Adam;150
+points Paradise;Eve;150
+points Paradise;Abel;100
+points Paradise;Caine;0
+
+closedpoints Paradise;Adam;150
+closedpoints Paradise;Eve;150
+closedpoints Paradise;Abel;100
+closedpoints Paradise;Caine;0
+
+distribution_closed Paradise;Genesis 1

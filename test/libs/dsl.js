@@ -233,7 +233,7 @@ function doTeamRemove(cmd, cb) {
     .run();
 }
 
-function doTeamMember(cmd, cb) {
+function doTeamMember(cmd, cb, negate) {
     var projname = cmd.args[0];
     var personname = cmd.args[1];
     var project;
@@ -246,9 +246,15 @@ function doTeamMember(cmd, cb) {
     })
     .then(function (data, next) {
         if (!sl.exist(data, { name: personname }))
-            cb('Person ' + personname + ' is not a ' + projname + ' team member', null);
+            if (negate)
+                cb(null, null);
+            else
+                cb('Person ' + personname + ' is not a team member of ' + projname + ' project', null);
         else
-            cb(null, null);
+            if (negate)
+                cb('Person ' + personname + ' is a team member of ' + projname + ' project', null);
+            else
+                cb(null, null);
     })
     .fail(function (err) {
         cb(err, null);
@@ -372,6 +378,8 @@ function execute(cmd, options, cb) {
         doTeamRemove(cmd, cb);
     else if (cmd.verb == 'team_member')
         doTeamMember(cmd, cb);
+    else if (cmd.verb == '!team_member')
+        doTeamMember(cmd, cb, true);
     else if (cmd.verb == 'shareholder')
         doShareholder(cmd, cb);
     else if (cmd.verb == 'points')
