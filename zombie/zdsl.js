@@ -9,6 +9,10 @@ function doVisit(cmd, cb) {
     browser.visit(cmd.args[0], cb);
 }
 
+function doClick(cmd, cb) {
+    browser.pressButton(cmd.args[0], cb);
+}
+
 function doFill(cmd, cb) {
     try {
         browser.fill(cmd.args[0], cmd.args[1]);
@@ -100,6 +104,8 @@ function execute(cmd, options, cb) {
         doVisit(cmd, cb);
     else if (cmd.verb == 'fill')
         doFill(cmd, cb);
+    else if (cmd.verb == 'click')
+        doClick(cmd, cb);
     else
         cb("Unknown verb '" + cmd.verb + "'", null);
 }
