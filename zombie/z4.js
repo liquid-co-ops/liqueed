@@ -8,6 +8,8 @@ var zdsl = require('./zdsl');
 var server;
 var browser;
 
+var options = { verbose: true }
+
 async()
     .then(function (data, next) {
         loaddata(next);        
@@ -18,19 +20,25 @@ async()
     })
     .then(function (data, next) {
         zdsl.localhost('localhost', 3000);
-        zdsl.execute('visit /', next);
+        zdsl.execute('visit /', options, next);
     })
     .then(function (data, next) {
-        zdsl.execute('fill #login_username;alice', next);
+        zdsl.execute('fill #login_username;alice', options, next);
     })
     .then(function (data, next) {
-        zdsl.execute('fill #login_password;alice', next);
+        zdsl.execute('fill #login_password;alice', options, next);
     })
     .then(function (data, next) {
-        zdsl.execute('click Sign In', next);
+        zdsl.execute('click Sign In', options, next);
     })
     .then(function (data, next) {
-        zdsl.execute('visible #projectspage', next);
+        zdsl.execute('visible #projectspage', options, next);
+    })
+    .then(function (data, next) {
+        zdsl.execute('click GitBook', options, next);
+    })
+    .then(function (data, next) {
+        zdsl.execute('click March 2014', options, next);
     })
     .then(function (data, next) {
         server.close();
