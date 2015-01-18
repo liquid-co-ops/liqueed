@@ -30,7 +30,7 @@ async()
         zdsl.execute('click Sign In', next);
     })
     .then(function (data, next) {
-        zdsl.execute('click Sign In', next);
+        zdsl.execute('visible #projectspage', next);
     })
     .then(function (data, next) {
         server.close();

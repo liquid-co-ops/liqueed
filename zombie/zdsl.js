@@ -13,6 +13,16 @@ function doClick(cmd, cb) {
     browser.pressButton(cmd.args[0], cb);
 }
 
+function doVisible(cmd, cb) {
+    try {
+        browser.assert.style(cmd.args[0], "display", "");
+        cb(null, null);
+    }
+    catch (err) {
+        cb(err, null);
+    }
+}
+
 function doFill(cmd, cb) {
     try {
         browser.fill(cmd.args[0], cmd.args[1]);
@@ -106,6 +116,8 @@ function execute(cmd, options, cb) {
         doFill(cmd, cb);
     else if (cmd.verb == 'click')
         doClick(cmd, cb);
+    else if (cmd.verb == 'visible')
+        doVisible(cmd, cb);
     else
         cb("Unknown verb '" + cmd.verb + "'", null);
 }
