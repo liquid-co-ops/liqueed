@@ -3,7 +3,7 @@ var assert  = require('assert');
 var async = require('simpleasync');
 var loaddata = require('../utils/loaddata');
 var app = require('../app');
-var zdsl = require('./zdsl');
+var zdsl = require('../test/libs/zdsl');
 
 var server;
 var browser;
