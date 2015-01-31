@@ -1,0 +1,13 @@
+
+' Home page
+visit /
+
+' Fill username, password
+fill #login_username;alice
+fill #login_password;alice
+
+' Click Sign In
+click Sign In
+
+' Projects page visible (error to fix)
+'visible #projectspage
