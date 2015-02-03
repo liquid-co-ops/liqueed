@@ -10,4 +10,4 @@ fill #login_password;alice
 click Sign In
 
 ' Projects page visible (error to fix)
-'visible #projectspage
+visible #projectspage

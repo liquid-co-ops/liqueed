@@ -258,7 +258,7 @@ function closeDb(cb) {
 
 function useMemory() {
     usedb = false;
-    db.close();
+	db.close();
 }
 
 module.exports = {

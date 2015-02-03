@@ -6,6 +6,7 @@ var db = require('../utils/db');
 var path = require('path');
 var fs = require('fs');
 var app = require('../app');
+var pservice = require('../services/person');
 
 var server;
 var options = { verbose: true }
@@ -14,6 +15,9 @@ exports['start server'] = function (test) {
 	test.async();
 	
 	async()
+		.then(function (data, next) {
+			db.clear(next);        
+		})
 		.then(function (data, next) {
 			loaddata(next);        
 		})
@@ -55,7 +59,6 @@ function processfile(filename, cb) {
     console.log(filename);
     
     async()
-    .then(function (data, next) { db.clear(next); })
     .then(function (data, next) {
         var fname = path.join(__dirname, 'zdslfiles', filename);
 		zdsl.localhost('localhost', 3000);
