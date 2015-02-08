@@ -1,0 +1,26 @@
+
+' Home page
+visit /
+
+' Fill username, password
+fill #login_username;alice
+fill #login_password;alice
+
+' Click Sign In
+click Sign In
+
+' Projects page visible
+visible #projectspage
+
+' Go Project
+click GitBook
+
+' Project page visible
+visible #projectpage
+
+' Go Period
+click March 2014
+
+' Period page visible
+visible #viewperiodpage
+
