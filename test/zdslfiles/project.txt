@@ -11,3 +11,10 @@ click Sign In
 
 ' Projects page visible
 visible #projectspage
+
+' Go Project
+click GitBook
+
+' Project page visible
+visible #projectpage
+
