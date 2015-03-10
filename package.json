@@ -17,14 +17,13 @@
     "express-ejs-layouts": "^1.1.0",
     "ostore": "0.0.4",
     "simplelists": "0.0.4",
-    "simpleasync": "0.0.5",
+    "simpleasync": "0.0.6",
     "mongodb": "~1.4.19",
     "bcrypt-nodejs": "0.0.3",
     "express-session": "~1.9.3"
   },
   "devDependencies": {
     "simpleunit": "0.0.5",
-    "simplejquery": "0.0.1",
-    "zombie": "2.5.1"
+    "simplejquery": "0.0.1"
   }
 }
