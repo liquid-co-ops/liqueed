@@ -56,6 +56,8 @@ app.use(adminprefix + '/', adminRoutes);
 app.use(adminprefix + '/person', personRoutes);
 app.use(adminprefix + '/project', projectRoutes);
 
+// app.all('/api/person', requiredApiAuthentication);
+// app.all('/api/project', requiredApiAuthentication);
 app.use('/api/person', personApiRoutes);
 app.use('/api/project', projectApiRoutes);
 
@@ -100,6 +102,15 @@ function requiredAuthentication(req, res, next) {
     } else {
         req.session.error = 'Access denied!';
         res.redirect('/auth/signin');
+    }
+}
+
+function requiredApiAuthentication(req, res, next) {
+    if (req.session.user) {
+        next();
+    } else {
+        res.statusCode = 404;
+        res.end();
     }
 }
 
