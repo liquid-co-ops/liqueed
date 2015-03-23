@@ -12,4 +12,3 @@ team_member Paradise;Eve
 
 points Paradise;Adam;0
 points Paradise;Eve;0
-

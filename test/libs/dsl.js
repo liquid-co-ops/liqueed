@@ -382,11 +382,12 @@ function execute(cmd, options, cb) {
         doTeamMember(cmd, cb, true);
     else if (cmd.verb == 'shareholder')
         doShareholder(cmd, cb);
-    else if (cmd.verb == 'points')
+    else if (cmd.verb == 'points') {
         if (cmd.args.length == 2)
             doPoints(cmd, { }, cb);
         else
             doPersonPoints(cmd, { }, cb);
+    }
     else if (cmd.verb == 'closedpoints')
         if (cmd.args.length == 2)
             doPoints(cmd, { closed: true }, cb);

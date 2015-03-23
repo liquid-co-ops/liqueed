@@ -6,7 +6,7 @@ var path = require('path');
 var fs = require('fs');
 
 exports['dsl files'] = function (test) {
-    test.async();
+    test.async(60000);
     
     var pathname = path.join(__dirname, 'dslfiles');
     

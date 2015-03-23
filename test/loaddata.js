@@ -22,7 +22,7 @@ exports['load initial data simple test'] = function (test) {
     test.async();
     
     loaddata(function (err, data) {
-        test.ok(!err);
+        test.equal(err, null);
 
         personService.getPersons(function (err, persons) {
             test.ok(!err);
