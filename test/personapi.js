@@ -198,3 +198,33 @@ exports['get none pending share project'] = function (test) {
 
 	controller.getPendingShareProjects(request, response);
 }
+
+/*
+exports['change password first person'] = function (test) {
+    test.async();
+    
+    var request = {
+		params : {
+			id : persons[0].id.toString()
+		},
+        body: {
+            oldpassword: persons[0].username,
+            newpassword: 'new' + persons[0].username
+        }
+    };
+
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.strictEqual(model, true);
+            
+            test.done();
+        }
+    };
+
+    async()
+    .then(function (data, next) {
+        controller.changePassword(request, response);
+    })
+};
+*/  
