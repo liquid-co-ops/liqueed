@@ -37,6 +37,21 @@ exports['start server'] = function (test) {
     test.ok(server);
 }
 
+exports['login as first person'] = function (test) {
+    test.async();
+
+    client.loginPerson('alice', 'alice', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+
+        test.equal(result.id, 1);
+        test.equal(result.name, 'Alice');
+        test.equal(result.username, 'alice');
+
+        test.done();
+    });
+}
+
 exports['get my projects'] = function (test) {
     test.async();
 

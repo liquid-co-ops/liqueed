@@ -46,8 +46,11 @@ function loginPerson(req, res) {
     service.loginPerson(username, password, function (err, items) {
         if (err)
             res.send({ error: err });
-        else
+        else {
+            if (req.session)
+                req.session.user = { username: username };
             res.send(items);
+        }
     });
 }
 

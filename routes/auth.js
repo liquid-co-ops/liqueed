@@ -7,6 +7,6 @@ var pcontroller = require('../controllers/personapi');
 
 router.get('/signin', controller.signInForm);
 router.post('/signin', controller.signIn);
-router.post('/api/signin', pcontroller.loginPerson);
+router.put('/api/login', pcontroller.loginPerson);
 
 module.exports = router;

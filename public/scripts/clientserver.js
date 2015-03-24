@@ -69,7 +69,7 @@ var clientserver = (function() {
         $.ajax({
             type: "PUT",
             contentType: "application/json; charset=utf-8",
-            url: prefix + '/api/person/login/',
+            url: prefix + '/auth/api/login',
             data: JSON.stringify(data),
             dataType: "json",
             success: function (msg) {

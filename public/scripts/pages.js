@@ -124,28 +124,11 @@ var pages = (function () {
     }
 
     function gotoSignIn(cb) {
-        client.getPersons(function (err, persons) {
-            if (err)
-                if (cb)
-                    cb(err, null);
-                else
-                    alert(err);
-            else
-                showSignIn(persons, cb);
-        });
+        showSignIn([], cb);
     }
 
     function showSignIn(persons, cb) {
         var page = $("#signinpage");
-
-        var select = $("#personlist");
-
-        select.empty();
-
-        persons.forEach(function (item) {
-            var option = $("<option>").attr("value", item.id).html(item.name);
-            select.append(option);
-        });
 
         activatePage(page);
 
