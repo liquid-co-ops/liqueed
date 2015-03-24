@@ -9,5 +9,6 @@ router.put('/login', controller.loginPerson);
 router.get('/:id', controller.get);
 router.get('/:id/project', controller.getProjects);
 router.get('/:id/pendigshares', controller.getPendingShareProjects);
+router.put('/:id/chpwd', controller.updatePassword);
 
 module.exports = router;

@@ -40,7 +40,6 @@ function getPendingShareProjects(req, res) {
     });
 }
 
-
 function loginPerson(req, res) {
     var username = req.body.username;
     var password = req.body.password;
@@ -52,10 +51,27 @@ function loginPerson(req, res) {
     });
 }
 
+function updatePassword(req, res) {
+    var id = getId(req.params.id);
+    var password = req.body.password;
+    var persona = {
+        password: password
+    };
+    
+    service.updatePerson(id, persona, function (err, id) {
+        if (err)
+            res.send({ error: err });
+        else
+            res.send(true);
+    });
+}
+
 module.exports = {
     list: list,
     get: get,
     getProjects: getProjects,
     loginPerson: loginPerson,
-    getPendingShareProjects:getPendingShareProjects
+    getPendingShareProjects:getPendingShareProjects,
+    updatePassword: updatePassword
 }
+

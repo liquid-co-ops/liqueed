@@ -199,7 +199,6 @@ exports['get none pending share project'] = function (test) {
 	controller.getPendingShareProjects(request, response);
 }
 
-/*
 exports['change password first person'] = function (test) {
     test.async();
     
@@ -208,23 +207,44 @@ exports['change password first person'] = function (test) {
 			id : persons[0].id.toString()
 		},
         body: {
-            oldpassword: persons[0].username,
-            newpassword: 'new' + persons[0].username
-        }
-    };
-
-    var response = {
-        send: function (model) {
-            test.ok(model);
-            test.strictEqual(model, true);
-            
-            test.done();
+            password: 'new' + persons[0].username
         }
     };
 
     async()
     .then(function (data, next) {
-        controller.changePassword(request, response);
+        var response = {
+            send: function (model) {
+                test.ok(model);
+                test.strictEqual(model, true);
+                
+                next(null, null);
+            }
+        };
+        
+        controller.updatePassword(request, response);
     })
+    .then(function (data, next) {
+        var request = {
+            body: {
+                username: persons[0].username,
+                password: 'new' + persons[0].username
+            }
+        };
+
+        var response = {
+            send: function (model) {
+                test.ok(model);
+                test.equal(model.id, persons[0].id);
+                test.equal(model.name, persons[0].name);
+                test.equal(model.username, persons[0].username);
+                
+                test.done();
+            }
+        };
+        
+        controller.loginPerson(request, response);
+    })
+    .run();
 };
-*/  
+ 
