@@ -16,3 +16,14 @@ exports['add decision'] = function (test) {
     });
 };
 
+exports['get decision by id'] = function (test) {
+    test.async();
+
+    service.getDecisionById(decid, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result.description, 'To be or not to be?');
+        test.done();
+    });
+};
+

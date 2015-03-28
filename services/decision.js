@@ -14,7 +14,13 @@ function addDecision(data, cb) {
     store.add(data, cb);
 }
 
+function getDecisionById(id, cb) {
+    var store = db.store('decisions');
+    store.get(id, cb);
+}
+
 module.exports = {
-    addDecision: addDecision
+    addDecision: addDecision,
+    getDecisionById: getDecisionById
 };
 
