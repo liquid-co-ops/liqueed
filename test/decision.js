@@ -27,3 +27,15 @@ exports['get decision by id'] = function (test) {
     });
 };
 
+exports['get decisions'] = function (test) {
+    test.async();
+
+    service.getDecisions(function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+        test.done();
+    });
+};
+
