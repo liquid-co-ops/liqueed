@@ -2,6 +2,7 @@
 
 var service = require('../services/dcategory');
 var async = require('simpleasync');
+var sl = require('simplelists');
 
 var catid;
 
@@ -37,5 +38,26 @@ exports['get categories'] = function (test) {
         test.ok(result.length);
         test.done();
     });
+};
+
+exports['get categories by project'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        service.addCategory({ name: 'Marketing', project: 1 }, next);
+    })
+    .then(function (data, next) {
+        service.getCategoriesByProject(1, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.ok(data.length);
+        test.ok(sl.exist(data, { project: 1 }));
+        test.ok(sl.exist(data, { name: 'Marketing' }));
+        test.done();
+    })
+    .run();
 };
 
