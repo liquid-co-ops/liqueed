@@ -6,10 +6,10 @@ var sl = require('simplelists');
 
 var decid;
 
-exports['add decision'] = function (test) {
+exports['add decision to project'] = function (test) {
     test.async();
 
-    service.addDecision({ description: 'To be or not to be?' }, function (err, result) {
+    service.addDecision(1, { description: 'Project Decision' }, function (err, result) {
         test.ok(!err);
         test.ok(result);
         decid = result;
@@ -23,7 +23,8 @@ exports['get decision by id'] = function (test) {
     service.getDecisionById(decid, function (err, result) {
         test.ok(!err);
         test.ok(result);
-        test.equal(result.description, 'To be or not to be?');
+        test.equal(result.description, 'Project Decision');
+        test.equal(result.project, 1);
         test.done();
     });
 };
@@ -45,9 +46,6 @@ exports['get decisions by project'] = function (test) {
     
     async()
     .then(function (data, next) {
-        service.addDecision({ description: 'Project Decision', project: 1 }, next);
-    })
-    .then(function (data, next) {
         service.getDecisionsByProject(1, next);
     })
     .then(function (data, next) {
@@ -66,7 +64,7 @@ exports['get decisions by category'] = function (test) {
     
     async()
     .then(function (data, next) {
-        service.addDecision({ description: 'Project Decision with Category', project: 1, category: 2 }, next);
+        service.addDecision(1, { description: 'Project Decision with Category', category: 2 }, next);
     })
     .then(function (data, next) {
         service.getDecisionsByCategory(2, next);

@@ -152,9 +152,8 @@ function load(filename, cb) {
                             return;
                         }
                         
-                        var decisiondata = decisions[kd++];    
-                        var decision = { description: decisiondata.description, project: projid };
-                        decisionService.addDecision(decision, function (err, decisionid) {
+                        var decision = decisions[kd++];    
+                        decisionService.addDecision(projid, decision, function (err, decisionid) {
                             if (err) {
                                 cb(err, null);
                                 return;

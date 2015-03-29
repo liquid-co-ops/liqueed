@@ -8,10 +8,17 @@ db.store('decisions', function (err, data) {
     store = data;
 });
 
-function addDecision(data, cb) {
+function addDecision(projid, data, cb) {
+    var newdata = { };
+    
+    for (var n in data)
+        newdata[n] = data[n];
+        
+    newdata.project = projid;
+    
     var store = db.store('decisions');
         
-    store.add(data, cb);
+    store.add(newdata, cb);
 }
 
 function getDecisionById(id, cb) {
