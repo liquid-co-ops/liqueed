@@ -5,9 +5,11 @@ var db = require('../utils/db');
 
 var personService = require('../services/person');
 var projectService = require('../services/project');
+var decisionService = require('../services/decision');
 
 var project;
 var period;
+var decision;
 
 exports['clear data at start'] = function (test) {
     test.async();
@@ -110,6 +112,25 @@ exports['first project first period has assigments'] = function (test) {
         test.equal(assignments[1].from.name, 'Alice');
         test.equal(assignments[1].to.name, 'Charlie');
         test.equal(assignments[1].amount, 50);
+        
+        test.done();
+    });
+}
+
+exports['first project has decisions'] = function (test) {
+    test.async();
+    
+    decisionService.getDecisionsByProject(project.id, function (err, decisions) {
+        test.ok(!err);
+        test.ok(decisions);
+        test.ok(Array.isArray(decisions));
+        test.ok(decisions.length);
+        test.equal(decisions.length, 2);
+        
+        test.equal(decisions[0].description, 'First Decision');
+        test.equal(decisions[1].description, 'Second Decision');
+        
+        decision = decisions[0];
         
         test.done();
     });

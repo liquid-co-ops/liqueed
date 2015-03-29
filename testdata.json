@@ -16,7 +16,11 @@
                 },
                 { "name": "February 2014", "date": "2014-02-28", "amount": 100 }
             ],
-            "team": [ "Alice", "Bob", "Charlie" ]
+            "team": [ "Alice", "Bob", "Charlie" ],
+            "decisions": [
+                { "description": "First Decision" },
+                { "description": "Second Decision" }
+            ]
         },
         {
             "name": "GitBook",
