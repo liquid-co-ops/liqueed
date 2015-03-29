@@ -24,6 +24,11 @@ function getDecisionsByProject(projectid, cb) {
     store.find({ project: projectid }, cb);
 }
 
+function getDecisionsByCategory(categoryid, cb) {
+    var store = db.store('decisions');
+    store.find({ category: categoryid }, cb);
+}
+
 function getDecisions(cb) {
     var store = db.store('decisions');
     store.find(cb);
@@ -33,6 +38,7 @@ module.exports = {
     addDecision: addDecision,
     getDecisionById: getDecisionById,
     getDecisions: getDecisions,
-    getDecisionsByProject: getDecisionsByProject
+    getDecisionsByProject: getDecisionsByProject,
+    getDecisionsByCategory: getDecisionsByCategory
 };
 
