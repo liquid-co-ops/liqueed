@@ -9,7 +9,7 @@ var catid;
 exports['add category'] = function (test) {
     test.async();
 
-    service.addCategory({ name: 'Marketing' }, function (err, result) {
+    service.addCategory(1, { name: 'Marketing' }, function (err, result) {
         test.ok(!err);
         test.ok(result);
         catid = result;
@@ -44,9 +44,6 @@ exports['get categories by project'] = function (test) {
     test.async();
     
     async()
-    .then(function (data, next) {
-        service.addCategory({ name: 'Marketing', project: 1 }, next);
-    })
     .then(function (data, next) {
         service.getCategoriesByProject(1, next);
     })

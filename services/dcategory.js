@@ -8,10 +8,17 @@ db.store('dcategories', function (err, data) {
     store = data;
 });
 
-function addCategory(data, cb) {
+function addCategory(projid, data, cb) {
+    var newdata = { };
+    
+    for (var n in data)
+        newdata[n] = data[n];
+        
+    newdata.project = projid;
+    
     var store = db.store('dcategories');
         
-    store.add(data, cb);
+    store.add(newdata, cb);
 }
 
 function getCategoryById(id, cb) {
