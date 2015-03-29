@@ -39,3 +39,22 @@ exports['get decisions'] = function (test) {
     });
 };
 
+exports['get decisions by project'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        service.addDecision({ description: 'Project Decision', project: 1 }, next);
+    })
+    .then(function (data, next) {
+        service.getDecisionsByProject(1, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.ok(data.length);
+        test.done();
+    })
+    .run();
+
+};
