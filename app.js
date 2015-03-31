@@ -14,6 +14,8 @@ var adminRoutes = require('./routes/admin');
 var personRoutes = require('./routes/person');
 var projectRoutes = require('./routes/project');
 var authRoutes = require('./routes/auth');
+var decisionRoutes = require('./routes/decision');
+var dcategoryRoutes = require('./routes/dcategory');
 
 var personApiRoutes = require('./routes/personapi');
 var projectApiRoutes = require('./routes/projectapi');
@@ -55,6 +57,8 @@ app.all(adminprefix + '/*', requiredAuthentication);
 app.use(adminprefix + '/', adminRoutes);
 app.use(adminprefix + '/person', personRoutes);
 app.use(adminprefix + '/project', projectRoutes);
+app.use(adminprefix + '/project/:projectid/decision', decisionRoutes);
+app.use(adminprefix + '/project/:projectid/dcategory', dcategoryRoutes);
 
 app.all('/api/person', requiredApiAuthentication);
 app.all('/api/project', requiredApiAuthentication);

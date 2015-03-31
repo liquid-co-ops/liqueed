@@ -10,7 +10,7 @@ function index(req, res) {
         if (err)
             throw err;
             
-        res.render('decisionlist', { title: 'Decisions', items: items });
+        res.render('decisionlist', { title: 'Decisions', items: items, projectid: projectid });
     });
 }
 

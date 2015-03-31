@@ -40,6 +40,7 @@ exports['get index'] = function (test) {
             test.equal(name, 'decisionlist');
             test.ok(model);
             test.equal(model.title, 'Decisions');
+            test.equal(model.projectid, projects[0].id);
             test.ok(model.items);
             test.ok(Array.isArray(model.items));
             test.ok(model.items.length);
