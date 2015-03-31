@@ -1,6 +1,7 @@
 'use strict';
 
 var service = require('../services/dcategory');
+var dservice = require('../services/decision');
 var async = require('simpleasync');
 
 function getId(id) {
@@ -49,16 +50,28 @@ function view(req, res) {
     var id = getId(req.params.id);
     
     var model = {
-        title: 'Decision Category'
+        title: 'Decision Category',
+        projectid: projectid
     };
     
     service.getCategoryById(id, function (err, data) {
-        if (err)
+        if (err) {
             res.render('error', { title: 'Error', error: err });
-        else {
-            model.item = data;
-            res.render('dcategoryview', model);
+            return;
         }
+
+        model.item = data;
+
+        dservice.getDecisionsByCategory(id, function (err, decisions) {
+            if (err) {
+                res.render('error', { title: 'Error', error: err });
+                return;
+            }
+            
+            model.decisions = decisions;
+            
+            res.render('dcategoryview', model);
+        });
     });
 }
 

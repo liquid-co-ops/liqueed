@@ -130,9 +130,12 @@ exports['get view decision category'] = function (test) {
             test.equal(name, 'dcategoryview');
             test.ok(model);
             test.equal(model.title, 'Decision Category');
+            test.equal(model.projectid, projects[0].id);
             test.ok(model.item);
             test.equal(model.item.id, catid);
             test.equal(model.item.name, 'New Category');
+            test.ok(model.decisions);
+            test.ok(Array.isArray(model.decisions));
             
             test.done();
         }
