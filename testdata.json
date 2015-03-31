@@ -20,6 +20,10 @@
             "decisions": [
                 { "description": "First Decision" },
                 { "description": "Second Decision" }
+            ],
+            "categories": [
+                { "name": "Technology" },
+                { "name": "Marketing" }
             ]
         },
         {

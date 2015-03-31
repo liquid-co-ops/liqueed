@@ -3,6 +3,7 @@
 var personService = require('../services/person');
 var projectService = require('../services/project');
 var decisionService = require('../services/decision');
+var dcategoryService = require('../services/dcategory');
 var noteService = require('../services/note');
 
 function load(filename, cb) {
@@ -52,6 +53,7 @@ function load(filename, cb) {
             var team = projectdata.team;
             var periods = projectdata.periods;
             var decisions = projectdata.decisions;
+            var categories = projectdata.categories;
             var project = { name: projectdata.name };
             
             projectService.addProject(project, function (err, projid) {
@@ -137,7 +139,7 @@ function load(filename, cb) {
                 
                 function doDecisions() {
                     if (!decisions) {
-                        doProjectStep();
+                        doCategories();
                         return;
                     }
                     
@@ -148,7 +150,7 @@ function load(filename, cb) {
                     
                     function doDecisionStep() {
                         if (kd >= ld) {
-                            doProjectStep();
+                            doCategories();
                             return;
                         }
                         
@@ -160,6 +162,36 @@ function load(filename, cb) {
                             }
                             
                             setImmediate(doDecisionStep);
+                        });
+                    }
+                }
+                
+                function doCategories() {
+                    if (!categories) {
+                        doProjectStep();
+                        return;
+                    }
+                    
+                    var ld = categories.length;
+                    var kd = 0;
+                    
+                    doCategoryStep();
+                    
+                    function doCategoryStep() {
+                        if (kd >= ld) {
+                            doProjectStep();
+                            return;
+                        }
+                        
+                        var category = categories[kd++];    
+                        
+                        dcategoryService.addCategory(projid, category, function (err, categoryid) {
+                            if (err) {
+                                cb(err, null);
+                                return;
+                            }
+                            
+                            setImmediate(doCategoryStep);
                         });
                     }
                 }

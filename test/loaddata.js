@@ -6,10 +6,12 @@ var db = require('../utils/db');
 var personService = require('../services/person');
 var projectService = require('../services/project');
 var decisionService = require('../services/decision');
+var dcategoryService = require('../services/dcategory');
 
 var project;
 var period;
 var decision;
+var category;
 
 exports['clear data at start'] = function (test) {
     test.async();
@@ -131,6 +133,25 @@ exports['first project has decisions'] = function (test) {
         test.equal(decisions[1].description, 'Second Decision');
         
         decision = decisions[0];
+        
+        test.done();
+    });
+}
+
+exports['first project has decision categories'] = function (test) {
+    test.async();
+    
+    dcategoryService.getCategoriesByProject(project.id, function (err, categories) {
+        test.ok(!err);
+        test.ok(categories);
+        test.ok(Array.isArray(categories));
+        test.ok(categories.length);
+        test.equal(categories.length, 2);
+        
+        test.equal(categories[0].name, 'Technology');
+        test.equal(categories[1].name, 'Marketing');
+        
+        category = categories[0];
         
         test.done();
     });
