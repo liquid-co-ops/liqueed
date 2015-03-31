@@ -19,6 +19,7 @@ router.get('/:projectid/dcategory/:id', dccontroller.view);
 router.get('/:projectid/decision', dcontroller.index);
 router.get('/:projectid/decision/new', dcontroller.newDecision);
 router.post('/:projectid/decision/new', dcontroller.addDecision);
+router.get('/:projectid/decision/:id', dcontroller.view);
 
 router.get('/:id/person/new', controller.newTeamMember);
 router.post('/:id/person/new', controller.addTeamMember);

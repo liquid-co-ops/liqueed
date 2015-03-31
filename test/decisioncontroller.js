@@ -8,6 +8,8 @@ var async = require('simpleasync');
 
 var projects;
 
+var decid;
+
 exports['clear and load data'] = function (test) {
     test.async();
     
@@ -107,6 +109,9 @@ exports['add new decision'] = function (test) {
             test.equal(model.item.project, projects[0].id);
             test.equal(model.item.category, 1);
             test.equal(model.item.description, 'New Decision');
+            
+            decid = model.item.id;
+            
             test.done();
         }
     };
@@ -114,3 +119,31 @@ exports['add new decision'] = function (test) {
     controller.addDecision(request, response);
 };
 
+exports['get view decision'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            projectid: projects[0].id,
+            id: decid
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'decisionview');
+            test.ok(model);
+            test.equal(model.title, 'Decision');
+            test.equal(model.projectid, projects[0].id);
+            test.ok(model.item);
+            test.equal(model.item.id, decid);
+            test.equal(model.item.description, 'New Decision');
+            test.equal(model.item.category, 1);
+            
+            test.done();
+        }
+    };
+    
+    controller.view(request, response);
+};

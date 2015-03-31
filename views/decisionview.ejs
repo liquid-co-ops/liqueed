@@ -1,0 +1,19 @@
+<div class="row actions">
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= projectid %>">Project</a>
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= projectid %>/decision">Decisions</a>
+<a class="btn btn-primary" href="<%= adminprefix %>/project/<%= projectid %>/decision/<%= item.id %>/edit">Edit Decision</a>
+</div>
+
+<div class='row'>
+    <table class="table-striped table-bordered">
+        <tr>
+            <td>Description</td>
+            <td><%= item.description %></td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td><a href="<%= adminprefix %>/project/<%= projectid %>/dcategory/<%= item.category %>"><%= item.category %></a></td>
+        </tr>
+    </table>
+</div>
+

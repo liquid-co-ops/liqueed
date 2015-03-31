@@ -57,7 +57,8 @@ function view(req, res) {
     var id = getId(req.params.id);
     
     var model = {
-        title: 'Decision'
+        title: 'Decision',
+        projectid: projectid
     };
     
     service.getDecisionById(id, function (err, data) {
@@ -73,6 +74,7 @@ function view(req, res) {
 module.exports = {
     index: index,
     newDecision: newDecision,
-    addDecision: addDecision
+    addDecision: addDecision,
+    view: view
 };
 
