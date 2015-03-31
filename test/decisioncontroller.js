@@ -78,3 +78,39 @@ exports['get new decision'] = function (test) {
     controller.newDecision(request, response);
 };
 
+exports['add new decision'] = function (test) {
+    test.async();
+    
+    var formdata = {
+        description: 'New Decision',
+        category: 1
+    }
+    
+    var request = {
+        params: {
+            projectid: projects[0].id
+        },
+        param: function (name) {
+            return formdata[name];
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'decisionview');
+            test.ok(model);
+            test.equal(model.title, 'Decision');
+            test.ok(model.item);
+            test.ok(model.item.id);
+            test.ok(model.item.project);
+            test.equal(model.item.project, projects[0].id);
+            test.equal(model.item.category, 1);
+            test.equal(model.item.description, 'New Decision');
+            test.done();
+        }
+    };
+    
+    controller.addDecision(request, response);
+};
+

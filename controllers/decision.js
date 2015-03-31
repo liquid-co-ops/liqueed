@@ -4,6 +4,20 @@ var service = require('../services/decision');
 var dcservice = require('../services/dcategory');
 var async = require('simpleasync');
 
+function getId(id) {
+    if (id && id.length && id.length > 10)
+        return id;
+        
+    return parseInt(id);
+}
+
+function makeDecision(req) {
+    return {
+        description: req.param('description'),
+        category: getId(req.param('category'))
+    }
+}
+
 function index(req, res) {
     var projectid = req.params.projectid;
     
@@ -26,8 +40,39 @@ function newDecision(req, res) {
     });
 }
 
+function addDecision(req, res) {
+    var projectid = req.params.projectid;
+    var decision = makeDecision(req);
+    
+    service.addDecision(projectid, decision, function (err, id) {
+        if (!req.params)
+            req.params = { };
+        req.params.id = id;
+        view(req, res);
+    });
+}
+
+function view(req, res) {
+    var projectid = getId(req.params.projectid);
+    var id = getId(req.params.id);
+    
+    var model = {
+        title: 'Decision'
+    };
+    
+    service.getDecisionById(id, function (err, data) {
+        if (err)
+            res.render('error', { title: 'Error', error: err });
+        else {
+            model.item = data;
+            res.render('decisionview', model);
+        }
+    });
+}
+
 module.exports = {
     index: index,
-    newDecision: newDecision
+    newDecision: newDecision,
+    addDecision: addDecision
 };
 
