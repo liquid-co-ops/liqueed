@@ -62,6 +62,7 @@
         <h1>My Projects</h1>
         <div class="actions">
             <button type="button" class="btn btn-primary" onclick='pages.doSignOut()'>Sign Out</button>
+            <button type="button" class="btn btn-primary" onclick='pages.showChangePassword()'>Change Password</button>
         </div>
         <div id="projects">
         </div>
@@ -232,6 +233,31 @@
                 </tbody>
             </table>
             </div>
+        </div>
+    </div>
+
+	<div id="changepasspage" style='display: none'>
+        <h1>Change Password</h1>
+        <div id="changepass">
+            <form id="changepassform" class="form-horizontal" role="form">
+                <div class="row">
+                    <div class=" col-sm-offset-3 col-sm-2 col-xs-4">
+                        <label class="control-label" style="width:100%;">Password</label>
+                    </div>
+                    <div class="col-sm-2 col-xs-4">
+                        <input type="password" class="form-control" id="changepass_password">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-sm-offset-3 col-sm-2 col-xs-4">
+                        <label class="control-label" style="width:100%;">Retype Password</label>
+                    </div>
+                    <div class="col-sm-2 col-xs-4">
+                        <input type="password" class="form-control" id="changepass_repassword">
+                    </div>
+                </div>
+            </form>
+            <button type="button" class="btn btn-success" onclick='pages.doChangePassword()'>Change Password</button>
         </div>
     </div>
     

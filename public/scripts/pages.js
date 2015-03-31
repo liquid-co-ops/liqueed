@@ -682,6 +682,34 @@ var pages = (function () {
             cb(null, null);
     }
 
+    function showChangePassword() {
+        var page = $("#changepasspage");
+        activatePage(page);
+    }
+
+    function doChangePassword() {
+        var password = $("#changepass_password").val();
+        var repassword = $("#changepass_repassword").val();
+        
+        if (password != repassword) {
+            alert("Retype password");
+            return;
+        }
+
+        client.changePassword(me, password, function (err, user) {
+            if (err) {
+                alert(err);
+                return;
+            }
+
+            if (user.error) {
+                alert(user.error);
+                return;
+            }
+
+            gotoProjects();
+        });
+    }
 
     var retval = {
         gotoProjects: gotoProjects,
@@ -690,10 +718,15 @@ var pages = (function () {
         gotoMyShares: gotoMyShares,
         createProject: createProject,
         showProjects: showProjects,
+        
         doSignOut: doSignOut,
         doSignIn: doSignIn,
         gotoSignIn: gotoSignIn,
-        createPeriod: function () { createPeriod(currentproject); }
+        
+        createPeriod: function () { createPeriod(currentproject); },
+        
+        showChangePassword: showChangePassword,
+        doChangePassword: doChangePassword
     }
 
     return retval;
@@ -701,3 +734,5 @@ var pages = (function () {
 
 if (typeof window == 'undefined')
     module.exports = pages;
+
+ 

@@ -179,11 +179,29 @@ var clientserver = (function() {
     }
 
     function getPendingShareProjects(userid, cb) {
-	    $.get(prefix + '/api/person/' + userid+'/pendigshares', function (data) {
+	    $.get(prefix + '/api/person/' + userid + '/pendigshares', function (data) {
 	        cb(null, data);
 	    }).fail(function (err) {
 	        cb(err, null);
 	    });
+    }
+    
+    function changePassword(userid, password, cb) {
+        var data = { password: password };
+        
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json; charset=utf-8",
+            url: prefix + '/api/person/' + userid + '/chpwd',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (msg) {
+                cb(null, msg);
+            },
+            error: function (err){
+                cb(err, null);
+            }
+        });
     }
 
     return {
@@ -210,7 +228,9 @@ var clientserver = (function() {
 
         getPersons: getPersons,
         loginPerson: loginPerson,
-        setPrefix: function (prf) { prefix = prf; }
+        setPrefix: function (prf) { prefix = prf; },
+        
+        changePassword: changePassword
     };
 })();
 
