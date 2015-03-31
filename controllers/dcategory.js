@@ -4,13 +4,16 @@ var service = require('../services/dcategory');
 var async = require('simpleasync');
 
 function index(req, res) {
+    console.dir(req.params);
     var projectid = req.params.projectid;
     
     service.getCategoriesByProject(projectid, function (err, items) {
         if (err)
             throw err;
             
-        res.render('dcategorylist', { title: 'Decision Categories', items: items });
+        console.log('projectid', projectid);
+            
+        res.render('dcategorylist', { title: 'Decision Categories', items: items, projectid: projectid });
     });
 }
 

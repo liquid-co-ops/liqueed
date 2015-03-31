@@ -3,11 +3,15 @@
 var express = require('express');
 var router = express.Router();
 var controller = require('../controllers/project');
+var dccontroller = require('../controllers/dcategory');
 
 router.get('/', controller.index);
 router.get('/new', controller.newProject);
 router.post('/new', controller.addProject);
 router.get('/:id', controller.view);
+
+router.get('/:projectid/dcategory', dccontroller.index);
+router.get('/:projectid/dcategory/new', dccontroller.newCategory);
 
 router.get('/:id/person/new', controller.newTeamMember);
 router.post('/:id/person/new', controller.addTeamMember);
