@@ -1,0 +1,32 @@
+<div class="row actions">
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= projectid %>">Project</a>
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= projectid %>/dcategory">Decision Categories</a>
+<a class="btn btn-primary" href="<%= adminprefix %>/project/<%= projectid %>/dcategory/<%= item.id %>/edit">Edit Category</a>
+</div>
+
+<div class='row'>
+    <table class="table-striped table-bordered">
+        <tr>
+            <td>Name</td>
+            <td><%= item.name %></td>
+        </tr>
+    </table>
+</div>
+
+<div class='row'>
+<h2>Decisions</h2>
+
+<table class="table-striped table-bordered">
+    <tr>
+        <th></th>
+        <th>Description</th>
+        <th></th>
+    </tr>
+<% decisions.forEach(function (decision) { %>
+    <tr>
+        <td><a href="<%= adminprefix %>/project/<%= projectid %>/decision/<%= decision.id %>">View</a></td>
+        <td><%= decision.description %></td>
+    </tr>
+<% }); %>
+</table>
+</div>

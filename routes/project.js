@@ -14,6 +14,7 @@ router.get('/:id', controller.view);
 router.get('/:projectid/dcategory', dccontroller.index);
 router.get('/:projectid/dcategory/new', dccontroller.newCategory);
 router.post('/:projectid/dcategory/new', dccontroller.addCategory);
+router.get('/:projectid/dcategory/:id', dccontroller.view);
 
 router.get('/:projectid/decision', dcontroller.index);
 router.get('/:projectid/decision/new', dcontroller.newDecision);
