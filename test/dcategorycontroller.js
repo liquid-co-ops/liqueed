@@ -74,3 +74,37 @@ exports['get new decision category'] = function (test) {
     
     controller.newCategory(request, response);
 };
+
+exports['add new decision category'] = function (test) {
+    test.async();
+    
+    var formdata = {
+        name: 'New Category'
+    }
+    
+    var request = {
+        params: {
+            projectid: projects[0].id
+        },
+        param: function (name) {
+            return formdata[name];
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'dcategoryview');
+            test.ok(model);
+            test.equal(model.title, 'Decision Category');
+            test.ok(model.item);
+            test.ok(model.item.id);
+            test.ok(model.item.project);
+            test.equal(model.item.project, projects[0].id);
+            test.equal(model.item.name, 'New Category');
+            test.done();
+        }
+    };
+    
+    controller.addCategory(request, response);
+};
