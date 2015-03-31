@@ -53,3 +53,28 @@ exports['get index'] = function (test) {
     controller.index(request, response);
 };
 
+exports['get new decision'] = function (test) {
+    test.async();
+    
+    var request = {
+        params: {
+            projectid: projects[0].id
+        }
+    };
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'decisionnew');
+            test.ok(model);
+            test.equal(model.title, 'New Decision');
+            test.equal(model.projectid, projects[0].id);
+            test.ok(model.categories);
+            test.ok(Array.isArray(model.categories));
+            test.ok(model.categories.length);
+            test.done();
+        }
+    };
+    
+    controller.newDecision(request, response);
+};
+
