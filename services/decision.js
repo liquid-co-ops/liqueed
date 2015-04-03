@@ -41,11 +41,16 @@ function getDecisions(cb) {
     store.find(cb);
 }
 
+function getDecisionVotes(id, cb) {
+    cb(null, []);
+}
+
 module.exports = {
     addDecision: addDecision,
     getDecisionById: getDecisionById,
     getDecisions: getDecisions,
     getDecisionsByProject: getDecisionsByProject,
-    getDecisionsByCategory: getDecisionsByCategory
+    getDecisionsByCategory: getDecisionsByCategory,
+    getDecisionVotes: getDecisionVotes
 };
 
