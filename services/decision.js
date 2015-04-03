@@ -3,9 +3,14 @@
 var db = require('../utils/db');
 
 var store;
+var vstore;
 
 db.store('decisions', function (err, data) {
     store = data;
+});
+
+db.store('votes', function (err, data) {
+    vstore = data;
 });
 
 function addDecision(projid, data, cb) {
@@ -42,7 +47,13 @@ function getDecisions(cb) {
 }
 
 function getDecisionVotes(id, cb) {
-    cb(null, []);
+    var vstore = db.store('votes');    
+    vstore.find({ decision: id }, cb);
+}
+
+function addDecisionVote(id, userid, value, cb) {
+    var vstore = db.store('votes');
+    vstore.add({ decision: id, user: userid, value: value }, cb);
 }
 
 module.exports = {
@@ -51,6 +62,7 @@ module.exports = {
     getDecisions: getDecisions,
     getDecisionsByProject: getDecisionsByProject,
     getDecisionsByCategory: getDecisionsByCategory,
-    getDecisionVotes: getDecisionVotes
+    getDecisionVotes: getDecisionVotes,
+    addDecisionVote: addDecisionVote
 };
 

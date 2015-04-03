@@ -29,3 +29,30 @@ exports['get decision votes as empty array'] = function (test) {
     });
 };
 
+exports['add vote and get decision votes'] = function (test) {
+    test.async();
+    var userid = 1;
+    var voteid;
+
+    async()
+    .then(function (data, next) {
+        service.addDecisionVote(decid, userid, 1, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        voteid = data;
+        service.getDecisionVotes(decid, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 1);
+        test.equal(data[0].id, voteid);        
+        test.equal(data[0].decision, decid);
+        test.equal(data[0].user, userid);
+        test.equal(data[0].value, 1);
+        test.done();
+    })
+    .run();
+};
+
