@@ -56,3 +56,31 @@ exports['add vote and get decision votes'] = function (test) {
     .run();
 };
 
+exports['add votes and get decision results'] = function (test) {
+    test.async();
+    var voteid;
+
+    async()
+    .then(function (data, next) {
+        service.addDecisionVote(decid, 2, -1, next);
+    })
+    .then(function (data, next) {
+        service.addDecisionVote(decid, 3, 0, next);
+    })
+    .then(function (data, next) {
+        service.addDecisionVote(decid, 4, 1, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        voteid = data;
+        service.getDecisionResults(decid, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.equal(data['1'], 2);
+        test.equal(data['0'], 1);
+        test.equal(data['-1'], 1);
+        test.done();
+    })
+    .run();
+};

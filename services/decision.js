@@ -56,6 +56,23 @@ function getDecisionVotes(id, cb) {
     vstore.find({ decision: id }, cb);
 }
 
+function getDecisionResults(id, cb) {
+    getDecisionVotes(id, function (err, votes) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        var result = { "1": 0, "0": 0, "-1": 0 };
+        
+        votes.forEach(function (vote) {
+            result[vote.value]++;
+        });
+        
+        cb(null, result);
+    });
+}
+
 function addDecisionVote(id, userid, value, cb) {
     var vstore = db.store('votes');
     vstore.add({ decision: id, user: userid, value: value }, cb);
@@ -69,6 +86,7 @@ module.exports = {
     getDecisionsByProject: getDecisionsByProject,
     getDecisionsByCategory: getDecisionsByCategory,
     getDecisionVotes: getDecisionVotes,
-    addDecisionVote: addDecisionVote
+    addDecisionVote: addDecisionVote,
+    getDecisionResults: getDecisionResults
 };
 
