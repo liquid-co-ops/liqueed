@@ -31,6 +31,11 @@ function getDecisionById(id, cb) {
     store.get(id, cb);
 }
 
+function getDecisionsByDescription(description, cb) {
+    var store = db.store('decisions');
+    store.find({ description: description }, cb);
+}
+
 function getDecisionsByProject(projectid, cb) {
     var store = db.store('decisions');
     store.find({ project: projectid }, cb);
@@ -59,6 +64,7 @@ function addDecisionVote(id, userid, value, cb) {
 module.exports = {
     addDecision: addDecision,
     getDecisionById: getDecisionById,
+    getDecisionsByDescription: getDecisionsByDescription,
     getDecisions: getDecisions,
     getDecisionsByProject: getDecisionsByProject,
     getDecisionsByCategory: getDecisionsByCategory,

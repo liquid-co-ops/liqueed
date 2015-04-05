@@ -23,8 +23,24 @@ exports['get decision by id'] = function (test) {
     service.getDecisionById(decid, function (err, result) {
         test.ok(!err);
         test.ok(result);
+        test.equal(result.id, decid);
         test.equal(result.description, 'Project Decision');
         test.equal(result.project, 1);
+        test.done();
+    });
+};
+
+exports['get decision by description'] = function (test) {
+    test.async();
+
+    service.getDecisionsByDescription('Project Decision', function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.equal(result.length, 1);
+        test.equal(result[0].id, decid);
+        test.equal(result[0].description, 'Project Decision');
+        test.equal(result[0].project, 1);
         test.done();
     });
 };
