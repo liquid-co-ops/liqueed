@@ -204,6 +204,10 @@ var clientserver = (function() {
         });
     }
 
+    function getDecisionsByProject(idproj, cb) {
+        getEntity(idproj, cb, "/decision");
+    }
+
     return {
         getProjectsByUser: getProjectsByUser,
         getMyProjects: getMyProjects,
@@ -230,7 +234,9 @@ var clientserver = (function() {
         loginPerson: loginPerson,
         setPrefix: function (prf) { prefix = prf; },
         
-        changePassword: changePassword
+        changePassword: changePassword,
+        
+        getDecisionsByProject: getDecisionsByProject
     };
 })();
 

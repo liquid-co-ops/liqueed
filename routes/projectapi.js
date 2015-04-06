@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var controller = require('../controllers/projectapi');
+var dcontroller = require('../controllers/decisionapi');
 
 router.get('/', controller.list);
 router.post('/', controller.addProject);
@@ -26,6 +27,8 @@ router.put('/:id/period/:idp/assign', controller.putAssignment);
 router.put('/:id/period/:idp/assigns', controller.putAssignments);
 router.put('/:id/period/:idp/open', controller.openPeriod);
 router.put('/:id/period/:idp/close', controller.closePeriod);
+
+router.get('/:id/decision', dcontroller.list);
 
 router.get('/:id/person/:idp/givenassign', controller.getGivenAssignmentsByProjectPerson);
 router.get('/:id/person/:idp/receivedassign', controller.getReceivedAssignmentsByProjectPerson);

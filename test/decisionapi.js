@@ -45,7 +45,7 @@ exports['get decisions by project'] = function (test) {
 
     var request = {
         params: {
-            projid: project.id.toString()
+            id: project.id.toString()
         }
     };
 

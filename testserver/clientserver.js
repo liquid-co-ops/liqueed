@@ -538,6 +538,21 @@ exports['get none pending share project'] = function (test) {
     });
 }
 
+exports['get decisions from first project'] = function (test) {
+    test.async();
+
+    client.getDecisionsByProject(projects[0].id, function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.ok(result.length);
+
+        periods = result;
+
+        test.done();
+    });
+}
+
 exports['stop server'] = function (test) {
     server.close();
 }

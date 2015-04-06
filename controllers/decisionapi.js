@@ -10,7 +10,7 @@ function getId(id) {
 }
 
 function list(req, res) {
-    var projid = getId(req.params.projid);
+    var projid = getId(req.params.id);
     
     service.getDecisionsByProject(projid, function (err, items) {
         res.send(items);
