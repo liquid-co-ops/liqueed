@@ -6,6 +6,7 @@ var sl = require('simplelists');
 var personservice = require('../../services/person');
 var projectservice = require('../../services/project');
 var categoryservice = require('../../services/dcategory');
+var decisionservice = require('../../services/decision');
 
 function doAssign(cmd, cb) {
     var projectname = cmd.args[0];
@@ -67,6 +68,34 @@ function doCategoryNew(cmd, cb) {
         };
         
         categoryservice.addCategory(data.id, category, next);
+    })
+    .then(function (data, next) { cb(null, null); })
+    .fail(function (err) { cb(err, null); })
+    .run();
+}
+
+function doDecisionNew(cmd, cb) {
+    var projname = cmd.args[0];
+    var catname = cmd.args[1];
+    var description = cmd.args[2];
+    
+    var projid;
+    var catid;
+    
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) { 
+        projid = data.id;
+        categoryservice.getCategoryByProjectAndName(projid, catname, next);
+    })
+    .then(function (data, next) {
+        catid = data.id;
+        var decision = {
+            description: description,
+            category: catid
+        };
+        
+        decisionservice.addDecision(projid, decision, next);
     })
     .then(function (data, next) { cb(null, null); })
     .fail(function (err) { cb(err, null); })
@@ -389,6 +418,8 @@ function execute(cmd, options, cb) {
         doDistributionNew(cmd, cb);
     else if (cmd.verb == 'decision_category_new')
         doCategoryNew(cmd, cb);
+    else if (cmd.verb == 'decision_new')
+        doDecisionNew(cmd, cb);
     else if (cmd.verb == 'distribution_opened')
         doDistributionOpened(cmd, cb);
     else if (cmd.verb == 'distribution_closed')

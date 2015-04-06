@@ -36,9 +36,22 @@ function getCategoriesByProject(projectid, cb) {
     store.find({ project: projectid }, cb);
 }
 
+function getCategoryByProjectAndName(projectid, name, cb) {
+    var store = db.store('dcategories');
+    store.find({ project: projectid, name: name }, function (err, items) {
+        if (err)
+            cb(err, null);
+        else if (items && items.length)
+            cb(null, items[0]);
+        else
+            cb(null, null);
+    });
+}
+
 module.exports = {
     addCategory: addCategory,
     getCategoryById: getCategoryById,
+    getCategoryByProjectAndName: getCategoryByProjectAndName,
     getCategories: getCategories,
     getCategoriesByProject: getCategoriesByProject
 };

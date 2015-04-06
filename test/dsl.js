@@ -497,3 +497,27 @@ exports['execute new decision category'] = function (test) {
     })
     .run();
 }
+
+exports['execute new decision'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'decision_category_new Paradise; Technology', 'decision_new Paradise; Technology; Decision'], next);
+    })
+    .then(function (data, next) {
+        decisionservice.getDecisionsByDescription('Decision', next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 1);
+        test.equal(data[0].description, 'Decision');
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
