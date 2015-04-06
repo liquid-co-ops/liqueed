@@ -5,6 +5,7 @@ var async = require('simpleasync');
 var sl = require('simplelists');
 var personservice = require('../../services/person');
 var projectservice = require('../../services/project');
+var categoryservice = require('../../services/dcategory');
 
 function doAssign(cmd, cb) {
     var projectname = cmd.args[0];
@@ -52,6 +53,24 @@ function doPersonNew(cmd, cb) {
 
 function doProjectNew(cmd, cb) {
     projectservice.addProject({ name: cmd.args[0] }, cb);
+}
+
+function doCategoryNew(cmd, cb) {
+    var projname = cmd.args[0];
+    var name = cmd.args[1];
+    
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(projname, next); })
+    .then(function (data, next) {
+        var category = {
+            name: name
+        };
+        
+        categoryservice.addCategory(data.id, category, next);
+    })
+    .then(function (data, next) { cb(null, null); })
+    .fail(function (err) { cb(err, null); })
+    .run();
 }
 
 function doDistributionNew(cmd, cb) {
@@ -368,6 +387,8 @@ function execute(cmd, options, cb) {
         doProjectNew(cmd, cb);
     else if (cmd.verb == 'distribution_new')
         doDistributionNew(cmd, cb);
+    else if (cmd.verb == 'decision_category_new')
+        doCategoryNew(cmd, cb);
     else if (cmd.verb == 'distribution_opened')
         doDistributionOpened(cmd, cb);
     else if (cmd.verb == 'distribution_closed')
