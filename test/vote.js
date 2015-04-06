@@ -84,3 +84,26 @@ exports['add votes and get decision results'] = function (test) {
     })
     .run();
 };
+
+exports['change vote and get decision results'] = function (test) {
+    test.async();
+    var voteid;
+
+    async()
+    .then(function (data, next) {
+        service.addDecisionVote(decid, 1, 0, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        voteid = data;
+        service.getDecisionResults(decid, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.equal(data['1'], 1);
+        test.equal(data['0'], 2);
+        test.equal(data['-1'], 1);
+        test.done();
+    })
+    .run();
+};

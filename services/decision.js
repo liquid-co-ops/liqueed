@@ -73,9 +73,49 @@ function getDecisionResults(id, cb) {
     });
 }
 
+function removeDecisionVote(id, userid, cb) {
+    var vstore = db.store('votes');    
+    vstore.find({ decision: id, user: userid }, function (err, votes) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        var l = votes.length;
+        var k = 0;
+        
+        removeVote();
+        
+        function removeVote() {
+            if (k >= l) {
+                cb(null, null);
+                return;
+            }
+            
+            var vote = votes[k++];
+            
+            vstore.remove(vote.id, function (err, data) {
+                if (err) {
+                    cb(err, null);
+                    return;
+                }
+                
+                setTimeout(removeVote, 0);
+            });
+        }
+    });
+}
+
 function addDecisionVote(id, userid, value, cb) {
-    var vstore = db.store('votes');
-    vstore.add({ decision: id, user: userid, value: value }, cb);
+    removeDecisionVote(id, userid, function (err, data) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        var vstore = db.store('votes');
+        vstore.add({ decision: id, user: userid, value: value }, cb);
+    });
 }
 
 module.exports = {
