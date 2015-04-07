@@ -130,6 +130,21 @@
 		</div>
     </div>
 
+    <div id="viewdecisionpage" style='display: none'>
+        <h1 id="viewdecisiondescription"></h1>
+        <div class="actions">
+            <button type="button" class="btn btn-primary" onclick='pages.gotoProject()'>Project</button>
+        </div>
+        <h2>Vote</h2>
+		<div class="row" id="viewvotes">
+            <div>
+                <button type="button" class="btn btn-primary" onclick='pages.doVote(-1)'>-1</button>
+                <button type="button" class="btn btn-primary" onclick='pages.doVote(0)'>=0</button>
+                <button type="button" class="btn btn-primary" onclick='pages.doVote(1)'>+1</button>
+            </div>
+        </div>
+    </div>
+
     <div id="viewperiodpage" style='display: none'>
         <h1 id="viewperiodprojectname"></h1>
         <h2 id="viewperiodname"></h2>

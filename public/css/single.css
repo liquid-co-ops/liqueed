@@ -80,6 +80,10 @@ h1, h2, h3 {
     text-align: center;
 }
 
+#viewvotes {
+    text-align: center;
+}
+
 #projectshares {
     width: 100%;
     height: 50%;

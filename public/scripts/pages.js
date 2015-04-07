@@ -301,8 +301,7 @@ var pages = (function () {
             decisions.forEach(function(decision) {
                 var element = $("<div>").html(
                         makeDecisionButton(decision.description, function() {
-                            alert('Sori gordi, not implemented yet');
-                            //showViewPeriod(project, period);
+                            showViewDecision(project, decision);
                         }));
 
                 decs.append(element);
@@ -587,6 +586,17 @@ var pages = (function () {
         }
 
         breadcrumbGotoProject(project, period.name);
+        
+        activatePage(page);
+    }
+
+    function showViewDecision(project, decision) {
+        var page = $("#viewdecisionpage");
+
+        var decdescription = $("#viewdecisiondescription");
+        decdescription.html(decision.description);
+
+        breadcrumbGotoProject(project, decision.description);
         
         activatePage(page);
     }
