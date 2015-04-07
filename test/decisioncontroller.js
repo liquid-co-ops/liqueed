@@ -140,6 +140,7 @@ exports['get view decision'] = function (test) {
             test.equal(model.item.id, decid);
             test.equal(model.item.description, 'New Decision');
             test.equal(model.item.category, 1);
+            test.equal(model.categoryname, 'Technology');
             
             test.done();
         }

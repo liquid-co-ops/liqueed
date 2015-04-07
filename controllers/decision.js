@@ -66,7 +66,19 @@ function view(req, res) {
             res.render('error', { title: 'Error', error: err });
         else {
             model.item = data;
-            res.render('decisionview', model);
+            
+            dcservice.getCategoryById(data.category, function (err, category) {
+                if (err)
+                    res.render('error', { title: 'Error', error: err });
+                else {
+                    if (category)
+                        model.categoryname = category.name;
+                    else
+                        model.categoryname = data.category;
+                        
+                    res.render('decisionview', model);
+                }
+            });
         }
     });
 }
