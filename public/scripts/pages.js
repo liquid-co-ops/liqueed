@@ -71,6 +71,16 @@ var pages = (function () {
             .click(fnclick);
     }
 
+    function makeDecisionButton(text, fnclick) {
+        return $("<button>")
+            .html(text)
+            .attr("type", "button")
+            .addClass('btn')
+            .addClass('btn-success')
+            .addClass('decision')
+            .click(fnclick);
+    }
+
     function makePersonButton(text, fnclick) {
         return $("<button>")
             .html(text)
@@ -199,29 +209,37 @@ var pages = (function () {
 	
     function innerGotoProject(project, cb) {
         currentproject = project;
-        client.getPeriods(project.id, function (err, periods) {
+        
+        client.getDecisionsByProject(project.id, function (err, decisions) {
             if (err) {
-            	alert(err);
+                alert(err);
                 return;
             }
+            
+            client.getPeriods(project.id, function (err, periods) {
+                if (err) {
+                    alert(err);
+                    return;
+                }
 
-            periods = sl.sort(periods, 'date', true);
+                periods = sl.sort(periods, 'date', true);
 
-            if (client.getClosedSharesByProject)
-                client.getClosedSharesByProject(project.id, function (err, shares) {
-                    if (err)
-                        alert(err);
-                    else
-                        showProject(project, periods, shares);
-                });
-            else
-                showProject(project, periods);
+                if (client.getClosedSharesByProject)
+                    client.getClosedSharesByProject(project.id, function (err, shares) {
+                        if (err)
+                            alert(err);
+                        else
+                            showProject(project, periods, shares, decisions);
+                    });
+                else
+                    showProject(project, periods, null, decisions);
+            });
         });
         
         showAlerts("projectalerts");
     }
 
-    function showProject(project, periods, shares) {
+    function showProject(project, periods, shares, decisions) {
         var page = $("#projectpage");
         var projname = $("#projectname");
         var chartcontainer = $('#projectshares');
@@ -275,6 +293,20 @@ var pages = (function () {
 
 			pers.append(element);
 		});
+
+		var decs = $("#projectdecisions");
+		decs.empty();
+
+        if (decisions && decisions.length)
+            decisions.forEach(function(decision) {
+                var element = $("<div>").html(
+                        makeDecisionButton(decision.description, function() {
+                            alert('Sori gordi, not implemented yet');
+                            //showViewPeriod(project, period);
+                        }));
+
+                decs.append(element);
+            });
         
         var people = $("#projectpersons");
         people.empty();
