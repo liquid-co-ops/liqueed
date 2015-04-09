@@ -360,6 +360,13 @@ exports['put assignment'] = function (test) {
         test.ok(total);
         test.equal(total, 50);
 
+        service.getTeamAssignments(liqueedid, periodid, next);
+    })
+    .then(function (teamassignments, next) {
+        test.ok(teamassignments);
+        test.ok(Array.isArray(teamassignments));
+        test.equal(teamassignments.length, 1);
+
         test.done();
     })
     .run();
