@@ -277,6 +277,20 @@ exports['put assignments to first project first period from first person'] = fun
         });
 }
 
+exports['get first project first period team assignments'] = function (test) {
+    test.async();
+
+    client.getTeamAssignments(projects[0].id, periods[0].id, 
+        function (err, result) {
+            test.ok(!err);
+            test.ok(result);
+            test.ok(Array.isArray(result));
+            test.ok(result.length);
+
+            test.done();
+        });
+}
+
 exports['get given assignments first project from person'] = function (test) {
     test.async();
 
