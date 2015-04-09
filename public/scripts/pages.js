@@ -608,7 +608,7 @@ var pages = (function () {
                         gotoShares(assignment.id, assignment.name);
                     });
                     row.append($("<td>").append(aperson));
-                    row.append($("<td>").append(assignment.assignment ? "<button type='button' class='btn btn-primary'>Done</button>" : "<button type='button' class='btn btn-danger'>Not Done</button>"));
+                    row.append($("<td>").append(assignment.assignment ? "<button type='button' class='btn btn-success'>Done</button>" : "<button type='button' class='btn btn-danger'>Not Done</button>"));
                     
                     userstable.append(row);
                 });
