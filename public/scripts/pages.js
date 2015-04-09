@@ -257,7 +257,7 @@ var pages = (function () {
 		});
         sharingButton.off("click");
         if(openSharing) {
-               sharingButton.click(function () {
+            sharingButton.click(function () {
                 client.getShareholders(project.id, function (err, shareholders) {
                     if (err) {
                         alert(err);
@@ -265,7 +265,7 @@ var pages = (function () {
                     else {
                       client.getAssignments(project.id, openSharing.id, function (err, assignments) {
                         if (err) {
-                          showPeriod(project, openSharing, shareholders);
+                            showPeriod(project, openSharing, shareholders, assignments);
                         }
                         else {
                             showPeriod(project, openSharing, shareholders, assignments);
@@ -275,8 +275,9 @@ var pages = (function () {
                 });}
                );
         } else {
-          sharingButton.click(function (){gotoNewPeriod(project);});
+            sharingButton.click(function (){gotoNewPeriod(project);});
         }
+        
         if (shares && shares.length) {
             showSharesChart(chartcontainer, shares, 'Project Points');
             chartcontainer.show();
@@ -534,6 +535,8 @@ var pages = (function () {
         chartcontainer.hide();
         var sharescontainer = $('#viewperiodshared');
         sharescontainer.hide();
+        var statuscontainer = $('#viewperiodstatus');
+        statuscontainer.hide();
         
         if (period.closed) {
             client.getClosedSharesByPeriod(project.id, period.id, function (err, shares) {
@@ -582,6 +585,35 @@ var pages = (function () {
                 });
                     
                 sharescontainer.show();
+            });
+        }
+        else {
+            client.getTeamAssignments(project.id, period.id, function (err, data) {
+                if (err) {
+                    alert(err);
+                    return;
+                }
+                
+                if (!data || !data.length)
+                    return;
+
+                var userstable = $('#viewperiodstatususers');
+                userstable.empty();
+                
+                data.forEach(function (assignment) {
+                    var row = $("<tr>");
+                    
+                    var aperson = $("<a>").text(assignment.name);
+                    aperson.click(function () {
+                        gotoShares(assignment.id, assignment.name);
+                    });
+                    row.append($("<td>").append(aperson));
+                    row.append($("<td>").append(assignment.assignment ? "<button type='button' class='btn btn-primary'>Done</button>" : "<button type='button' class='btn btn-danger'>Not Done</button>"));
+                    
+                    userstable.append(row);
+                });
+                    
+                statuscontainer.show();
             });
         }
 
