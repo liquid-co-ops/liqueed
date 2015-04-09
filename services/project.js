@@ -107,7 +107,7 @@ function getTeamAssignments(projectid, periodid, cb) {
     })
     .then(function (data, next) {
         team = data;
-        getAssignmentList({ project: projectid, periodid: periodid }, next);
+        getAssignmentList({ project: projectid, period: periodid }, next);
     })
     .then(function (data, next) {
         var result = [];

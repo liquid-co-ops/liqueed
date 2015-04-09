@@ -132,6 +132,14 @@ function getGivenAssignmentsByProjectPerson(req, res) {
     });
 }
 
+function getTeamAssignments(req, res) {
+    var id = getId(req.params.id);
+    var idp = getId(req.params.idp);
+    service.getTeamAssignments(id, idp, function (err, items) {
+        res.send(items);
+    });
+}
+
 function putAssignment(req, res) {
     var id = getId(req.params.id);
     var idp = getId(req.params.idp);
@@ -178,6 +186,7 @@ module.exports = {
     get: get,
     addProject: addProject,
     getTeam: getTeam,
+    getTeamAssignments: getTeamAssignments,
     addPersonToTeam: addPersonToTeam,
 
     getShareholders: getShareholders,
