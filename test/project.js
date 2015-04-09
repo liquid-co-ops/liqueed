@@ -241,6 +241,21 @@ exports['add period to project'] = function (test) {
     .run();
 };
 
+exports['get team assignments in period'] = function (test) {
+	test.async();
+
+	service.getTeamAssignments(liqueedid, periodid, function(err, result) {
+			test.equal(err, null);
+            test.ok(result);
+            test.ok(Array.isArray(result));
+            test.equal(result.length, 1);
+            test.ok(result[0].name);
+            test.ok(result[0].username);
+            test.equal(result[0].assignment, false);
+			test.done();
+	});
+};
+
 exports['add period to project with an open period'] = function (test) {
 	test.async();
 

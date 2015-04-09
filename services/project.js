@@ -98,6 +98,37 @@ function getTeam(id, cb) {
     });
 }
 
+function getTeamAssignments(projectid, periodid, cb) {
+    var team;
+    
+    async()
+    .then(function (data, next) {
+        getTeam(projectid, next);
+    })
+    .then(function (data, next) {
+        team = data;
+        getAssignmentList({ project: projectid, periodid: periodid }, next);
+    })
+    .then(function (data, next) {
+        var result = [];
+        var records = {};
+        
+        team.forEach(function(person) {
+            var record = { id: person.id, name: person.name, username: person.username, assignment: false };
+            result.push(record);
+            records[record.id] = record;
+        });
+        
+        data.forEach(function (assignment) {
+            if (assignment.from && assignment.from.id && records[assignment.from.id])
+                records[assignment.from.id].assignment = true;
+        });
+        
+        cb(null, result);
+    })
+    .run();
+}
+
 function getShareholders(id, cb) {
     var teamdata;
     var sharedata;
@@ -230,7 +261,7 @@ function getAssignmentList(filter, cb) {
         }
         
         if (pers[data.from]) {
-            data.to = pers[data.to];
+            data.from = pers[data.from];
             next(null, data);
             return;
         }
@@ -684,6 +715,7 @@ module.exports = {
     addPersonToTeam: addPersonToTeam,
     removePersonFromTeam: removePersonFromTeam,
     getTeam: getTeam,
+    getTeamAssignments: getTeamAssignments,
     
     getShareholders: getShareholders,
     getSharesByProject: getSharesByProject,
