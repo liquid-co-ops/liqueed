@@ -279,7 +279,13 @@ var pages = (function () {
         }
         
         if (shares && shares.length) {
-            showSharesChart(chartcontainer, shares, 'Project Points');
+            var lastperiod = sl.first(periods, { closed: true });
+            var title = 'Project Points';
+            
+            if (lastperiod)
+                title += ' (up to ' + lastperiod.name + ')';
+                
+            showSharesChart(chartcontainer, shares, title);
             chartcontainer.show();
         }
 
