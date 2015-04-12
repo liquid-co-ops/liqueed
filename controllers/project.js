@@ -87,6 +87,38 @@ function viewPeriod(req, res) {
     .run();
 }
 
+function getPeriodMatrix(req, res) {
+    var projectId = getId(req.params.id);
+    var periodId = getId(req.params.idp);
+
+    var model = {
+        title: 'Period Assignment Matrix'
+    }
+
+    async()
+    .then(function (data, next) { service.getProjectById(projectId, next); })
+    .then(function (data, next) {
+        model.project = data;
+        service.getPeriodById(periodId, next);
+    })
+    .then(function (data, next) {
+        model.period = data;
+        service.getTeam(projectId, next);
+    })
+    .then(function (data, next) {
+        model.team = data;
+        service.getShareholders(projectId, next);
+    })
+    .then(function (data, next) {
+        model.shareholders = data;
+        res.render('periodmatrix', model);
+    })
+    .fail(function (err) {
+        res.render('error', { title: 'Error', error: err });
+    })
+    .run();
+}
+
 function closePeriod(req, res) {
     var projectId = getId(req.params.id);
     var periodId = getId(req.params.idp);
@@ -189,5 +221,6 @@ module.exports = {
     addTeamMember: addTeamMember,
     removeTeamMember: removeTeamMember,
     newPeriod: newPeriod,
-    addPeriod: addPeriod
+    addPeriod: addPeriod,
+    getPeriodMatrix: getPeriodMatrix
 }

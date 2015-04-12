@@ -461,3 +461,43 @@ exports['add period'] = function (test) {
     .run();
 };
 
+exports['get period matrix'] = function (test) {
+    test.async();
+
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'periodmatrix');
+            test.ok(model);
+            test.equal(model.title, 'Period Assignment Matrix');
+
+            test.ok(model.project);
+            test.ok(model.project.id);
+            test.equal(model.project.id, project.id);
+
+            test.ok(model.period);
+            test.ok(model.period.id);
+            test.equal(model.period.id, period.id);
+
+            test.ok(model.team);
+            test.ok(Array.isArray(model.team));
+            test.ok(model.team.length);
+
+            test.ok(model.shareholders);
+            test.ok(Array.isArray(model.shareholders));
+            test.ok(model.shareholders.length);
+
+            test.done();
+        }
+    };
+
+    controller.getPeriodMatrix(request, response);
+};
+
