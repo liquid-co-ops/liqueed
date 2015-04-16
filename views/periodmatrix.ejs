@@ -1,0 +1,31 @@
+<div class="row actions">
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= project.id %>">Project</a>
+<a class="btn btn-primary" href="<%= adminprefix %>/project/<%= project.id %>/period/<%= period.id %>">Period</a>
+</div>
+
+<div class='row'>
+    <table class="table-striped table-bordered">
+        <tr>
+            <td>Name</td>
+            <td><%= period.name %></td>
+        </tr>
+    </table>
+</div>
+
+<div class='row'>
+
+<table class="table-striped table-bordered">
+    <tr>
+        <th>From</th>
+<% shareholders.forEach(function (shareholder) { %>
+        <th>To <%= shareholder.username %></th>
+<% }); %>
+    </tr>
+<% team.forEach(function (teammember) { %>
+    <tr>
+        <td><%= teammember.username %></td>
+    </tr>
+<% }); %>
+</table>
+</div>
+
