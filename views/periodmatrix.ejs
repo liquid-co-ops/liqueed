@@ -1,6 +1,6 @@
 <div class="row actions">
 <a class="btn btn-info" href="<%= adminprefix %>/project/<%= project.id %>">Project</a>
-<a class="btn btn-primary" href="<%= adminprefix %>/project/<%= project.id %>/period/<%= period.id %>">Period</a>
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= project.id %>/period/<%= period.id %>">Period</a>
 </div>
 
 <div class='row'>
@@ -12,7 +12,7 @@
     </table>
 </div>
 
-<div class='row'>
+<div class='row form-group'>
 
 <table class="table-striped table-bordered">
     <tr>
@@ -24,6 +24,9 @@
 <% team.forEach(function (teammember) { %>
     <tr>
         <td><%= teammember.username %></td>
+        <% shareholders.forEach(function (shareholder) { %>
+        <td><input type="text" class="form-control input-sm" /></td>
+        <% }); %>
     </tr>
 <% }); %>
 </table>
