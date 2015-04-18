@@ -14,7 +14,7 @@
 
 <div class='row form-group'>
 
-<form action="post">
+<form method="post">
 <table class="table-striped table-bordered">
     <tr>
         <th>From</th>
@@ -40,9 +40,17 @@
         shareholders.forEach(function (shareholder) { 
             nsh++;
             var fieldname = "assign_" + ntm + "_" + nsh;
+            
+            if (shareholder.id == teammember.id) {
+        %>
+            <td></td>
+        <%
+            }
+            else {
         %>
         <td><input type="text" class="form-control input-sm" id="<%= fieldname %>" name="<%= fieldname %>" /></td>
-        <% }); %>
+        <% }
+        }); %>
     </tr>
 <% }); %>
 </table>

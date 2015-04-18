@@ -31,5 +31,6 @@ router.get('/:id/period/:idp', controller.viewPeriod);
 router.get('/:id/period/:idp/open', controller.openPeriod);
 router.get('/:id/period/:idp/close', controller.closePeriod);
 router.get('/:id/period/:idp/assignment/matrix', controller.getPeriodMatrix);
+router.post('/:id/period/:idp/assignment/matrix', controller.updatePeriodMatrix);
 
 module.exports = router;

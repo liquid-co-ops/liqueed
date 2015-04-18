@@ -119,6 +119,59 @@ function getPeriodMatrix(req, res) {
     .run();
 }
 
+function updatePeriodMatrix(req, res) {
+    var projectId = getId(req.params.id);
+    var periodId = getId(req.params.idp);
+    
+    var nfrom = 0;
+    
+    doFromStep();
+    
+    function doFromStep() {
+        nfrom++;
+        var fromname = 'from_' + nfrom;
+        
+        if (!req.param(fromname)) {
+            viewPeriod(req, res);
+            return;
+        }
+        
+        var fromid = getId(req.param(fromname));
+        
+        var assignments = [];
+        
+        var nto = 0;
+        
+        while (true) {
+            nto++;
+            var toname = 'to_' + nto;
+            
+            if (!req.param(toname))
+                break;
+                
+            var toid = getId(req.param(toname));
+            
+            var assignname = 'assign_' + nfrom + '_' + nto;
+            
+            var assign = 0;
+            
+            assign = parseInt(req.param(assignname));
+            
+            if (fromid != toid && !Number.isNaN(assign))
+                assignments.push({ to: toid, amount: assign, note: 'N/A' });
+        }
+        
+        service.putAssignments(projectId, periodId, fromid, assignments, function (err, data) {
+            if (err) {
+                cb(err, null);
+                return;
+            }
+            
+            setTimeout(doFromStep, 0);
+        });
+    }
+}
+
 function closePeriod(req, res) {
     var projectId = getId(req.params.id);
     var periodId = getId(req.params.idp);
@@ -222,5 +275,6 @@ module.exports = {
     removeTeamMember: removeTeamMember,
     newPeriod: newPeriod,
     addPeriod: addPeriod,
-    getPeriodMatrix: getPeriodMatrix
+    getPeriodMatrix: getPeriodMatrix,
+    updatePeriodMatrix: updatePeriodMatrix
 }

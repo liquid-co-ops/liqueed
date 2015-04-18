@@ -10,6 +10,7 @@ var projects;
 var project;
 var periods;
 var period;
+var team;
 
 exports['clear and load data'] = function (test) {
     test.async();
@@ -126,6 +127,8 @@ exports['get view first project'] = function (test) {
             test.ok(model.team);
             test.ok(Array.isArray(model.team));
             test.equal(model.team.length, 3);
+            
+            team = model.team;
 
             test.ok(model.team[0].id);
             test.equal(model.team[0].name, 'Alice');
@@ -501,3 +504,58 @@ exports['get period matrix'] = function (test) {
     controller.getPeriodMatrix(request, response);
 };
 
+exports['update period matrix'] = function (test) {
+    test.async();
+    
+    var form = {
+        from_1: team[0].id.toString(),
+        from_2: team[1].id.toString(),
+        from_3: team[2].id.toString(),
+        to_1: team[0].id.toString(),
+        to_2: team[1].id.toString(),
+        to_3: team[2].id.toString(),
+        assign_1_2: 40,
+        assign_1_3: 60,
+        assign_2_1: 30,
+        assign_2_3: 70,
+        assign_3_1: 50,
+        assign_3_2: 50
+    };
+
+    var request = {
+        params: {
+            id: project.id.toString(),
+            idp: period.id.toString()
+        },
+        param: function (name) {
+            return form[name];
+        }
+    };
+
+    var response = {
+        render: function (name, model) {
+            test.ok(name);
+            test.equal(name, 'periodview');
+
+            test.ok(model);
+            test.equal(model.title, 'Period');
+
+            test.ok(model.project);
+            test.equal(model.project.id, project.id);
+            test.equal(model.project.name, project.name);
+
+            test.ok(model.item);
+            test.equal(model.item.id, period.id);
+            test.equal(model.item.name, period.name);
+            test.equal(model.item.date, period.date);
+            test.equal(model.item.amount, period.amount);
+
+            test.ok(model.assignments);
+            test.ok(Array.isArray(model.assignments));
+
+            test.done();
+        }
+    };
+
+    controller.updatePeriodMatrix(request, response);
+};
