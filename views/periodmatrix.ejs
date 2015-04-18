@@ -14,21 +14,39 @@
 
 <div class='row form-group'>
 
+<form action="post">
 <table class="table-striped table-bordered">
     <tr>
         <th>From</th>
-<% shareholders.forEach(function (shareholder) { %>
-        <th>To <%= shareholder.username %></th>
+<% 
+    var nsh = 0;
+    shareholders.forEach(function (shareholder) { 
+        nsh++;
+        var fieldname = "to_" + nsh;
+    %>
+        <th>To <%= shareholder.username %> <input type="hidden" value="<%= shareholder.id %>" id="<%= fieldname %>" name="<%= fieldname %>"/></th>
 <% }); %>
     </tr>
-<% team.forEach(function (teammember) { %>
+<% 
+    var ntm = 0;
+    team.forEach(function (teammember) { 
+        ntm++;
+        var fieldname = "from_" + ntm;
+    %>
     <tr>
-        <td><%= teammember.username %></td>
-        <% shareholders.forEach(function (shareholder) { %>
-        <td><input type="text" class="form-control input-sm" /></td>
+        <td><%= teammember.username %> <input type="hidden" value="<%= teammember.id %>" id="<%= fieldname %>" name="<%= fieldname %>"/></td>
+        <% 
+        var nsh = 0;
+        shareholders.forEach(function (shareholder) { 
+            nsh++;
+            var fieldname = "assign_" + ntm + "_" + nsh;
+        %>
+        <td><input type="text" class="form-control input-sm" id="<%= fieldname %>" name="<%= fieldname %>" /></td>
         <% }); %>
     </tr>
 <% }); %>
 </table>
+<input class="btn btn-success" type="submit" value="Assign" />
+<form>
 </div>
 
