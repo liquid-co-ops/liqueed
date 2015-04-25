@@ -17,6 +17,7 @@ var authRoutes = require('./routes/auth');
 
 var personApiRoutes = require('./routes/personapi');
 var projectApiRoutes = require('./routes/projectapi');
+var slackApiRoutes = require('./routes/slackapi');
 
 var app = express();
 
@@ -60,6 +61,7 @@ app.all('/api/person', requiredApiAuthentication);
 app.all('/api/project', requiredApiAuthentication);
 app.use('/api/person', personApiRoutes);
 app.use('/api/project', projectApiRoutes);
+app.use('/api/slack', slackApiRoutes);
 
 app.use('/auth', authRoutes);
 app.use('/home', homeRoutes);

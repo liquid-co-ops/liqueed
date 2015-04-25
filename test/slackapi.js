@@ -8,7 +8,7 @@ exports['do test'] = function (test) {
     test.async();
     
     var request = {
-        params: {
+        query: {
             name: 'Adam',
             age: 800
         }
