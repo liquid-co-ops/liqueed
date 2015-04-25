@@ -2,7 +2,14 @@
 var service = require('../services/slack');
 
 function doTest(request, response) {
-    response.send(service.doTest(request.query));
+    var params;
+    
+    if (request.body && Object.keys(request.body).length > 0)
+        params = request.body;
+    else
+        params = request.query;
+        
+    response.send(service.doTest(params));
 }
 
 module.exports = {
