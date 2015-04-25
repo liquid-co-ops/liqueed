@@ -18,6 +18,13 @@ function doSlack(request, response) {
             else
                 response.send(data);
         });
+    else if (text && text == 'project')
+        service.doProject(function (err, data) {
+            if (err)
+                response.send(err);
+            else
+                response.send(data);
+        });
     else
         response.send(service.doTest(params));
 }
