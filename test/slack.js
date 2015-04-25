@@ -78,3 +78,19 @@ exports['do project'] = function (test) {
     });
 }
 
+exports['do project status'] = function (test) {
+    test.async();
+    
+    service.doProject(['FaceHub', 'status'], function (err, result) {
+        console.dir(err);
+        console.dir(result);
+        test.ok(!err);
+        test.ok(result);
+        test.equal(typeof result, 'object');
+        test.ok(result.alice);
+        test.ok(result.bob);
+        test.ok(result.charlie);
+        
+        test.done();
+    });
+}

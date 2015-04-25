@@ -9,16 +9,17 @@ function doTest(request, response) {
 
 function doSlack(request, response) {
     var params = getParams(request);
+    var words = getWords(params);
     var text = getText(params);
     
-    if (text && text == 'person')
+    if (words && words[0] == 'person')
         service.doPerson(function (err, data) {
             if (err)
                 response.send(err);
             else
                 response.send(data);
         });
-    else if (text && text == 'project')
+    else if (words && words[0] == 'project')
         service.doProject(function (err, data) {
             if (err)
                 response.send(err);
@@ -41,6 +42,10 @@ function getText(params) {
         return params.text.trim();
     
     return null;
+}
+
+function getWords(text) {
+    return text.trim().split(/\s+/);
 }
 
 module.exports = {

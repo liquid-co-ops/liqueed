@@ -597,8 +597,8 @@ exports['get total shares by project'] = function (test) {
         test.ok(Array.isArray(result));
         test.equal(result.length, 2);
 
-        test.ok(sl.exist(result, { id: cymentid, name: 'Cyment', shares: 40 }));
-        test.ok(sl.exist(result, { id: cebadorid, name: 'Cebador', shares: 60 }));
+        test.ok(sl.exist(result, { id: cymentid, name: 'Cyment', username: 'cyment', shares: 40 }));
+        test.ok(sl.exist(result, { id: cebadorid, name: 'Cebador', username: 'cebador', shares: 60 }));
 
         test.done();
     });

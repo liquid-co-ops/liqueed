@@ -353,6 +353,7 @@ function getShares(filter, options, cb) {
                 next(err, null);
             else {
                 data.name = person.name;
+                data.username = person.username;
                 next(null, data);
             }
         });
