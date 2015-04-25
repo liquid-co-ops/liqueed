@@ -26,3 +26,4 @@ module.exports = {
     doTest: doTest,
     doPerson: doPerson
 }
+
