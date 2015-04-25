@@ -29,7 +29,7 @@ function doProject(words, cb) {
         words = [];
     }
     
-    if (words && words.length && words[0] && words[1] == 'status') {
+    if (words && words.length && words[0] && words[1] == 'points') {
         projectservice.getProjectByName(words[0], function (err, project) {
             if (err) {
                 cb(err, null);
@@ -42,12 +42,10 @@ function doProject(words, cb) {
                     return;
                 }
                 
-                console.dir(data);
-                
                 var result = { };
                 
                 data.forEach(function (item) {
-                    result[item.id] = item.shares;
+                    result[item.username] = item.shares;
                 });
                 
                 cb(null, result);

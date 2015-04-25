@@ -154,3 +154,27 @@ exports['do slack project'] = function (test) {
     controller.doSlack(request, response);
 };
 
+exports['do slack project points'] = function (test) {
+    test.async();
+    
+    var request = {
+        body: {
+            text: 'project FaceHub points'
+        }
+    };
+    
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.equal(typeof model, 'object');
+            test.ok(model.alice);
+            test.ok(model.bob);
+            test.ok(model.charlie);
+            
+            test.done();
+        }
+    };
+    
+    controller.doSlack(request, response);
+};
+

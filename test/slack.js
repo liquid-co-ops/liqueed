@@ -78,12 +78,10 @@ exports['do project'] = function (test) {
     });
 }
 
-exports['do project status'] = function (test) {
+exports['do project points'] = function (test) {
     test.async();
     
-    service.doProject(['FaceHub', 'status'], function (err, result) {
-        console.dir(err);
-        console.dir(result);
+    service.doProject(['FaceHub', 'points'], function (err, result) {
         test.ok(!err);
         test.ok(result);
         test.equal(typeof result, 'object');
