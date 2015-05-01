@@ -1,8 +1,21 @@
 
+var kudos = { };
+
 function getReceivedKudos(personid, cb) {
-    cb(null, 0);
+    var kudo = 0;
+    if (kudos[personid])
+        kudo = kudos[personid];
+    cb(null, kudo);
+}
+
+function sendKudo(fromid, toid, cb) {
+    if (!kudos[toid])
+        kudos[toid] = 0;
+    kudos[toid]++;
+    cb(null, null);
 }
 
 module.exports = {
-    getReceivedKudos: getReceivedKudos
+    getReceivedKudos: getReceivedKudos,
+    sendKudo: sendKudo
 }
