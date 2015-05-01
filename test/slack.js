@@ -93,7 +93,7 @@ exports['do project points'] = function (test) {
     });
 }
 
-exports['do kudo'] = function (test) {
+exports['do kudo send'] = function (test) {
     test.async();
     
     service.doKudo(['alice', 'bob'], function (err, result) {
@@ -108,5 +108,17 @@ exports['do kudo'] = function (test) {
             test.equal(data, 1);
             test.done();
         });
+    });
+}
+
+exports['do kudo get total'] = function (test) {
+    test.async();
+    
+    service.doKudo(['bob'], function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        test.equal(result, 1);
+
+        test.done();
     });
 }

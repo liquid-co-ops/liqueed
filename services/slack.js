@@ -73,7 +73,7 @@ function doProject(words, cb) {
     });
 }
 
-function doKudo(words, cb) {
+function doKudoSend(words, cb) {
     var from;
     var to;
     
@@ -92,6 +92,24 @@ function doKudo(words, cb) {
     .run();
 }
 
+function doKudoReceived(words, cb) {
+    async()
+    .then(function (data, next) {
+        personservice.getPersonByUserName(words[0], next);
+    })
+    .then(function (data, next) {
+        kudoservice.getReceivedKudos(data.id, cb);
+    })
+    .run();
+}
+
+function doKudo(words, cb) {
+    if (words.length > 1)
+        doKudoSend(words, cb);
+    else
+        doKudoReceived(words, cb);
+}
+ 
 module.exports = {
     doTest: doTest,
     doPerson: doPerson,
