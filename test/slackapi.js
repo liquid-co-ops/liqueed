@@ -178,3 +178,44 @@ exports['do slack project points'] = function (test) {
     controller.doSlack(request, response);
 };
 
+exports['do slack kudo send'] = function (test) {
+    test.async();
+    
+    var request = {
+        body: {
+            text: 'kudo alice bob'
+        }
+    };
+    
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.equal(model, 'alice sent a kudo to bob');
+            
+            test.done();
+        }
+    };
+    
+    controller.doSlack(request, response);
+};
+
+exports['do slack kudo received'] = function (test) {
+    test.async();
+    
+    var request = {
+        body: {
+            text: 'kudo bob'
+        }
+    };
+    
+    var response = {
+        send: function (model) {
+            test.ok(model);
+            test.equal(model, 'bob has 1 kudo(s)');
+            
+            test.done();
+        }
+    };
+    
+    controller.doSlack(request, response);
+};

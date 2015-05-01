@@ -28,6 +28,19 @@ function doSlack(request, response) {
                 response.send(data);
         });
     }
+    else if (words && words[0] == 'kudo') {
+        words.shift();
+        service.doKudo(words, function (err, data) {
+            if (err)
+                response.send(err);
+            else {
+                if (words.length > 1)
+                    response.send(words[0] + ' sent a kudo to ' + words[1]);
+                else
+                    response.send(words[0] + ' has ' + data + ' kudo(s)');
+            }
+        });
+    }
     else
         response.send(service.doTest(params));
 }
