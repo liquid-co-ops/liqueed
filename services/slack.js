@@ -1,6 +1,8 @@
 
 var personservice = require('./person');
 var projectservice = require('./project');
+var kudoservice = require('./kudo');
+var async = require('simpleasync');
 
 function doTest(params) {
     return params;
@@ -71,10 +73,30 @@ function doProject(words, cb) {
     });
 }
 
+function doKudo(words, cb) {
+    var from;
+    var to;
+    
+    async()
+    .then(function (data, next) {
+        personservice.getPersonByUserName(words[0], next);
+    })
+    .then(function (data, next) {
+        from = data;
+        personservice.getPersonByUserName(words[1], next);
+    })    
+    .then(function (data, next) {
+        to = data;
+        kudoservice.sendKudo(from.id, to.id, cb);
+    })
+    .run();
+}
+
 module.exports = {
     doTest: doTest,
     doPerson: doPerson,
-    doProject: doProject
+    doProject: doProject,
+    doKudo: doKudo
 }
 
 

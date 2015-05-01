@@ -1,4 +1,4 @@
-'use strict';
+    'use strict';
 
 var service = require('../services/slack');
 var async = require('simpleasync');
@@ -90,5 +90,23 @@ exports['do project points'] = function (test) {
         test.ok(result.charlie);
         
         test.done();
+    });
+}
+
+exports['do kudo'] = function (test) {
+    test.async();
+    
+    service.doKudo(['alice', 'bob'], function (err, result) {
+        test.ok(!err);
+        test.ok(result);
+        
+        var kudoservice = require('../services/kudo');
+        
+        kudoservice.getReceivedKudos(persons[1].id, function (err, data) {
+            test.ok(!err);
+            test.ok(data);
+            test.equal(data, 1);
+            test.done();
+        });
     });
 }
