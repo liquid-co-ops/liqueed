@@ -127,4 +127,21 @@ exports['bob gives kudo again to charlie'] = function (test) {
     .run();
 }
 
+exports['get alice sent kudo list'] = function (test) {
+    test.async();
+    async()
+    .then(function (data, next) {
+        service.getSentKudoList(alice.id, next);
+    })
+    .then(function (data, next) {
+        test.ok(data)
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 1);
+        test.ok(data[0].created);
+        test.equal(data[0].from, alice.id);
+        test.equal(data[0].to, bob.id);
+        test.done();
+    })
+    .run();
+}
 
