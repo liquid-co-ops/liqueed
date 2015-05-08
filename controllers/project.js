@@ -256,6 +256,28 @@ function addPeriod(req, res) {
     });
 }
 
+function editPeriod(req, res) {
+    var id = getId(req.params.id);
+    res.render('periodedit', { title: 'New Period', project: { id: id } });
+}
+
+function updatePeriod(req, res) {
+    var id = getId(req.params.id);
+    var pid = getId(req.params.idp);
+    
+    var name = req.param('name');
+    var amount = req.param('amount');
+    var date = req.param('date');
+    
+    var period = { name: name, amount: amount, date: date };
+    service.updatePeriod(id, pid, period, function (err, data) {
+        if (err)
+            res.render('error', { error: err });
+        else
+            viewPeriod(req, res);
+    });
+}
+
 function makeProject(req) {
     return {
         name: req.param('name')
@@ -275,6 +297,8 @@ module.exports = {
     removeTeamMember: removeTeamMember,
     newPeriod: newPeriod,
     addPeriod: addPeriod,
+    editPeriod: editPeriod,
+    updatePeriod: updatePeriod,
     getPeriodMatrix: getPeriodMatrix,
     updatePeriodMatrix: updatePeriodMatrix
 }

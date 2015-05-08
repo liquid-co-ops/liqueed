@@ -10,6 +10,7 @@ var projects;
 var project;
 var periods;
 var period;
+var periodid;
 var team;
 
 exports['clear and load data'] = function (test) {
@@ -423,7 +424,7 @@ exports['add period'] = function (test) {
     async()
     .then(function (person, next) {
         var form = {
-            name: 'New Period',
+            name: 'First Period',
             amount: '100'
         }
 
@@ -448,7 +449,7 @@ exports['add period'] = function (test) {
 
                 var projectService = require('../services/project');
 
-                projectService.getPeriodByName(projects[1].id, 'New Period', next);
+                projectService.getPeriodByName(projects[1].id, 'First Period', next);
             }
         };
 
@@ -457,8 +458,59 @@ exports['add period'] = function (test) {
     .then(function (period, next) {
         test.ok(period);
         test.ok(period.id);
+        test.equal(period.name, 'First Period');
+        test.equal(period.amount, 100);
+        periodid = period.id;
+        test.done();
+    })
+    .run();
+};
+
+exports['update period'] = function (test) {
+    test.async();
+
+    async()
+    .then(function (person, next) {
+        var form = {
+            name: 'New Period',
+            amount: '100',
+            date: '2015-03-31'
+        }
+
+        var request = {
+            params: {
+                id: projects[1].id.toString(),
+                idp: periodid.toString()
+            },
+            param: function (name) {
+                return form[name];
+            }
+        };
+
+        var response = {
+            render: function (name, model) {
+                test.ok(name);
+                test.equal(name, 'periodview');
+                test.ok(model);
+                test.ok(model.item);
+                test.ok(model.item.id);
+                test.equal(model.item.id, periodid);
+                test.equal(model.title, 'Period');
+
+                var projectService = require('../services/project');
+
+                projectService.getPeriodByName(projects[1].id, 'New Period', next);
+            }
+        };
+
+        controller.updatePeriod(request, response);
+    })
+    .then(function (period, next) {
+        test.ok(period);
+        test.ok(period.id);
         test.equal(period.name, 'New Period');
         test.equal(period.amount, 100);
+        test.equal(period.date, '2015-03-31');
         test.done();
     })
     .run();
