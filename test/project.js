@@ -241,6 +241,29 @@ exports['add period to project'] = function (test) {
     .run();
 };
 
+exports['update period name'] = function (test) {
+    test.async();
+
+    async()
+    .then(function (data, next) {
+        service.updatePeriod(liqueedid, periodid, { name: '1st period' }, next);
+    })
+    .then(function (data, next) {
+        service.getPeriods(liqueedid, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.ok(Array.isArray(result));
+        test.equal(result.length, 1);
+        test.equal(result[0].name, '1st period');
+        test.equal(result[0].date, '2014-01-01');
+        test.equal(result[0].amount, 100);
+        test.ok(!result[0].closed);
+        test.done();
+    })
+    .run();
+};
+
 exports['get team assignments in period'] = function (test) {
 	test.async();
 
@@ -275,8 +298,9 @@ exports['get period'] = function (test) {
     service.getPeriodById(periodid, function (err, result) {
         test.ok(!err);
         test.ok(result);
-        test.equal(result.name, 'First period');
+        test.equal(result.name, '1st period');
         test.equal(result.date, '2014-01-01');
+        test.equal(result.amount, 100);
         test.ok(!result.closed);
         test.done();
     });
@@ -334,7 +358,7 @@ exports['put assignment'] = function (test) {
         test.equal(list[0].to.name, 'Cyment');
         test.equal(list[0].date, '2014-01-01');
         test.equal(list[0].period.id, periodid);
-        test.equal(list[0].period.name, 'First period');
+        test.equal(list[0].period.name, '1st period');
         test.ok(!list[0].period.closed);
 
         service.getReceivedAssignmentsByProjectPerson(liqueedid, cymentid, next);
@@ -351,7 +375,7 @@ exports['put assignment'] = function (test) {
         test.ok(list[0].period);
         test.equal(list[0].date, '2014-01-01');
         test.equal(list[0].period.id, periodid);
-        test.equal(list[0].period.name, 'First period');
+        test.equal(list[0].period.name, '1st period');
         test.ok(!list[0].period.closed);
 
         service.getTotalSharesByProject(liqueedid, next);
@@ -469,7 +493,7 @@ exports['close period'] = function (test) {
 exports['add period to project with an existing name'] = function (test) {
 	test.async();
 	service.addPeriod(liqueedid, {
-		name : 'First period',
+		name : '1st period',
 		amount : 100
 	}, function(err, result) {
 		test.ok(err);

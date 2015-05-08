@@ -424,6 +424,27 @@ function addPeriod(projid, period, cb) {
 
 }
 
+function updatePeriod(projid, perid, period, cb) {    
+	// validation
+	if (!projid) {
+		cb('the project id is undefined',null);
+		return;
+	}
+
+	if (period.name === null) {
+		cb('A period name is needed',null);
+		return;
+	}
+    
+	if (period.amount && (isNaN(period.amount) || period.amount <= 0)) {
+		cb('You should input an amount > 0',null);
+		return;
+	}
+
+    var periodstore = db.store('periods');
+    periodstore.update(perid, period, cb);		
+}
+
 function getPeriodById(periodid, cb) {
     var periodstore = db.store('periods');
     periodstore.get(periodid, cb);
@@ -730,6 +751,7 @@ module.exports = {
     getPeriodById: getPeriodById,
     getPeriodByName: getPeriodByName,
     getPeriods: getPeriods,
+    updatePeriod: updatePeriod,
     
     getAssignments: getAssignments,
     putAssignment: putAssignment,
