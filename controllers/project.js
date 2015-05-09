@@ -257,8 +257,27 @@ function addPeriod(req, res) {
 }
 
 function editPeriod(req, res) {
-    var id = getId(req.params.id);
-    res.render('periodedit', { title: 'New Period', project: { id: id } });
+    var projectId = getId(req.params.id);
+    var periodId = getId(req.params.idp);
+
+    var model = {
+        title: 'Edit Period'
+    }
+
+    async()
+    .then(function (data, next) { service.getProjectById(projectId, next); })
+    .then(function (data, next) {
+        model.project = data;
+        service.getPeriodById(periodId, next);
+    })
+    .then(function (data, next) {
+        model.item = data;
+        res.render('periodedit', model);
+    })
+    .fail(function (err) {
+        res.render('error', { title: 'Error', error: err });
+    })
+    .run();
 }
 
 function updatePeriod(req, res) {

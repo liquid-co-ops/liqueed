@@ -199,6 +199,47 @@ exports['get view first project first period'] = function (test) {
     });
 };
 
+exports['get edit first project first period'] = function (test) {
+    test.async();
+
+    require('../services/project').getPeriods(project.id, function (err, data) {
+        test.ok(!err);
+
+        periods = data;
+        period = periods[0];
+
+        var request = {
+            params: {
+                id: project.id.toString(),
+                idp: period.id.toString()
+            }
+        };
+
+        var response = {
+            render: function (name, model) {
+                test.ok(name);
+                test.equal(name, 'periodedit');
+                test.ok(model);
+                test.equal(model.title, 'Edit Period');
+
+                test.ok(model.project);
+                test.equal(model.project.id, project.id);
+                test.equal(model.project.name, project.name);
+
+                test.ok(model.item);
+                test.equal(model.item.id, period.id);
+                test.equal(model.item.name, period.name);
+                test.equal(model.item.date, period.date);
+                test.equal(model.item.amount, period.amount);
+
+                test.done();
+            }
+        };
+
+        controller.editPeriod(request, response);
+    });
+};
+
 exports['close first project first period'] = function (test) {
     test.async();
 
