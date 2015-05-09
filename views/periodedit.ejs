@@ -1,0 +1,24 @@
+<div class="row actions">
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= project.id %>">Project</a>
+<a class="btn btn-info" href="<%= adminprefix %>/project/<%= project.id %>/period/<%= item.id %>">Period</a>
+</div>
+
+<div class='row'>
+<form method="post" role="form" class="form">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name" value="<%= item.name %>">
+    </div>
+    <div class="form-group">
+        <label for="email">Amount</label>
+        <input type="text" class="form-control" name="amount" id="amount" value="<%= item.amount %>">
+    </div>
+    <div class="form-group">
+        <label for="date">Date</label>
+        <input type="text" class="form-control" name="date" id="date" value="<%= item.date %>">
+    </div>
+    
+    <input class="btn btn-success" type="submit" value="Update" />
+</form>
+</div>
+

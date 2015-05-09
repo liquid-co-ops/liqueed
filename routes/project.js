@@ -30,6 +30,8 @@ router.post('/:id/period/new', controller.addPeriod);
 router.get('/:id/period/:idp', controller.viewPeriod);
 router.get('/:id/period/:idp/open', controller.openPeriod);
 router.get('/:id/period/:idp/close', controller.closePeriod);
+router.get('/:id/period/:idp/edit', controller.editPeriod);
+router.post('/:id/period/:idp/edit', controller.updatePeriod);
 router.get('/:id/period/:idp/assignment/matrix', controller.getPeriodMatrix);
 router.post('/:id/period/:idp/assignment/matrix', controller.updatePeriodMatrix);
 
