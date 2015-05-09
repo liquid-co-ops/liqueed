@@ -19,6 +19,8 @@ var personApiRoutes = require('./routes/personapi');
 var projectApiRoutes = require('./routes/projectapi');
 var slackApiRoutes = require('./routes/slackapi');
 
+var cache = require('./utils/cache');
+
 var app = express();
 
 var session = require('express-session');
@@ -51,12 +53,14 @@ app.use(function (req, res, next) {
 });
 
 //app.use('/', adminRoutes);
+app.use(adminprefix, function (req, res, next) { cache(res); next(); });
 app.all(adminprefix, requiredAuthentication);
 app.all(adminprefix + '/*', requiredAuthentication);
 app.use(adminprefix + '/', adminRoutes);
 app.use(adminprefix + '/person', personRoutes);
 app.use(adminprefix + '/project', projectRoutes);
 
+app.use('/api', function (req, res, next) { cache(res); next(); });
 app.all('/api/person', requiredApiAuthentication);
 app.all('/api/project', requiredApiAuthentication);
 app.use('/api/person', personApiRoutes);
