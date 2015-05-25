@@ -183,7 +183,6 @@ exports['get no open period from empty project'] = function (test) {
     .run();
 };
 
-
 exports['add period to project with invalid input'] = function (test) {
 	test.async();
 
@@ -518,6 +517,20 @@ exports['close period'] = function (test) {
         test.ok(item.date);
         test.equal(item.closed, true);
 
+        test.done();
+    })
+    .run();
+};
+
+exports['get no open period from project with closed periods'] = function (test) {
+    test.async();
+
+    async()
+    .then(function (data, next) {
+        service.getOpenPeriod(liqueedid, next);
+    })
+    .then(function (result, next) {
+        test.strictEqual(result, null);
         test.done();
     })
     .run();
