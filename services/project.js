@@ -467,6 +467,27 @@ function getPeriods(projid, cb) {
     periodstore.find({ project: projid }, cb);
 }
 
+function getOpenPeriod(projid, cb) {
+    getPeriods(projid, function (err, periods) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        var result = null;
+        
+        periods.forEach(function (period) {
+            if (period.closed)
+                return;
+            if (result && result.date && result.date > period.date)
+                return;
+            result = period;
+        });
+        
+        cb(null, result);
+    });
+}
+
 function getAssignments(periodid, cb) {
     var assignmentstore = db.store('assignments');
     var sperson = require('./person');    
@@ -752,6 +773,7 @@ module.exports = {
     getPeriodByName: getPeriodByName,
     getPeriods: getPeriods,
     updatePeriod: updatePeriod,
+    getOpenPeriod: getOpenPeriod,
     
     getAssignments: getAssignments,
     putAssignment: putAssignment,

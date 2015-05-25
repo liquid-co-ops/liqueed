@@ -169,6 +169,21 @@ exports['get no periods from project'] = function (test) {
     });
 };
 
+exports['get no open period from empty project'] = function (test) {
+    test.async();
+
+    async()
+    .then(function (data, next) {
+        service.getOpenPeriod(liqueedid, next);
+    })
+    .then(function (result, next) {
+        test.strictEqual(result, null);
+        test.done();
+    })
+    .run();
+};
+
+
 exports['add period to project with invalid input'] = function (test) {
 	test.async();
 
@@ -236,6 +251,24 @@ exports['add period to project'] = function (test) {
         test.equal(result[0].date, '2014-01-01');
         test.equal(result[0].amount, 100);
         test.ok(!result[0].closed);
+        test.done();
+    })
+    .run();
+};
+
+exports['get open period from project'] = function (test) {
+    test.async();
+
+    async()
+    .then(function (data, next) {
+        service.getOpenPeriod(liqueedid, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.equal(result.name, 'First period');
+        test.equal(result.date, '2014-01-01');
+        test.equal(result.amount, 100);
+        test.ok(!result.closed);
         test.done();
     })
     .run();
