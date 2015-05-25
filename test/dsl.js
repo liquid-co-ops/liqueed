@@ -521,3 +521,22 @@ exports['execute new decision'] = function (test) {
     })
     .run();
 }
+
+exports['execute exists not'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_get FooProject', 'exists_not'], next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.strictEqual(data, true);
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}

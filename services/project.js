@@ -3,6 +3,7 @@
 var db = require('../utils/db');
 var async = require('simpleasync');
 var sl = require('simplelists');
+var utils = require('../utils/utils');
 
 function addProject(data, cb) {
     var store = db.store('projects');
@@ -413,9 +414,9 @@ function addPeriod(projid, period, cb) {
 		// create period
 		period.project = projid;
 		var today = new Date();
-		if(!period.date) {
-			period.date = [ today.getFullYear(),("00" + (today.getMonth() + 1)).slice(-2),("00" + today.getDate()).slice(-2) ].join('-');
-		}
+		if  (!period.date)
+			period.date = utils.formatDate(today);
+            
 		period.closed = false;
 
 		var periodstore = db.store('periods');
@@ -485,6 +486,42 @@ function getOpenPeriod(projid, cb) {
         });
         
         cb(null, result);
+    });
+}
+
+function getOrCreateOpenPeriod(projid, data, cb) {
+    if (!cb) {
+        cb = data;
+        data = { };
+    }
+    
+    data = data || { };
+    
+    getOpenPeriod(projid, function (err, period) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        
+        if (period) {
+            cb(null, period);
+            return;
+        }
+        
+        if (!data.name)
+            data.name = "New Period";
+            
+        if (!data.amount)
+            data.amount = 100;
+        
+        addPeriod(projid, data, function (err, id) {
+            if (err) {
+                cb(err, null);
+                return;
+            }
+            
+            getPeriodById(id, cb);
+        });
     });
 }
 
@@ -774,6 +811,7 @@ module.exports = {
     getPeriods: getPeriods,
     updatePeriod: updatePeriod,
     getOpenPeriod: getOpenPeriod,
+    getOrCreateOpenPeriod: getOrCreateOpenPeriod,
     
     getAssignments: getAssignments,
     putAssignment: putAssignment,

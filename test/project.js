@@ -4,6 +4,7 @@ var service = require('../services/project');
 var sperson = require('../services/person');
 var sl = require('simplelists');
 var async = require('simpleasync');
+var utils = require('../utils/utils');
 
 var liqueedid;
 var periodid;
@@ -740,6 +741,27 @@ exports['put assignments'] = function (test) {
     })
     .then(function (total, next) {
         test.equal(total, 100);
+        test.done();
+    })
+    .run();
+};
+
+exports['create new open period'] = function (test) {
+    test.async();
+
+    async()
+    .then(function (data, next) {
+        service.getOrCreateOpenPeriod(liqueedid, { }, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.equal(typeof result, 'object');
+        var date = new Date();
+        test.ok(result.id);
+        test.equal(result.name, 'New Period');
+        test.equal(result.date, utils.formatDate(date));
+        test.equal(result.amount, 100);
+        test.ok(!result.closed);
         test.done();
     })
     .run();
