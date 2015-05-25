@@ -8,6 +8,15 @@ var projectservice = require('../../services/project');
 var categoryservice = require('../../services/dcategory');
 var decisionservice = require('../../services/decision');
 
+var lastItem = null;
+
+function doExistsNot(cmd, cb) {
+    if (lastItem != null)
+        cb('Item exists', null);
+    else
+        cb(null, true);
+}
+
 function doAssign(cmd, cb) {
     var projectname = cmd.args[0];
     var periodname = cmd.args[1];
@@ -54,6 +63,20 @@ function doPersonNew(cmd, cb) {
 
 function doProjectNew(cmd, cb) {
     projectservice.addProject({ name: cmd.args[0] }, cb);
+}
+
+function doProjectGet(cmd, cb) {
+    lastItem = null;
+    var name = cmd.args[0];
+
+    async()
+    .then(function (data, next) { projectservice.getProjectByName(name, next); })
+    .then(function (data, next) {
+        lastItem = data;
+        cb(null, data);
+    })
+    .fail(function (err) { cb(err, null); })
+    .run();
 }
 
 function doCategoryNew(cmd, cb) {
@@ -368,15 +391,18 @@ function execute(cmd, options, cb) {
     
     options = options || {};
     
+    var lastData = null;
+    
     function doCommand() {
         if (cmd.length == 0) {
-            cb(null, null);
+            cb(null, lastData);
             return;
         }
 
         var scmd = cmd.shift();
 
         execute(scmd, options, function (err, data) {
+            lastData = data;
             if (err)
                 cb(err, null);
             else
@@ -414,6 +440,10 @@ function execute(cmd, options, cb) {
         doPersonNew(cmd, cb);
     else if (cmd.verb == 'project_new')
         doProjectNew(cmd, cb);
+    else if (cmd.verb == 'project_get')
+        doProjectGet(cmd, cb);
+    else if (cmd.verb == 'exists_not')
+        doExistsNot(cmd, cb);
     else if (cmd.verb == 'distribution_new')
         doDistributionNew(cmd, cb);
     else if (cmd.verb == 'decision_category_new')

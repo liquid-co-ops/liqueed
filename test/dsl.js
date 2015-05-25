@@ -531,6 +531,7 @@ exports['execute exists not'] = function (test) {
         dsl.execute(['project_get FooProject', 'exists_not'], next);
     })
     .then(function (data, next) {
+        console.dir(data);
         test.ok(data);
         test.strictEqual(data, true);
         test.done();
