@@ -10,11 +10,30 @@ var decisionservice = require('../../services/decision');
 
 var lastItem = null;
 
+function doExists(cmd, cb) {
+    if (lastItem == null)
+        cb('Item does not exist', null);
+    else
+        cb(null, true);
+}
+
 function doExistsNot(cmd, cb) {
     if (lastItem != null)
         cb('Item exists', null);
     else
         cb(null, true);
+}
+
+function doHas(cmd, cb) {
+    var name = cmd.args[0];
+    var value = cmd.args[1];
+    
+    if (!lastItem)
+        cb('Item does not exists', null);
+    else if (lastItem[name] == value)
+        cb(null, true);
+    else
+        cb('Item has ' + name + ' equals to ' + lastItem[name], null);
 }
 
 function doAssign(cmd, cb) {
@@ -436,12 +455,16 @@ function execute(cmd, options, cb) {
 
     cmd = parse(cmd);
 
-    if (cmd.verb == 'person_new')
+    if (cmd.verb == 'has')
+        doHas(cmd, cb);
+    else if (cmd.verb == 'person_new')
         doPersonNew(cmd, cb);
     else if (cmd.verb == 'project_new')
         doProjectNew(cmd, cb);
     else if (cmd.verb == 'project_get')
         doProjectGet(cmd, cb);
+    else if (cmd.verb == 'exists')
+        doExists(cmd, cb);
     else if (cmd.verb == 'exists_not')
         doExistsNot(cmd, cb);
     else if (cmd.verb == 'distribution_new')

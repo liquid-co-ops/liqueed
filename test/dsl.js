@@ -531,7 +531,25 @@ exports['execute exists not'] = function (test) {
         dsl.execute(['project_get FooProject', 'exists_not'], next);
     })
     .then(function (data, next) {
-        console.dir(data);
+        test.ok(data);
+        test.strictEqual(data, true);
+        test.done();
+    })
+    .fail(function (err) {
+        throw err;
+    })
+    .run();
+}
+
+exports['execute exists and has'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) { db.clear(next); })
+    .then(function (data, next) {
+        dsl.execute(['project_new Paradise', 'project_get Paradise', 'exists', 'has name;Paradise'], next);
+    })
+    .then(function (data, next) {
         test.ok(data);
         test.strictEqual(data, true);
         test.done();
